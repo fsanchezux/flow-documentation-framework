@@ -255,6 +255,7 @@ import CSS_TEXT from './style.css'
       if (!this.container) throw new Error('FlowDocs: container not found')
 
       this.onSave = options.onSave || null
+      this.apiUrl = options.apiUrl || null  // Dynamic server mode
       this.data = null
       this.markedInstance = createMarked()
       this.currentSkill = null
@@ -267,7 +268,9 @@ import CSS_TEXT from './style.css'
       this._buildDOM()
       this._bindEvents()
 
-      if (options.dataUrl) {
+      if (this.apiUrl) {
+        this._loadFromApi()
+      } else if (options.dataUrl) {
         this.loadFromUrl(options.dataUrl)
       } else if (options.data) {
         this.loadData(options.data)
@@ -317,6 +320,32 @@ import CSS_TEXT from './style.css'
         }
         document.head.appendChild(s)
       })
+    }
+
+    // ─── API mode (dynamic server) ────────────────────────────────────────
+
+    async _loadFromApi() {
+      try {
+        const base = this.apiUrl.replace(/\/+$/, '')
+        const res = await fetch(base)
+        const data = await res.json()
+        this.loadData(data)
+      } catch (e) {
+        console.error('FlowDocs: failed to load from API', e)
+      }
+    }
+
+    async _saveViaApi(skillName, filePath, content) {
+      const base = this.apiUrl.replace(/\/+$/, '')
+      const res = await fetch(`${base}/save`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ skill: skillName, file: filePath, content })
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Server error' }))
+        throw new Error(err.error || 'Save failed')
+      }
     }
 
     // ─── DOM structure ─────────────────────────────────────────────────────
@@ -911,7 +940,10 @@ import CSS_TEXT from './style.css'
           this._loadSkill(this.currentSkill)
         }
 
-        // Call onSave callback
+        // Save: API mode, callback, or just in-memory
+        if (this.apiUrl) {
+          await this._saveViaApi(this.currentSkill, filePath, content)
+        }
         if (this.onSave) {
           await this.onSave(this.currentSkill, filePath, content)
         }

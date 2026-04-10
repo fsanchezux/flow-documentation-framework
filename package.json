@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "esbuild": "^0.20.0",
+    "express": "^5.2.1",
     "marked": "^9.1.6"
   }
 }

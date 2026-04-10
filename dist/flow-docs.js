@@ -2254,6 +2254,7 @@ ${files[normalizedRef]}
             if (!this.container)
               throw new Error("FlowDocs: container not found");
             this.onSave = options2.onSave || null;
+            this.apiUrl = options2.apiUrl || null;
             this.data = null;
             this.markedInstance = createMarked();
             this.currentSkill = null;
@@ -2264,7 +2265,9 @@ ${files[normalizedRef]}
             this._injectCSS();
             this._buildDOM();
             this._bindEvents();
-            if (options2.dataUrl) {
+            if (this.apiUrl) {
+              this._loadFromApi();
+            } else if (options2.dataUrl) {
               this.loadFromUrl(options2.dataUrl);
             } else if (options2.data) {
               this.loadData(options2.data);
@@ -2309,6 +2312,29 @@ ${files[normalizedRef]}
               };
               document.head.appendChild(s);
             });
+          }
+          // ─── API mode (dynamic server) ────────────────────────────────────────
+          async _loadFromApi() {
+            try {
+              const base = this.apiUrl.replace(/\/+$/, "");
+              const res = await fetch(base);
+              const data = await res.json();
+              this.loadData(data);
+            } catch (e) {
+              console.error("FlowDocs: failed to load from API", e);
+            }
+          }
+          async _saveViaApi(skillName, filePath, content) {
+            const base = this.apiUrl.replace(/\/+$/, "");
+            const res = await fetch(`${base}/save`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ skill: skillName, file: filePath, content })
+            });
+            if (!res.ok) {
+              const err = await res.json().catch(() => ({ error: "Server error" }));
+              throw new Error(err.error || "Save failed");
+            }
           }
           // ─── DOM structure ─────────────────────────────────────────────────────
           _buildDOM() {
@@ -2827,6 +2853,9 @@ ${files[normalizedRef]}
                 this._loadFile(this.currentSkill, this.currentFilePath);
               } else {
                 this._loadSkill(this.currentSkill);
+              }
+              if (this.apiUrl) {
+                await this._saveViaApi(this.currentSkill, filePath, content);
               }
               if (this.onSave) {
                 await this.onSave(this.currentSkill, filePath, content);
