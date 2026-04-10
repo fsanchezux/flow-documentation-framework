@@ -1,0 +1,38 @@
+{
+  "name": "flow-documentation-framework",
+  "version": "1.0.0",
+  "description": "Embeddable documentation viewer for SKILL.md files — single JS file, no server required",
+  "author": "fsanchezux",
+  "license": "MIT",
+  "main": "dist/flow-docs.min.js",
+  "files": [
+    "dist/",
+    "bin/",
+    "src/"
+  ],
+  "bin": {
+    "flow-docs-build": "bin/flow-docs-build.js"
+  },
+  "keywords": [
+    "documentation",
+    "viewer",
+    "markdown",
+    "skill",
+    "embeddable",
+    "flow-docs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fsanchezux/flow-documentation-framework.git"
+  },
+  "homepage": "https://github.com/fsanchezux/flow-documentation-framework",
+  "scripts": {
+    "build": "node build.js",
+    "build:data": "node bin/flow-docs-build.js example/docs -o example/flow-docs-data.json",
+    "dev": "npm run build:data && npm run build"
+  },
+  "devDependencies": {
+    "esbuild": "^0.20.0",
+    "marked": "^9.1.6"
+  }
+}

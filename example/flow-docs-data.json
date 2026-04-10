@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "generatedAt": "2026-04-10T16:52:38.636Z",
+  "skills": [
+    {
+      "name": "api-reference",
+      "description": "API Reference",
+      "files": {
+        "examples/schema.json": "{\n  \"version\": 1,\n  \"generatedAt\": \"2025-01-01T00:00:00Z\",\n  \"skills\": [\n    {\n      \"name\": \"my-skill\",\n      \"description\": \"First H1 title from SKILL.md\",\n      \"files\": {\n        \"SKILL.md\": \"# My Skill\\n\\nContent here...\",\n        \"examples/code.js\": \"console.log('hello')\"\n      }\n    }\n  ],\n  \"flags\": [\n    { \"flag\": \"--ejemplo\", \"label\": \"Ejemplos\", \"dirs\": null, \"exts\": [\".vb\", \".js\"] }\n  ]\n}\n",
+        "SKILL.md": "# API Reference\n\nComplete API documentation for FlowDocs.\n\n## FlowDocs.init(options)\n\nCreates a new documentation viewer instance.\n\n### Options\n\n| Option | Type | Required | Description |\n|--------|------|----------|-------------|\n| `container` | `string \\| Element` | Yes | CSS selector or DOM element |\n| `dataUrl` | `string` | No | URL to the JSON data file |\n| `data` | `object` | No | Inline data object |\n| `onSave` | `function` | No | Callback when editor saves |\n\n### Return Value\n\nReturns a `FlowDocsInstance` object with the following methods:\n\n## Instance Methods\n\n### reload(data?)\n\nReload the viewer. Optionally pass new data.\n\n```javascript\nconst docs = FlowDocs.init({ container: '#docs', dataUrl: './data.json' })\n\n// Later, reload with updated data\ndocs.reload(newData)\n```\n\n### loadData(data)\n\nLoad a new data object directly.\n\n## Data Format\n\nThe JSON data file has this structure:\n\n[Data Schema Example](examples/schema.json)\n\n## Search Flags\n\nUse `--flag` syntax in the search box to filter results:\n\n| Flag | Description |\n|------|-------------|\n| `--ejemplo` | Code examples (.vb, .js, .html, .cs) |\n| `--ref` | References (references/ folder) |\n| `--doc` | Documentation (.md files) |\n| `--sql` | SQL files |\n| `--vb` | VB.NET files |\n\n## Editor Mode\n\nToggle the editor switch to edit files in-place. Changes are passed to the `onSave` callback.\n\n```javascript\nFlowDocs.init({\n  container: '#docs',\n  dataUrl: './data.json',\n  onSave: async (skill, filePath, content) => {\n    await fetch('/api/save', {\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify({ skill, filePath, content })\n    })\n  }\n})\n```\n"
+      }
+    },
+    {
+      "name": "getting-started",
+      "description": "Getting Started",
+      "files": {
+        "examples/hello.js": "// <!-- @ejemplo -->\n// Simple FlowDocs initialization example\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  const docs = FlowDocs.init({\n    container: '#my-docs',\n    dataUrl: './flow-docs-data.json',\n    onSave: (skill, file, content) => {\n      console.log(`Saved ${skill}/${file}`)\n      // POST to your API here\n    }\n  })\n})\n",
+        "SKILL.md": "# Getting Started\n\nWelcome to the Flow-Docs documentation framework.\n\n## Installation\n\nInclude the script in your HTML page:\n\n```html\n<script src=\"flow-docs.min.js\"></script>\n```\n\n## Quick Start\n\nCreate a container div and initialize:\n\n```javascript\nFlowDocs.init({\n  container: '#docs',\n  dataUrl: './flow-docs-data.json'\n})\n```\n\n## Building Your Data\n\nUse the CLI tool to scan your documentation folder:\n\n```bash\nnode flow-docs-build.js ./my-docs -o flow-docs-data.json\n```\n\n### Folder Structure\n\nEach skill is a folder containing a `SKILL.md` file:\n\n```\nmy-docs/\n  getting-started/\n    SKILL.md\n    examples/\n      hello.js\n  api-reference/\n    SKILL.md\n```\n\n## Example Code\n\nHere is a simple example:\n\n[Hello World Example](examples/hello.js)\n\n## Features\n\n- Sidebar navigation with skill list\n- Table of contents for each document\n- Full-text search with flag filters\n- Syntax highlighted code blocks\n- Built-in editor mode\n- Dark theme (GitHub-style)\n"
+      }
+    }
+  ],
+  "flags": [
+    {
+      "flag": "--ejemplo",
+      "label": "Ejemplos",
+      "dirs": null,
+      "exts": [
+        ".vb",
+        ".js",
+        ".html",
+        ".cs"
+      ]
+    },
+    {
+      "flag": "--ref",
+      "label": "Referencias",
+      "dirs": [
+        "references"
+      ],
+      "exts": null
+    },
+    {
+      "flag": "--lib",
+      "label": "Librerías",
+      "dirs": [
+        "libraries"
+      ],
+      "exts": null
+    },
+    {
+      "flag": "--style",
+      "label": "Estilos",
+      "dirs": [
+        "style"
+      ],
+      "exts": [
+        ".css"
+      ]
+    },
+    {
+      "flag": "--script",
+      "label": "Scripts",
+      "dirs": [
+        "scripts"
+      ],
+      "exts": [
+        ".js"
+      ]
+    },
+    {
+      "flag": "--sql",
+      "label": "SQL",
+      "dirs": null,
+      "exts": [
+        ".sql"
+      ]
+    },
+    {
+      "flag": "--doc",
+      "label": "Docs",
+      "dirs": null,
+      "exts": [
+        ".md"
+      ]
+    },
+    {
+      "flag": "--vb",
+      "label": "VB.NET",
+      "dirs": null,
+      "exts": [
+        ".vb"
+      ]
+    }
+  ]
+}

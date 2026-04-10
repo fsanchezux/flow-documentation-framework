@@ -1,0 +1,730 @@
+/* ── Variables ────────────────────────────────────────────────────────────── */
+.flow-docs-root {
+  --fd-bg:        #0f1117;
+  --fd-bg2:       #161b22;
+  --fd-bg3:       #1c2128;
+  --fd-border:    #30363d;
+  --fd-text:      #e6edf3;
+  --fd-text2:     #8b949e;
+  --fd-text3:     #6e7681;
+  --fd-accent:    #58a6ff;
+  --fd-accent-bg: #1f3d5c;
+  --fd-green:     #3fb950;
+  --fd-yellow:    #d29922;
+  --fd-red:       #f85149;
+  --fd-radius:    8px;
+  --fd-sidebar-w: 260px;
+  --fd-toc-w:     220px;
+  --fd-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+
+/* ── Reset (scoped) ───────────────────────────────────────────────────────── */
+.flow-docs-root *, .flow-docs-root *::before, .flow-docs-root *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.flow-docs-root {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--fd-bg);
+  color: var(--fd-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  position: relative;
+}
+
+/* ── Sidebar ───────────────────────────────────────────────────────────────── */
+.flow-docs-root .fd-sidebar {
+  width: var(--fd-sidebar-w);
+  flex-shrink: 0;
+  background: var(--fd-bg2);
+  border-right: 1px solid var(--fd-border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.flow-docs-root .fd-sidebar-header {
+  padding: 16px 12px 12px;
+  border-bottom: 1px solid var(--fd-border);
+}
+
+.flow-docs-root .fd-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--fd-text);
+  margin-bottom: 12px;
+}
+.flow-docs-root .fd-logo svg { color: var(--fd-accent); }
+
+/* ── Search box ───────────────────────────────────────────────────────────── */
+.flow-docs-root .fd-search-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--fd-bg3);
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  padding: 6px 10px;
+  transition: border-color .15s;
+  position: relative;
+}
+.flow-docs-root .fd-search-box:focus-within { border-color: var(--fd-accent); }
+.flow-docs-root .fd-search-box svg { color: var(--fd-text3); flex-shrink: 0; }
+.flow-docs-root .fd-search-box input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--fd-text);
+  font-size: 13px;
+  min-width: 0;
+}
+.flow-docs-root .fd-search-box input::placeholder { color: var(--fd-text3); }
+.flow-docs-root .fd-search-box kbd {
+  font-size: 10px;
+  color: var(--fd-text3);
+  background: var(--fd-bg2);
+  border: 1px solid var(--fd-border);
+  border-radius: 4px;
+  padding: 1px 4px;
+  flex-shrink: 0;
+}
+
+.flow-docs-root .fd-skill-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+.flow-docs-root .fd-skill-list::-webkit-scrollbar { width: 4px; }
+.flow-docs-root .fd-skill-list::-webkit-scrollbar-track { background: transparent; }
+.flow-docs-root .fd-skill-list::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 2px; }
+
+.flow-docs-root .fd-skill-item {
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  margin: 1px 6px;
+  transition: background .1s;
+}
+.flow-docs-root .fd-skill-item:hover { background: var(--fd-bg3); }
+.flow-docs-root .fd-skill-item.active { background: var(--fd-accent-bg); }
+.flow-docs-root .fd-skill-item.active .fd-skill-name { color: var(--fd-accent); }
+
+.flow-docs-root .fd-skill-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fd-text);
+}
+.flow-docs-root .fd-skill-name svg { color: var(--fd-text3); flex-shrink: 0; }
+
+.flow-docs-root .fd-skill-desc {
+  font-size: 11px;
+  color: var(--fd-text3);
+  margin-top: 2px;
+  padding-left: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flow-docs-root .fd-empty-state {
+  padding: 20px 14px;
+  color: var(--fd-text2);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* ── Main ──────────────────────────────────────────────────────────────────── */
+.flow-docs-root .fd-main {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.flow-docs-root .fd-content-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 48px 40px;
+  min-width: 0;
+}
+.flow-docs-root .fd-content-area::-webkit-scrollbar { width: 6px; }
+.flow-docs-root .fd-content-area::-webkit-scrollbar-track { background: transparent; }
+.flow-docs-root .fd-content-area::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 3px; }
+
+.flow-docs-root .fd-hidden { display: none !important; }
+
+/* ── Welcome ───────────────────────────────────────────────────────────────── */
+.flow-docs-root .fd-welcome {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flow-docs-root .fd-welcome-inner {
+  text-align: center;
+  color: var(--fd-text2);
+}
+.flow-docs-root .fd-welcome-inner svg { color: var(--fd-text3); margin-bottom: 16px; }
+.flow-docs-root .fd-welcome-inner h1 { font-size: 24px; color: var(--fd-text); margin-bottom: 8px; }
+.flow-docs-root .fd-welcome-inner p { font-size: 14px; margin-bottom: 6px; }
+.flow-docs-root .fd-welcome-inner .fd-hint { font-size: 12px; color: var(--fd-text3); }
+.flow-docs-root .fd-welcome-inner kbd {
+  background: var(--fd-bg3);
+  border: 1px solid var(--fd-border);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 11px;
+}
+
+/* ── Markdown content ──────────────────────────────────────────────────────── */
+.flow-docs-root .fd-skill-content h1 { font-size: 26px; font-weight: 700; margin: 0 0 8px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 12px; }
+.flow-docs-root .fd-skill-content h2 { font-size: 20px; font-weight: 600; margin: 36px 0 12px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 8px; }
+.flow-docs-root .fd-skill-content h3 { font-size: 16px; font-weight: 600; margin: 24px 0 8px; color: var(--fd-text); }
+.flow-docs-root .fd-skill-content h4 { font-size: 14px; font-weight: 600; margin: 16px 0 6px; color: var(--fd-text2); }
+.flow-docs-root .fd-skill-content p { margin: 0 0 14px; color: var(--fd-text); }
+.flow-docs-root .fd-skill-content ul, .flow-docs-root .fd-skill-content ol { margin: 0 0 14px 20px; color: var(--fd-text); }
+.flow-docs-root .fd-skill-content li { margin-bottom: 4px; }
+.flow-docs-root .fd-skill-content a { color: var(--fd-accent); text-decoration: none; }
+.flow-docs-root .fd-skill-content a:hover { text-decoration: underline; }
+.flow-docs-root .fd-skill-content strong { font-weight: 600; color: var(--fd-text); }
+.flow-docs-root .fd-skill-content em { font-style: italic; color: var(--fd-text2); }
+.flow-docs-root .fd-skill-content hr { border: none; border-top: 1px solid var(--fd-border); margin: 28px 0; }
+
+.flow-docs-root .fd-skill-content blockquote {
+  border-left: 3px solid var(--fd-accent);
+  margin: 0 0 14px;
+  padding: 8px 16px;
+  background: var(--fd-bg2);
+  border-radius: 0 var(--fd-radius) var(--fd-radius) 0;
+  color: var(--fd-text2);
+}
+
+.flow-docs-root .fd-skill-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+.flow-docs-root .fd-skill-content th {
+  background: var(--fd-bg2);
+  padding: 8px 12px;
+  text-align: left;
+  border: 1px solid var(--fd-border);
+  font-weight: 600;
+}
+.flow-docs-root .fd-skill-content td {
+  padding: 7px 12px;
+  border: 1px solid var(--fd-border);
+}
+.flow-docs-root .fd-skill-content tr:nth-child(even) td { background: var(--fd-bg2); }
+
+.flow-docs-root .fd-skill-content code:not(pre code) {
+  background: var(--fd-bg3);
+  border: 1px solid var(--fd-border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: var(--fd-font-mono);
+  font-size: 12px;
+  color: #e2a97e;
+}
+
+/* ── Code blocks ───────────────────────────────────────────────────────────── */
+.flow-docs-root .fd-code-block {
+  margin: 12px 0 20px;
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  overflow: hidden;
+}
+
+.flow-docs-root .fd-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px;
+  background: var(--fd-bg3);
+  border-bottom: 1px solid var(--fd-border);
+}
+
+.flow-docs-root .fd-code-lang {
+  font-size: 11px;
+  font-family: var(--fd-font-mono);
+  color: var(--fd-text3);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.flow-docs-root .fd-btn-copy {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--fd-text2);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.flow-docs-root .fd-btn-copy:hover {
+  color: var(--fd-text);
+  background: var(--fd-bg2);
+  border-color: var(--fd-border);
+}
+
+.flow-docs-root .fd-code-block pre {
+  margin: 0;
+  overflow-x: auto;
+  padding: 16px;
+  background: #0d1117;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.flow-docs-root .fd-code-block pre::-webkit-scrollbar { height: 4px; }
+.flow-docs-root .fd-code-block pre::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 2px; }
+
+/* ── TOC ───────────────────────────────────────────────────────────────────── */
+.flow-docs-root .fd-toc {
+  width: var(--fd-toc-w);
+  flex-shrink: 0;
+  padding: 40px 16px 40px 10px;
+  overflow-y: auto;
+  display: none;
+  position: relative;
+}
+.flow-docs-root .fd-toc.visible { display: block; }
+
+.flow-docs-root .fd-toc-resizer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  cursor: col-resize;
+  background: transparent;
+  transition: background .15s;
+  z-index: 5;
+}
+.flow-docs-root .fd-toc-resizer:hover { background: var(--fd-border); }
+.flow-docs-root .fd-toc-resizer.dragging { background: var(--fd-accent); }
+
+.flow-docs-root .fd-toc-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--fd-text3);
+  margin-bottom: 10px;
+}
+
+.flow-docs-root .fd-toc-list {
+  list-style: none;
+  border-left: 1px solid var(--fd-border);
+  padding-left: 12px;
+}
+.flow-docs-root .fd-toc-list li a {
+  display: block;
+  font-size: 12px;
+  color: var(--fd-text2);
+  text-decoration: none;
+  padding: 3px 0;
+  transition: color .1s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.flow-docs-root .fd-toc-list li a:hover { color: var(--fd-accent); }
+.flow-docs-root .fd-toc-level-1 { font-weight: 600; }
+.flow-docs-root .fd-toc-level-2 { padding-left: 0; }
+.flow-docs-root .fd-toc-level-3 { padding-left: 12px; }
+
+/* ── Search results ────────────────────────────────────────────────────────── */
+.flow-docs-root .fd-search-header {
+  font-size: 13px;
+  color: var(--fd-text2);
+  margin-bottom: 20px;
+}
+
+.flow-docs-root .fd-search-result {
+  background: var(--fd-bg2);
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: border-color .15s;
+}
+.flow-docs-root .fd-search-result:hover { border-color: var(--fd-accent); }
+
+.flow-docs-root .fd-search-result-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.flow-docs-root .fd-tag {
+  font-size: 11px;
+  background: var(--fd-accent-bg);
+  color: var(--fd-accent);
+  padding: 2px 7px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.flow-docs-root .fd-file-path {
+  font-size: 11px;
+  color: var(--fd-text3);
+  font-family: var(--fd-font-mono);
+}
+
+.flow-docs-root .fd-search-result-match {
+  font-size: 13px;
+  color: var(--fd-text);
+  margin-bottom: 4px;
+  font-family: var(--fd-font-mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flow-docs-root .fd-search-result-context {
+  font-size: 12px;
+  color: var(--fd-text2);
+  font-family: var(--fd-font-mono);
+  white-space: pre-wrap;
+  max-height: 60px;
+  overflow: hidden;
+}
+
+.flow-docs-root .fd-search-result-match mark,
+.flow-docs-root .fd-search-result-context mark {
+  background: #4a3500;
+  color: #e3b341;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+.flow-docs-root .fd-search-empty {
+  color: var(--fd-text2);
+  padding: 20px 0;
+  font-size: 14px;
+}
+
+/* ── Toast ─────────────────────────────────────────────────────────────────── */
+.flow-docs-root .fd-toast {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  background: var(--fd-bg3);
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  padding: 8px 14px;
+  font-size: 13px;
+  color: var(--fd-green);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .2s, transform .2s;
+  pointer-events: none;
+  z-index: 100;
+}
+.flow-docs-root .fd-toast.show { opacity: 1; transform: translateY(0); }
+
+/* ── File tree ─────────────────────────────────────────────────────────────── */
+.flow-docs-root .fd-skill-tree {
+  margin: 0 0 6px;
+}
+
+.flow-docs-root .fd-tree-dir-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 14px;
+  font-size: 12px;
+  color: var(--fd-text2);
+  cursor: pointer;
+  user-select: none;
+  transition: color .1s;
+}
+.flow-docs-root .fd-tree-dir-header:hover { color: var(--fd-text); }
+.flow-docs-root .fd-tree-dir-header > svg { flex-shrink: 0; }
+.flow-docs-root .fd-tree-dir-header span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.flow-docs-root .fd-tree-chevron { transition: transform .15s; color: var(--fd-text3); flex-shrink: 0; }
+
+.flow-docs-root .fd-tree-count {
+  font-size: 10px;
+  color: var(--fd-text3);
+  background: var(--fd-bg3);
+  border-radius: 8px;
+  padding: 0 5px;
+  flex-shrink: 0;
+}
+
+.flow-docs-root .fd-tree-dir-children {
+  padding-left: 20px;
+}
+
+.flow-docs-root .fd-tree-file {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 14px;
+  font-size: 12px;
+  color: var(--fd-text2);
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 0 6px;
+  transition: background .1s, color .1s;
+}
+.flow-docs-root .fd-tree-file span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.flow-docs-root .fd-tree-file:hover { background: var(--fd-bg3); color: var(--fd-text); }
+.flow-docs-root .fd-tree-file.active { background: var(--fd-accent-bg); color: var(--fd-accent); }
+.flow-docs-root .fd-tree-file svg { color: var(--fd-text3); flex-shrink: 0; }
+.flow-docs-root .fd-tree-file.active svg { color: var(--fd-accent); }
+
+/* ── File breadcrumb ───────────────────────────────────────────────────────── */
+.flow-docs-root .fd-file-header {
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--fd-border);
+}
+.flow-docs-root .fd-file-breadcrumb {
+  font-size: 12px;
+  color: var(--fd-text3);
+  font-family: var(--fd-font-mono);
+}
+
+/* ── Error ─────────────────────────────────────────────────────────────────── */
+.flow-docs-root .fd-error {
+  background: #2d1215;
+  border: 1px solid #f85149;
+  border-radius: var(--fd-radius);
+  padding: 14px 16px;
+  color: var(--fd-red);
+  font-size: 13px;
+}
+
+/* ── Search flags ──────────────────────────────────────────────────────────── */
+.flow-docs-root .fd-flag-suggestions {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--fd-bg3);
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  overflow: hidden;
+  z-index: 50;
+  box-shadow: 0 4px 12px rgba(0,0,0,.4);
+}
+
+.flow-docs-root .fd-flag-suggestion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: background .1s;
+}
+.flow-docs-root .fd-flag-suggestion:hover { background: var(--fd-bg2); }
+.flow-docs-root .fd-flag-suggestion code {
+  font-family: var(--fd-font-mono);
+  font-size: 12px;
+  color: var(--fd-accent);
+  flex-shrink: 0;
+}
+.flow-docs-root .fd-flag-suggestion span {
+  font-size: 12px;
+  color: var(--fd-text2);
+}
+
+.flow-docs-root .fd-search-flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 6px 0 2px;
+}
+
+.flow-docs-root .fd-flag-chip {
+  font-size: 11px;
+  background: var(--fd-accent-bg);
+  color: var(--fd-accent);
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.flow-docs-root .fd-search-filter-badges {
+  display: inline-flex;
+  gap: 4px;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+
+/* ── Priority badge & divider ──────────────────────────────────────────────── */
+.flow-docs-root .fd-priority-badge {
+  font-size: 11px;
+  background: #3a2a00;
+  color: var(--fd-yellow);
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-weight: 500;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.flow-docs-root .fd-search-result.priority {
+  border-color: #3a2a00;
+}
+.flow-docs-root .fd-search-result.priority:hover {
+  border-color: var(--fd-yellow);
+}
+
+.flow-docs-root .fd-search-divider {
+  font-size: 11px;
+  color: var(--fd-text3);
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  font-weight: 600;
+  padding: 14px 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.flow-docs-root .fd-search-divider::before,
+.flow-docs-root .fd-search-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--fd-border);
+}
+
+/* ── Editor toolbar ────────────────────────────────────────────────────────── */
+.flow-docs-root .fd-editor-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding: 0 0 12px;
+  background: var(--fd-bg);
+}
+
+.flow-docs-root .fd-editor-switch {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  user-select: none;
+  color: var(--fd-text2);
+  transition: color .15s;
+}
+.flow-docs-root .fd-editor-switch:hover { color: var(--fd-text); }
+.flow-docs-root .fd-editor-switch input { display: none; }
+
+.flow-docs-root .fd-switch-track {
+  width: 32px;
+  height: 18px;
+  background: var(--fd-bg3);
+  border: 1px solid var(--fd-border);
+  border-radius: 9px;
+  position: relative;
+  transition: background .2s, border-color .2s;
+  flex-shrink: 0;
+}
+.flow-docs-root .fd-switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  background: var(--fd-text3);
+  border-radius: 50%;
+  transition: left .2s, background .2s;
+}
+.flow-docs-root .fd-editor-switch input:checked + .fd-switch-track { background: var(--fd-accent-bg); border-color: var(--fd-accent); }
+.flow-docs-root .fd-editor-switch input:checked + .fd-switch-track .fd-switch-thumb { left: 16px; background: var(--fd-accent); }
+.flow-docs-root .fd-switch-label { font-size: 12px; }
+
+.flow-docs-root .fd-btn-save {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: var(--fd-accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--fd-radius);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.flow-docs-root .fd-btn-save:hover { opacity: .85; }
+.flow-docs-root .fd-btn-save:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ── Editor area ───────────────────────────────────────────────────────────── */
+.flow-docs-root .fd-editor-area {
+  min-height: 400px;
+}
+
+.flow-docs-root .fd-content-area.editor-mode-active {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-bottom: 16px;
+}
+.flow-docs-root .fd-content-area.editor-mode-active .fd-editor-toolbar {
+  position: relative;
+  flex-shrink: 0;
+}
+.flow-docs-root .fd-content-area.editor-mode-active .fd-editor-area {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+}
+.flow-docs-root .fd-editor-textarea {
+  width: 100%;
+  height: 100%;
+  background: var(--fd-bg2);
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  color: var(--fd-text);
+  font-family: var(--fd-font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  padding: 20px;
+  resize: none;
+  outline: none;
+  tab-size: 2;
+}
+.flow-docs-root .fd-editor-textarea:focus { border-color: var(--fd-accent); }
+
+/* ── Scrollbar global ──────────────────────────────────────────────────────── */
+.flow-docs-root ::-webkit-scrollbar { width: 6px; height: 6px; }
+.flow-docs-root ::-webkit-scrollbar-track { background: transparent; }
+.flow-docs-root ::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 3px; }

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowDocs — Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { height: 100vh; }
+    #docs { width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+  <div id="docs"></div>
+
+  <script src="../dist/flow-docs.min.js"></script>
+  <script>
+    FlowDocs.init({
+      container: '#docs',
+      dataUrl: './flow-docs-data.json',
+      onSave: (skill, filePath, content) => {
+        console.log('Save requested:', skill, filePath, content.length, 'chars')
+        // In a real app, POST to your backend here
+      }
+    })
+  </script>
+</body>
+</html>

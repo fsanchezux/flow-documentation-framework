@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "generatedAt": "2025-01-01T00:00:00Z",
+  "skills": [
+    {
+      "name": "my-skill",
+      "description": "First H1 title from SKILL.md",
+      "files": {
+        "SKILL.md": "# My Skill\n\nContent here...",
+        "examples/code.js": "console.log('hello')"
+      }
+    }
+  ],
+  "flags": [
+    { "flag": "--ejemplo", "label": "Ejemplos", "dirs": null, "exts": [".vb", ".js"] }
+  ]
+}
