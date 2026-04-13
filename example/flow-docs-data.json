@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-04-10T16:52:38.636Z",
+  "generatedAt": "2026-04-13T15:26:14.995Z",
   "skills": [
     {
       "name": "api-reference",
@@ -91,5 +91,6 @@
         ".vb"
       ]
     }
-  ]
+  ],
+  "homePage": "# Flow-Docs\n\nBienvenido a la documentacion del framework.\n\n## Guias\n\n- [Getting Started](/getting-started)\n- [API Reference](/api-reference)\n\n## Archivos destacados\n\n- [Ejemplo Hello World](/getting-started/examples/hello.js)\n- [Schema JSON](/api-reference/examples/schema.json)\n"
 }

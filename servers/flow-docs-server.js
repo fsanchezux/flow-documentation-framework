@@ -92,7 +92,13 @@ function buildData(docsDir) {
   }
 
   skills.sort((a, b) => a.name.localeCompare(b.name))
-  return { version: 1, generatedAt: new Date().toISOString(), skills, flags: SEARCH_FLAGS }
+
+  const homeMd = path.join(resolved, 'HOME.md')
+  const homePage = fs.existsSync(homeMd) ? fs.readFileSync(homeMd, 'utf-8') : null
+
+  const result = { version: 1, generatedAt: new Date().toISOString(), skills, flags: SEARCH_FLAGS }
+  if (homePage) result.homePage = homePage
+  return result
 }
 
 module.exports = function flowDocsServer(docsDir) {

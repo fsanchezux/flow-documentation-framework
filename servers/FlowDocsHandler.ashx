@@ -116,12 +116,16 @@ Public Class FlowDocsHandler
             })
         Next
 
-        Dim result = New With {
-            .version = 1,
-            .generatedAt = DateTime.UtcNow.ToString("o"),
-            .skills = skills,
-            .flags = flags
-        }
+        Dim result As New Dictionary(Of String, Object)
+        result("version") = 1
+        result("generatedAt") = DateTime.UtcNow.ToString("o")
+        result("skills") = skills
+        result("flags") = flags
+
+        Dim homeMd As String = Path.Combine(docsPath, "HOME.md")
+        If File.Exists(homeMd) Then
+            result("homePage") = File.ReadAllText(homeMd, System.Text.Encoding.UTF8)
+        End If
 
         context.Response.Write(serializer.Serialize(result))
     End Sub

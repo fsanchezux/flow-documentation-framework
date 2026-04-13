@@ -62,6 +62,7 @@
   font-size: 15px;
   color: var(--fd-text);
   margin-bottom: 12px;
+  cursor: pointer;
 }
 .flow-docs-root .fd-logo svg { color: var(--fd-accent); }
 
@@ -173,6 +174,10 @@
   align-items: center;
   justify-content: center;
 }
+.flow-docs-root .fd-welcome:has(.fd-home-content) {
+  align-items: flex-start;
+  justify-content: flex-start;
+}
 .flow-docs-root .fd-welcome-inner {
   text-align: center;
   color: var(--fd-text2);
@@ -187,6 +192,30 @@
   border-radius: 4px;
   padding: 1px 5px;
   font-size: 11px;
+}
+
+/* ── Home page content ────────────────────────────────────────────────────── */
+.flow-docs-root .fd-home-content {
+  max-width: 720px;
+  padding: 48px 32px;
+}
+.flow-docs-root .fd-home-content h1 { font-size: 26px; font-weight: 700; margin: 0 0 8px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 12px; }
+.flow-docs-root .fd-home-content h2 { font-size: 20px; font-weight: 600; margin: 28px 0 12px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 8px; }
+.flow-docs-root .fd-home-content h3 { font-size: 16px; font-weight: 600; margin: 20px 0 8px; color: var(--fd-text); }
+.flow-docs-root .fd-home-content p { margin: 0 0 14px; color: var(--fd-text); }
+.flow-docs-root .fd-home-content ul, .flow-docs-root .fd-home-content ol { margin: 0 0 14px 20px; color: var(--fd-text); }
+.flow-docs-root .fd-home-content li { margin-bottom: 4px; }
+.flow-docs-root .fd-home-content a { color: var(--fd-accent); text-decoration: none; }
+.flow-docs-root .fd-home-content a:hover { text-decoration: underline; }
+.flow-docs-root .fd-home-content strong { font-weight: 600; color: var(--fd-text); }
+.flow-docs-root .fd-home-content code:not(pre code) {
+  background: var(--fd-bg3);
+  border: 1px solid var(--fd-border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: var(--fd-font-mono);
+  font-size: 12px;
+  color: #e2a97e;
 }
 
 /* ── Markdown content ──────────────────────────────────────────────────────── */

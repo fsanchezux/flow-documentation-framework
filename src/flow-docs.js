@@ -256,6 +256,7 @@ import CSS_TEXT from './style.css'
 
       this.onSave = options.onSave || null
       this.apiUrl = options.apiUrl || null  // Dynamic server mode
+      this.homePage = options.homePage || null  // Custom home page markdown
       this.data = null
       this.markedInstance = createMarked()
       this.currentSkill = null
@@ -525,6 +526,16 @@ import CSS_TEXT from './style.css'
         }
       })
 
+      // Logo click → go home
+      this.root.querySelector('.fd-logo').addEventListener('click', () => {
+        this.currentSkill = null
+        this.currentFilePath = null
+        this.root.querySelectorAll('.fd-skill-item').forEach(el => el.classList.remove('active'))
+        this.root.querySelectorAll('.fd-skill-tree').forEach(el => el.remove())
+        this.$.toc.classList.remove('visible')
+        this._showPanel('welcome')
+      })
+
       // Copy code (delegated)
       this.root.addEventListener('click', (e) => {
         const btn = e.target.closest('.fd-btn-copy')
@@ -548,7 +559,10 @@ import CSS_TEXT from './style.css'
 
     loadData(data) {
       this.data = data
+      // Use homePage from options, or from data, or null
+      if (!this.homePage && data.homePage) this.homePage = data.homePage
       this._renderSkillList()
+      this._renderHomePage()
     }
 
     reload(data) {
@@ -616,6 +630,7 @@ import CSS_TEXT from './style.css'
       this._showPanel('skillContent')
       this.$.skillContent.innerHTML = html
       this._highlightCode()
+      this._bindInternalLinks(this.$.skillContent)
       this._buildTOC(sections, name)
 
       if (section) {
@@ -665,6 +680,7 @@ import CSS_TEXT from './style.css'
         const sections = extractSections(fileContent)
         this.$.skillContent.innerHTML = html
         this._highlightCode()
+        this._bindInternalLinks(this.$.skillContent)
         this._buildTOC(sections, skillName)
         this.$.toc.classList.add('visible')
       } else {
@@ -953,6 +969,55 @@ import CSS_TEXT from './style.css'
         this._showToast('Error: ' + e.message)
       } finally {
         btn.disabled = false
+      }
+    }
+
+    // ─── Home page ──────────────────────────────────────────────────────────
+
+    _renderHomePage() {
+      if (!this.homePage) return
+      let content = addHeadingIds(this.homePage)
+      const html = this.markedInstance.parse(content)
+      this.$.welcome.innerHTML = `<div class="fd-home-content">${html}</div>`
+      this._highlightCode()
+      this._bindInternalLinks(this.$.welcome)
+    }
+
+    _bindInternalLinks(container) {
+      container.querySelectorAll('a[href]').forEach(a => {
+        const href = a.getAttribute('href')
+        if (!href || href.startsWith('http://') || href.startsWith('https://') || href.startsWith('#') || href.startsWith('javascript:')) return
+        // Internal link: skill-name/path/to/file or just skill-name
+        a.addEventListener('click', (e) => {
+          e.preventDefault()
+          this._navigateInternal(href)
+        })
+      })
+    }
+
+    _navigateInternal(href) {
+      // Normalize: strip leading /
+      const clean = href.replace(/^\/+/, '')
+      if (!clean || !this.data) return
+
+      const parts = clean.split('/')
+      const skillName = parts[0]
+      const skill = this.data.skills.find(s => s.name === skillName)
+
+      if (!skill) return
+
+      if (parts.length === 1) {
+        // Navigate to skill index (SKILL.md)
+        this._loadSkill(skillName)
+      } else {
+        // Navigate to a specific file within the skill
+        const filePath = parts.slice(1).join('/')
+        if (skill.files[filePath] !== undefined) {
+          this._loadFile(skillName, filePath)
+        } else {
+          // Try with SKILL.md as fallback
+          this._loadSkill(skillName)
+        }
       }
     }
 

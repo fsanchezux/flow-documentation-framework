@@ -99,12 +99,20 @@ function buildData(skillsDir) {
 
   skills.sort((a, b) => a.name.localeCompare(b.name))
 
-  return {
+  // Read optional HOME.md for custom home page
+  const homeMd = path.join(resolved, 'HOME.md')
+  const homePage = fs.existsSync(homeMd) ? fs.readFileSync(homeMd, 'utf-8') : null
+
+  const result = {
     version: 1,
     generatedAt: new Date().toISOString(),
     skills,
     flags: SEARCH_FLAGS
   }
+
+  if (homePage) result.homePage = homePage
+
+  return result
 }
 
 // ─── CLI ─────────────────────────────────────────────────────────────────────

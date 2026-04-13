@@ -133,12 +133,19 @@ try {
             });
         }
 
-        echo json_encode([
+        $result = [
             'version' => 1,
             'generatedAt' => gmdate('Y-m-d\TH:i:s\Z'),
             'skills' => $skills,
             'flags' => $SEARCH_FLAGS
-        ]);
+        ];
+
+        $homeMd = $docsPath . DIRECTORY_SEPARATOR . 'HOME.md';
+        if ($docsPath && file_exists($homeMd)) {
+            $result['homePage'] = file_get_contents($homeMd);
+        }
+
+        echo json_encode($result);
     }
 } catch (Exception $e) {
     http_response_code(500);
