@@ -601,7 +601,11 @@ import CSS_TEXT from './style.css'
 
     _loadSkill(name, section) {
       const skill = this.data.skills.find(s => s.name === name)
-      if (!skill || !skill.files['SKILL.md']) return
+      if (!skill) return
+
+      // Prefer home.md as default view; fall back to SKILL.md
+      const defaultFile = skill.files['home.md'] ? 'home.md' : 'SKILL.md'
+      if (!skill.files[defaultFile]) return
 
       this.currentSkill = name
 
@@ -618,7 +622,7 @@ import CSS_TEXT from './style.css'
       }
 
       this.currentFilePath = null
-      const rawContent = skill.files['SKILL.md']
+      const rawContent = skill.files[defaultFile]
       this.currentRawContent = rawContent
 
       // Process markdown

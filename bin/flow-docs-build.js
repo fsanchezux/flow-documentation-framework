@@ -84,11 +84,13 @@ function buildData(skillsDir) {
     if (!entry.isDirectory() || entry.name.startsWith('.')) continue
     const skillDir = path.join(resolved, entry.name)
     const skillMd = path.join(skillDir, 'SKILL.md')
+    const homeMdFile = path.join(skillDir, 'home.md')
 
-    if (!fs.existsSync(skillMd)) continue
+    if (!fs.existsSync(skillMd) && !fs.existsSync(homeMdFile)) continue
 
     const files = readFilesRecursive(skillDir, '')
-    const description = files['SKILL.md'] ? extractDescription(files['SKILL.md']) : ''
+    const descSource = files['home.md'] || files['SKILL.md']
+    const description = descSource ? extractDescription(descSource) : ''
 
     skills.push({
       name: entry.name,
