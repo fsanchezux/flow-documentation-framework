@@ -1,6 +1,6 @@
 {
   "name": "flow-documentation-framework",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Embeddable documentation viewer for SKILL.md files — single JS file, no server required",
   "author": "fsanchezux",
   "license": "MIT",
