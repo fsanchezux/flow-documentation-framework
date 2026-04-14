@@ -2219,7 +2219,7 @@ ${files[normalizedRef]}
           const tree = [];
           const dirs = {};
           for (const filePath of Object.keys(files)) {
-            if (filePath === "SKILL.md")
+            if (filePath === "SKILL.md" || filePath === "home.md")
               continue;
             const parts = filePath.split("/");
             if (parts.length === 1) {
@@ -2558,7 +2558,10 @@ ${files[normalizedRef]}
           // ─── Load skill ────────────────────────────────────────────────────────
           _loadSkill(name, section) {
             const skill = this.data.skills.find((s) => s.name === name);
-            if (!skill || !skill.files["SKILL.md"])
+            if (!skill)
+              return;
+            const defaultFile = skill.files["home.md"] ? "home.md" : "SKILL.md";
+            if (!skill.files[defaultFile])
               return;
             this.currentSkill = name;
             this.root.querySelectorAll(".fd-skill-item").forEach((el) => {
@@ -2571,7 +2574,7 @@ ${files[normalizedRef]}
               this._toggleEditorMode(false);
             }
             this.currentFilePath = null;
-            const rawContent = skill.files["SKILL.md"];
+            const rawContent = skill.files[defaultFile];
             this.currentRawContent = rawContent;
             let content = resolveFileRefs(rawContent, skill.files);
             content = addHeadingIds(content);

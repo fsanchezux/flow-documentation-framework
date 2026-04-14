@@ -84,15 +84,31 @@ Public Class FlowDocsHandler
         If Directory.Exists(docsPath) Then
             For Each skillDir As String In Directory.GetDirectories(docsPath)
                 Dim skillMd As String = Path.Combine(skillDir, "SKILL.md")
-                If Not File.Exists(skillMd) Then Continue For
+                Dim homeMdSkill As String = Path.Combine(skillDir, "home.md")
+                If Not File.Exists(skillMd) AndAlso Not File.Exists(homeMdSkill) Then Continue For
 
                 Dim skillName As String = Path.GetFileName(skillDir)
                 Dim files As New Dictionary(Of String, String)
 
                 ReadFilesRecursive(skillDir, skillDir, files)
 
+                ' Normalize home.md key to lowercase for consistent lookups
+                Dim homeKeyFound As String = Nothing
+                For Each fKey As String In files.Keys
+                    If fKey.ToLower() = "home.md" AndAlso fKey <> "home.md" Then
+                        homeKeyFound = fKey
+                        Exit For
+                    End If
+                Next
+                If homeKeyFound IsNot Nothing Then
+                    files("home.md") = files(homeKeyFound)
+                    files.Remove(homeKeyFound)
+                End If
+
                 Dim description As String = ""
-                If files.ContainsKey("SKILL.md") Then
+                If files.ContainsKey("home.md") Then
+                    description = ExtractDescription(files("home.md"))
+                ElseIf files.ContainsKey("SKILL.md") Then
                     description = ExtractDescription(files("SKILL.md"))
                 End If
 

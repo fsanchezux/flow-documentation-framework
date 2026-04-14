@@ -112,14 +112,22 @@ try {
                 if ($dir[0] === '.') continue;
                 $skillDir = $docsPath . DIRECTORY_SEPARATOR . $dir;
                 if (!is_dir($skillDir)) continue;
-                if (!file_exists($skillDir . DIRECTORY_SEPARATOR . 'SKILL.md')) continue;
+                if (!file_exists($skillDir . DIRECTORY_SEPARATOR . 'SKILL.md') && !file_exists($skillDir . DIRECTORY_SEPARATOR . 'home.md')) continue;
 
                 $files = [];
                 readFilesRecursive($skillDir, $skillDir, $files, $TEXT_EXTS);
 
-                $description = isset($files['SKILL.md'])
-                    ? extractDescription($files['SKILL.md'])
-                    : '';
+                // Normalize home.md key to lowercase for consistent lookups
+                foreach (array_keys($files) as $fKey) {
+                    if (strtolower($fKey) === 'home.md' && $fKey !== 'home.md') {
+                        $files['home.md'] = $files[$fKey];
+                        unset($files[$fKey]);
+                        break;
+                    }
+                }
+
+                $descSource = $files['home.md'] ?? ($files['SKILL.md'] ?? null);
+                $description = $descSource ? extractDescription($descSource) : '';
 
                 $skills[] = [
                     'name' => $dir,

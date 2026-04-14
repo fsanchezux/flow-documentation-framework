@@ -212,7 +212,7 @@ import CSS_TEXT from './style.css'
     const dirs = {}
 
     for (const filePath of Object.keys(files)) {
-      if (filePath === 'SKILL.md') continue
+      if (filePath === 'SKILL.md' || filePath === 'home.md') continue
       const parts = filePath.split('/')
 
       if (parts.length === 1) {

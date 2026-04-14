@@ -84,10 +84,17 @@ function buildData(docsDir) {
   for (const entry of entries) {
     if (!entry.isDirectory() || entry.name.startsWith('.')) continue
     const skillDir = path.join(resolved, entry.name)
-    if (!fs.existsSync(path.join(skillDir, 'SKILL.md'))) continue
+    if (!fs.existsSync(path.join(skillDir, 'SKILL.md')) && !fs.existsSync(path.join(skillDir, 'home.md'))) continue
 
     const files = readFilesRecursive(skillDir, '')
-    const description = files['SKILL.md'] ? extractDescription(files['SKILL.md']) : ''
+    // Normalize home.md key to lowercase for consistent lookups
+    const homeKey = Object.keys(files).find(k => k.toLowerCase() === 'home.md')
+    if (homeKey && homeKey !== 'home.md') {
+      files['home.md'] = files[homeKey]
+      delete files[homeKey]
+    }
+    const descSource = files['home.md'] || files['SKILL.md']
+    const description = descSource ? extractDescription(descSource) : ''
     skills.push({ name: entry.name, description, files })
   }
 

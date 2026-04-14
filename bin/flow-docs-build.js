@@ -89,6 +89,12 @@ function buildData(skillsDir) {
     if (!fs.existsSync(skillMd) && !fs.existsSync(homeMdFile)) continue
 
     const files = readFilesRecursive(skillDir, '')
+    // Normalize home.md key to lowercase for consistent lookups
+    const homeKey = Object.keys(files).find(k => k.toLowerCase() === 'home.md')
+    if (homeKey && homeKey !== 'home.md') {
+      files['home.md'] = files[homeKey]
+      delete files[homeKey]
+    }
     const descSource = files['home.md'] || files['SKILL.md']
     const description = descSource ? extractDescription(descSource) : ''
 
