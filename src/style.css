@@ -66,6 +66,34 @@
 }
 .flow-docs-root .fd-logo svg { color: var(--fd-accent); }
 
+.flow-docs-root .fd-logo-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.flow-docs-root .fd-logo-row .fd-logo { margin-bottom: 0; }
+
+.flow-docs-root .fd-btn-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--fd-border);
+  border-radius: 6px;
+  background: var(--fd-bg3);
+  color: var(--fd-text2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.flow-docs-root .fd-btn-download:hover {
+  color: var(--fd-accent);
+  border-color: var(--fd-accent);
+  background: var(--fd-accent-bg);
+}
+
 /* ── Search box ───────────────────────────────────────────────────────────── */
 .flow-docs-root .fd-search-box {
   display: flex;

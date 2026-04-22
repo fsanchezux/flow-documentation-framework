@@ -29,6 +29,7 @@ import CSS_TEXT from './style.css'
     db: '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>',
     css: '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83"/></svg>',
     chevron: '<svg class="fd-tree-chevron" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>',
+    download: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
   }
 
   const FILE_ICONS = { md: 'fileMd', vb: 'code', js: 'code', html: 'code', cs: 'code', sql: 'db', css: 'css' }
@@ -45,6 +46,97 @@ import CSS_TEXT from './style.css'
   function getExt(filePath) {
     const m = filePath.match(/\.([^.]+)$/)
     return m ? m[1].toLowerCase() : ''
+  }
+
+  // ─── ZIP writer (store method, no compression) ─────────────────────────────
+
+  const CRC_TABLE = (() => {
+    const t = new Uint32Array(256)
+    for (let i = 0; i < 256; i++) {
+      let c = i
+      for (let k = 0; k < 8; k++) c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1)
+      t[i] = c >>> 0
+    }
+    return t
+  })()
+
+  function crc32(bytes) {
+    let c = 0xffffffff
+    for (let i = 0; i < bytes.length; i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xff] ^ (c >>> 8)
+    return (c ^ 0xffffffff) >>> 0
+  }
+
+  function dosDateTime(d) {
+    const date = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate()
+    const time = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1)
+    return { date, time }
+  }
+
+  function buildZip(entries) {
+    const encoder = new TextEncoder()
+    const now = dosDateTime(new Date())
+    const chunks = []
+    const central = []
+    let offset = 0
+
+    for (const { path, content } of entries) {
+      const nameBytes = encoder.encode(path)
+      const data = typeof content === 'string' ? encoder.encode(content) : content
+      const crc = crc32(data)
+
+      const local = new DataView(new ArrayBuffer(30))
+      local.setUint32(0, 0x04034b50, true)
+      local.setUint16(4, 20, true)           // version needed
+      local.setUint16(6, 0x0800, true)       // UTF-8 flag
+      local.setUint16(8, 0, true)            // compression: store
+      local.setUint16(10, now.time, true)
+      local.setUint16(12, now.date, true)
+      local.setUint32(14, crc, true)
+      local.setUint32(18, data.length, true) // compressed size
+      local.setUint32(22, data.length, true) // uncompressed size
+      local.setUint16(26, nameBytes.length, true)
+      local.setUint16(28, 0, true)           // extra length
+
+      chunks.push(new Uint8Array(local.buffer), nameBytes, data)
+
+      const cd = new DataView(new ArrayBuffer(46))
+      cd.setUint32(0, 0x02014b50, true)
+      cd.setUint16(4, 20, true)              // version made by
+      cd.setUint16(6, 20, true)              // version needed
+      cd.setUint16(8, 0x0800, true)
+      cd.setUint16(10, 0, true)
+      cd.setUint16(12, now.time, true)
+      cd.setUint16(14, now.date, true)
+      cd.setUint32(16, crc, true)
+      cd.setUint32(20, data.length, true)
+      cd.setUint32(24, data.length, true)
+      cd.setUint16(28, nameBytes.length, true)
+      cd.setUint16(30, 0, true)              // extra
+      cd.setUint16(32, 0, true)              // comment
+      cd.setUint16(34, 0, true)              // disk
+      cd.setUint16(36, 0, true)              // internal attrs
+      cd.setUint32(38, 0, true)              // external attrs
+      cd.setUint32(42, offset, true)
+      central.push(new Uint8Array(cd.buffer), nameBytes)
+
+      offset += 30 + nameBytes.length + data.length
+    }
+
+    const cdStart = offset
+    let cdSize = 0
+    for (const c of central) cdSize += c.length
+
+    const eocd = new DataView(new ArrayBuffer(22))
+    eocd.setUint32(0, 0x06054b50, true)
+    eocd.setUint16(4, 0, true)
+    eocd.setUint16(6, 0, true)
+    eocd.setUint16(8, entries.length, true)
+    eocd.setUint16(10, entries.length, true)
+    eocd.setUint32(12, cdSize, true)
+    eocd.setUint32(16, cdStart, true)
+    eocd.setUint16(20, 0, true)
+
+    return new Blob([...chunks, ...central, new Uint8Array(eocd.buffer)], { type: 'application/zip' })
   }
 
   // ─── Markdown engine ───────────────────────────────────────────────────────
@@ -359,9 +451,14 @@ import CSS_TEXT from './style.css'
         <!-- Sidebar -->
         <aside class="fd-sidebar">
           <div class="fd-sidebar-header">
-            <div class="fd-logo">
-              ${ICONS.book}
-              <span>Flow-Docs</span>
+            <div class="fd-logo-row">
+              <div class="fd-logo">
+                ${ICONS.book}
+                <span>Flow-Docs</span>
+              </div>
+              <button class="fd-btn-download" title="Descargar todo como .zip">
+                ${ICONS.download}
+              </button>
             </div>
             <div class="fd-search-box">
               ${ICONS.search}
@@ -436,6 +533,7 @@ import CSS_TEXT from './style.css'
         editorArea: root.querySelector('.fd-editor-area'),
         editorTextarea: root.querySelector('.fd-editor-textarea'),
         btnSave: root.querySelector('.fd-btn-save'),
+        btnDownload: root.querySelector('.fd-btn-download'),
         toc: root.querySelector('.fd-toc'),
         tocList: root.querySelector('.fd-toc-list'),
         tocResizer: root.querySelector('.fd-toc-resizer'),
@@ -518,6 +616,11 @@ import CSS_TEXT from './style.css'
       })
 
       this.$.btnSave.addEventListener('click', () => this._saveFile())
+
+      this.$.btnDownload.addEventListener('click', (e) => {
+        e.stopPropagation()
+        this._downloadZip()
+      })
 
       this.$.editorTextarea.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'Enter')) {
@@ -974,6 +1077,32 @@ import CSS_TEXT from './style.css'
       } finally {
         btn.disabled = false
       }
+    }
+
+    // ─── Download ──────────────────────────────────────────────────────────
+
+    _downloadZip() {
+      if (!this.data || !this.data.skills || !this.data.skills.length) {
+        this._showToast('Sin datos para descargar')
+        return
+      }
+      const entries = []
+      if (this.homePage) entries.push({ path: 'HOME.md', content: this.homePage })
+      for (const skill of this.data.skills) {
+        for (const [filePath, content] of Object.entries(skill.files)) {
+          entries.push({ path: `${skill.name}/${filePath}`, content: content || '' })
+        }
+      }
+      const blob = buildZip(entries)
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'flow-docs.zip'
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      setTimeout(() => URL.revokeObjectURL(url), 1000)
+      this._showToast('Descargando .zip')
     }
 
     // ─── Home page ──────────────────────────────────────────────────────────
