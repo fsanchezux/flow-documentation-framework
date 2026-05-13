@@ -13,6 +13,12 @@
  *     container: '#docs',
  *     apiUrl: '/api/docs'
  *   })
+ *
+ * Endpoints:
+ *   GET  /                       → full JSON data
+ *   POST /save                   → save a file + append JSONL log entry
+ *   GET  /changes                → download the JSONL log
+ *   POST /changes/archive        → rotate the JSONL log (timestamped rename)
  */
 
 const express = require('express')
@@ -36,6 +42,8 @@ const SEARCH_FLAGS = [
   { flag: '--doc',     label: 'Docs',        dirs: null,           exts: ['.md'] },
   { flag: '--vb',      label: 'VB.NET',      dirs: null,           exts: ['.vb'] },
 ]
+
+const LOG_FILENAME = '.flow-docs-changes.jsonl'
 
 function safeJoin(base, ...parts) {
   const resolved = path.resolve(base, ...parts)
@@ -87,7 +95,6 @@ function buildData(docsDir) {
     if (!fs.existsSync(path.join(skillDir, 'SKILL.md')) && !fs.existsSync(path.join(skillDir, 'home.md'))) continue
 
     const files = readFilesRecursive(skillDir, '')
-    // Normalize home.md key to lowercase for consistent lookups
     const homeKey = Object.keys(files).find(k => k.toLowerCase() === 'home.md')
     if (homeKey && homeKey !== 'home.md') {
       files['home.md'] = files[homeKey]
@@ -108,29 +115,67 @@ function buildData(docsDir) {
   return result
 }
 
+function appendChangeLog(docsDir, entry) {
+  const logPath = path.join(path.resolve(docsDir), LOG_FILENAME)
+  fs.appendFileSync(logPath, JSON.stringify(entry) + '\n', 'utf-8')
+}
+
 module.exports = function flowDocsServer(docsDir) {
   const router = express.Router()
 
-  // GET / → return full JSON data
   router.get('/', (req, res) => {
     res.json(buildData(docsDir))
   })
 
-  // POST /save → save a file
   router.post('/save', express.json({ limit: '10mb' }), (req, res) => {
     try {
-      const { skill, file, content } = req.body
+      const { skill, file, content, user } = req.body
       if (!skill || !file || typeof content !== 'string') {
         return res.status(400).json({ error: 'Missing skill, file, or content' })
       }
 
       const resolved = path.resolve(docsDir)
       const filePath = safeJoin(resolved, skill, file)
+
+      let previousContent = null
+      try { previousContent = fs.readFileSync(filePath, 'utf-8') } catch (_) {}
+
       fs.writeFileSync(filePath, content, 'utf-8')
+
+      appendChangeLog(docsDir, {
+        ts: new Date().toISOString(),
+        user: (typeof user === 'string' && user.trim()) ? user.trim() : 'anonymous',
+        skill,
+        file,
+        bytes: Buffer.byteLength(content, 'utf-8'),
+        created: previousContent === null,
+        content
+      })
+
       res.json({ success: true })
     } catch (e) {
       res.status(400).json({ error: e.message })
     }
+  })
+
+  router.get('/changes', (req, res) => {
+    const logPath = path.join(path.resolve(docsDir), LOG_FILENAME)
+    if (!fs.existsSync(logPath)) {
+      res.setHeader('Content-Type', 'application/x-ndjson')
+      return res.send('')
+    }
+    res.setHeader('Content-Type', 'application/x-ndjson')
+    res.setHeader('Content-Disposition', `attachment; filename="${LOG_FILENAME}"`)
+    fs.createReadStream(logPath).pipe(res)
+  })
+
+  router.post('/changes/archive', (req, res) => {
+    const logPath = path.join(path.resolve(docsDir), LOG_FILENAME)
+    if (!fs.existsSync(logPath)) return res.json({ success: true, archived: null })
+    const stamp = new Date().toISOString().replace(/[:.]/g, '-')
+    const archived = path.join(path.resolve(docsDir), `.flow-docs-changes.${stamp}.jsonl`)
+    fs.renameSync(logPath, archived)
+    res.json({ success: true, archived: path.basename(archived) })
   })
 
   return router

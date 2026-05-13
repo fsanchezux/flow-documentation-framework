@@ -16,14 +16,17 @@ Imports System.Web.Script.Serialization
 '''   })
 '''
 ''' Endpoints:
-'''   GET  /FlowDocsHandler.ashx          → returns full JSON data (skill list + files)
-'''   POST /FlowDocsHandler.ashx?action=save  → saves a file (body: {skill, file, content})
+'''   GET  /FlowDocsHandler.ashx                     → returns full JSON data (skill list + files)
+'''   POST /FlowDocsHandler.ashx?action=save         → saves a file (body: {skill, file, content, user})
+'''   GET  /FlowDocsHandler.ashx?action=changes      → downloads the JSONL change log
+'''   POST /FlowDocsHandler.ashx?action=changes-archive → rotates the log (timestamped rename)
 ''' </summary>
 Public Class FlowDocsHandler
     Implements IHttpHandler
 
     ' ━━━ CONFIGURE THIS: path to your documentation folder ━━━━━━━━━━━━━━━━
     Private Const DOCS_FOLDER As String = "~/Docs"
+    Private Const LOG_FILENAME As String = ".flow-docs-changes.jsonl"
     ' ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
     Private Shared ReadOnly TEXT_EXTS() As String = {
@@ -66,6 +69,10 @@ Public Class FlowDocsHandler
 
             If context.Request.HttpMethod = "POST" AndAlso action = "save" Then
                 HandleSave(context, docsPath)
+            ElseIf context.Request.HttpMethod = "GET" AndAlso action = "changes" Then
+                HandleChangesDownload(context, docsPath)
+            ElseIf context.Request.HttpMethod = "POST" AndAlso action = "changes-archive" Then
+                HandleChangesArchive(context, docsPath)
             Else
                 HandleGetData(context, docsPath)
             End If
@@ -155,6 +162,11 @@ Public Class FlowDocsHandler
         Dim skillName As String = CStr(data("skill"))
         Dim filePath As String = CStr(data("file"))
         Dim content As String = CStr(data("content"))
+        Dim userName As String = ""
+        If data.ContainsKey("user") AndAlso data("user") IsNot Nothing Then
+            userName = CStr(data("user")).Trim()
+        End If
+        If String.IsNullOrEmpty(userName) Then userName = "anonymous"
 
         ' Security: prevent path traversal
         If skillName.Contains("..") OrElse filePath.Contains("..") Then
@@ -172,8 +184,50 @@ Public Class FlowDocsHandler
             Return
         End If
 
+        Dim wasCreated As Boolean = Not File.Exists(fullPath)
         File.WriteAllText(fullPath, content, System.Text.Encoding.UTF8)
+
+        AppendChangeLog(docsPath, userName, skillName, filePath, content, wasCreated)
+
         context.Response.Write("{""success"":true}")
+    End Sub
+
+    Private Sub AppendChangeLog(docsPath As String, userName As String, skillName As String, filePath As String, content As String, wasCreated As Boolean)
+        Dim logPath As String = Path.Combine(docsPath, LOG_FILENAME)
+        Dim entry As New Dictionary(Of String, Object)
+        entry("ts") = DateTime.UtcNow.ToString("o")
+        entry("user") = userName
+        entry("skill") = skillName
+        entry("file") = filePath
+        entry("bytes") = System.Text.Encoding.UTF8.GetByteCount(content)
+        entry("created") = wasCreated
+        entry("content") = content
+
+        Dim serializer As New JavaScriptSerializer()
+        serializer.MaxJsonLength = Integer.MaxValue
+        Dim line As String = serializer.Serialize(entry) & vbLf
+        File.AppendAllText(logPath, line, System.Text.Encoding.UTF8)
+    End Sub
+
+    Private Sub HandleChangesDownload(context As HttpContext, docsPath As String)
+        Dim logPath As String = Path.Combine(docsPath, LOG_FILENAME)
+        context.Response.ContentType = "application/x-ndjson"
+        context.Response.AddHeader("Content-Disposition", "attachment; filename=""" & LOG_FILENAME & """")
+        If File.Exists(logPath) Then
+            context.Response.WriteFile(logPath)
+        End If
+    End Sub
+
+    Private Sub HandleChangesArchive(context As HttpContext, docsPath As String)
+        Dim logPath As String = Path.Combine(docsPath, LOG_FILENAME)
+        If Not File.Exists(logPath) Then
+            context.Response.Write("{""success"":true,""archived"":null}")
+            Return
+        End If
+        Dim stamp As String = DateTime.UtcNow.ToString("yyyy-MM-ddTHH-mm-ss-fffZ")
+        Dim archived As String = Path.Combine(docsPath, ".flow-docs-changes." & stamp & ".jsonl")
+        File.Move(logPath, archived)
+        context.Response.Write("{""success"":true,""archived"":""" & Path.GetFileName(archived) & """}")
     End Sub
 
     Private Sub ReadFilesRecursive(baseDir As String, currentDir As String, files As Dictionary(Of String, String))

@@ -428,17 +428,48 @@ import CSS_TEXT from './style.css'
       }
     }
 
+    _getUserName() {
+      let name = null
+      try { name = localStorage.getItem('flow-docs-user') } catch (_) {}
+      if (name && name.trim()) return name.trim()
+      const entered = (typeof prompt === 'function')
+        ? prompt('Tu nombre (se guardará en el log de cambios):', '')
+        : ''
+      const clean = (entered || '').trim() || 'anonymous'
+      try { localStorage.setItem('flow-docs-user', clean) } catch (_) {}
+      return clean
+    }
+
     async _saveViaApi(skillName, filePath, content) {
       const base = this.apiUrl.replace(/\/+$/, '')
-      const res = await fetch(`${base}/save`, {
+      const user = this._getUserName()
+      const isAshx = /\.ashx(\?|$)/i.test(base)
+      const url = isAshx ? `${base}?action=save` : `${base}/save`
+      const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ skill: skillName, file: filePath, content })
+        body: JSON.stringify({ skill: skillName, file: filePath, content, user })
       })
       if (!res.ok) {
         const err = await res.json().catch(() => ({ error: 'Server error' }))
         throw new Error(err.error || 'Save failed')
       }
+    }
+
+    _downloadChanges() {
+      if (!this.apiUrl) {
+        this._showToast('Solo disponible en modo API')
+        return
+      }
+      const base = this.apiUrl.replace(/\/+$/, '')
+      const isAshx = /\.ashx(\?|$)/i.test(base)
+      const url = isAshx ? `${base}?action=changes` : `${base}/changes`
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'flow-docs-changes.jsonl'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
     }
 
     // ─── DOM structure ─────────────────────────────────────────────────────
@@ -457,6 +488,9 @@ import CSS_TEXT from './style.css'
                 <span>Flow-Docs</span>
               </div>
               <button class="fd-btn-download" title="Descargar todo como .zip">
+                ${ICONS.download}
+              </button>
+              <button class="fd-btn-changes fd-hidden" title="Descargar log de cambios (.jsonl)">
                 ${ICONS.download}
               </button>
             </div>
@@ -534,6 +568,7 @@ import CSS_TEXT from './style.css'
         editorTextarea: root.querySelector('.fd-editor-textarea'),
         btnSave: root.querySelector('.fd-btn-save'),
         btnDownload: root.querySelector('.fd-btn-download'),
+        btnChanges: root.querySelector('.fd-btn-changes'),
         toc: root.querySelector('.fd-toc'),
         tocList: root.querySelector('.fd-toc-list'),
         tocResizer: root.querySelector('.fd-toc-resizer'),
@@ -621,6 +656,14 @@ import CSS_TEXT from './style.css'
         e.stopPropagation()
         this._downloadZip()
       })
+
+      if (this.apiUrl) {
+        this.$.btnChanges.classList.remove('fd-hidden')
+        this.$.btnChanges.addEventListener('click', (e) => {
+          e.stopPropagation()
+          this._downloadChanges()
+        })
+      }
 
       this.$.editorTextarea.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'Enter')) {
