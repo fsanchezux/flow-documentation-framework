@@ -2398,8 +2398,7 @@ ${files[normalizedRef]}
           // ─── API mode (dynamic server) ────────────────────────────────────────
           async _loadFromApi() {
             try {
-              const base = this.apiUrl.replace(/\/+$/, "");
-              const res = await fetch(base);
+              const res = await fetch(this._apiBase(), { credentials: "include" });
               const data = await res.json();
               this.loadData(data);
             } catch (e) {
@@ -2423,12 +2422,10 @@ ${files[normalizedRef]}
             return clean;
           }
           async _saveViaApi(skillName, filePath, content) {
-            const base = this.apiUrl.replace(/\/+$/, "");
             const user = this._getUserName();
-            const isAshx = /\.ashx(\?|$)/i.test(base);
-            const url = isAshx ? `${base}?action=save` : `${base}/save`;
-            const res = await fetch(url, {
+            const res = await fetch(this._apiUrl("save"), {
               method: "POST",
+              credentials: "include",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ skill: skillName, file: filePath, content, user })
             });
@@ -2437,20 +2434,141 @@ ${files[normalizedRef]}
               throw new Error(err.error || "Save failed");
             }
           }
-          _downloadChanges() {
-            if (!this.apiUrl) {
-              this._showToast("Solo disponible en modo API");
+          _apiBase() {
+            return this.apiUrl.replace(/\/+$/, "");
+          }
+          _isAshx() {
+            return /\.ashx(\?|$)/i.test(this._apiBase());
+          }
+          _apiUrl(action) {
+            const b = this._apiBase();
+            return this._isAshx() ? `${b}?action=${action}` : `${b}/${action}`;
+          }
+          async _fetchJson(action, options2 = {}) {
+            const res = await fetch(this._apiUrl(action), {
+              credentials: "include",
+              ...options2
+            });
+            const data = await res.json().catch(() => ({ error: "Invalid response" }));
+            if (!res.ok)
+              throw new Error(data.error || `HTTP ${res.status}`);
+            return data;
+          }
+          async _initGitHubButtons() {
+            let status;
+            try {
+              status = await this._fetchJson("oauth-status");
+            } catch (_) {
               return;
             }
-            const base = this.apiUrl.replace(/\/+$/, "");
-            const isAshx = /\.ashx(\?|$)/i.test(base);
-            const url = isAshx ? `${base}?action=changes` : `${base}/changes`;
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "flow-docs-changes.jsonl";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            if (!status.githubEnabled)
+              return;
+            this.$.btnPush.classList.remove("fd-hidden");
+            this.$.btnPull.classList.remove("fd-hidden");
+            this.$.btnPush.addEventListener("click", (e) => {
+              e.stopPropagation();
+              this._handlePush();
+            });
+            this.$.btnPull.addEventListener("click", (e) => {
+              e.stopPropagation();
+              this._handlePull();
+            });
+          }
+          async _ensureAuth() {
+            const status = await this._fetchJson("oauth-status");
+            if (status.authenticated)
+              return status;
+            const popup = window.open(this._apiUrl("oauth-start"), "fd-oauth", "width=600,height=700");
+            if (!popup)
+              throw new Error("Permite las ventanas emergentes para autenticarte con GitHub");
+            await new Promise((resolve, reject) => {
+              const handler = (e) => {
+                if (!e.data || e.data.type !== "flow-docs-oauth")
+                  return;
+                window.removeEventListener("message", handler);
+                if (e.data.ok)
+                  resolve();
+                else
+                  reject(new Error(e.data.error || "Auth cancelada"));
+              };
+              window.addEventListener("message", handler);
+              const poll = setInterval(() => {
+                if (popup.closed) {
+                  clearInterval(poll);
+                  window.removeEventListener("message", handler);
+                  reject(new Error("Ventana cerrada"));
+                }
+              }, 500);
+            });
+            return await this._fetchJson("oauth-status");
+          }
+          async _handlePush() {
+            try {
+              this.$.btnPush.disabled = true;
+              const status = await this._ensureAuth();
+              if (!status.canWrite)
+                throw new Error(`${status.user} no tiene permiso de escritura en el repo`);
+              if (!status.pending) {
+                this._showToast("Nada que enviar");
+                return;
+              }
+              const msg = prompt(`Enviar ${status.pending} archivo${status.pending === 1 ? "" : "s"} a GitHub como ${status.user}.
+
+Mensaje de commit (opcional):`, "");
+              if (msg === null)
+                return;
+              const body = msg.trim() ? JSON.stringify({ message: msg.trim() }) : "{}";
+              const result = await this._fetchJson("push", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body
+              });
+              if (result.upToDate) {
+                this._showToast("Ya est\xE1 al d\xEDa");
+                return;
+              }
+              this._showToast(`\u2713 Push: ${result.files.length} archivo${result.files.length === 1 ? "" : "s"}`);
+            } catch (e) {
+              this._showToast("Error: " + e.message);
+            } finally {
+              this.$.btnPush.disabled = false;
+            }
+          }
+          async _handlePull(force = false) {
+            try {
+              this.$.btnPull.disabled = true;
+              await this._ensureAuth();
+              const result = await this._fetchJson("pull", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ force })
+              });
+              if (result.upToDate) {
+                this._showToast("Ya est\xE1 al d\xEDa");
+                return;
+              }
+              if (result.conflicts && result.conflicts.length) {
+                const list = result.conflicts.slice(0, 5).join("\n");
+                const more = result.conflicts.length > 5 ? `
+\u2026y ${result.conflicts.length - 5} m\xE1s` : "";
+                const ok = confirm(`Conflicto en ${result.conflicts.length} archivo${result.conflicts.length === 1 ? "" : "s"} (tienes ediciones locales sin enviar):
+
+${list}${more}
+
+\xBFSobrescribir con la versi\xF3n de GitHub? (Tus ediciones locales se perder\xE1n)`);
+                if (ok)
+                  return this._handlePull(true);
+                this._showToast(`${result.updated.length} actualizados, ${result.conflicts.length} en conflicto`);
+              } else {
+                this._showToast(`\u2713 Pull: ${result.updated.length} archivo${result.updated.length === 1 ? "" : "s"}`);
+              }
+              if (this.apiUrl)
+                this._loadFromApi();
+            } catch (e) {
+              this._showToast("Error: " + e.message);
+            } finally {
+              this.$.btnPull.disabled = false;
+            }
           }
           // ─── DOM structure ─────────────────────────────────────────────────────
           _buildDOM() {
@@ -2469,9 +2587,8 @@ ${files[normalizedRef]}
               <button class="fd-btn-download" title="Descargar todo como .zip">
                 ${ICONS.download}
               </button>
-              <button class="fd-btn-changes fd-hidden" title="Descargar log de cambios (.jsonl)">
-                ${ICONS.download}
-              </button>
+              <button class="fd-btn-pull fd-hidden" title="Traer cambios desde GitHub">\u2B07</button>
+              <button class="fd-btn-push fd-hidden" title="Enviar cambios a GitHub">\u2B06</button>
             </div>
             <div class="fd-search-box">
               ${ICONS.search}
@@ -2544,7 +2661,8 @@ ${files[normalizedRef]}
               editorTextarea: root.querySelector(".fd-editor-textarea"),
               btnSave: root.querySelector(".fd-btn-save"),
               btnDownload: root.querySelector(".fd-btn-download"),
-              btnChanges: root.querySelector(".fd-btn-changes"),
+              btnPush: root.querySelector(".fd-btn-push"),
+              btnPull: root.querySelector(".fd-btn-pull"),
               toc: root.querySelector(".fd-toc"),
               tocList: root.querySelector(".fd-toc-list"),
               tocResizer: root.querySelector(".fd-toc-resizer"),
@@ -2621,11 +2739,7 @@ ${files[normalizedRef]}
               this._downloadZip();
             });
             if (this.apiUrl) {
-              this.$.btnChanges.classList.remove("fd-hidden");
-              this.$.btnChanges.addEventListener("click", (e) => {
-                e.stopPropagation();
-                this._downloadChanges();
-              });
+              this._initGitHubButtons();
             }
             this.$.editorTextarea.addEventListener("keydown", (e) => {
               if ((e.ctrlKey || e.metaKey) && (e.key === "s" || e.key === "Enter")) {
