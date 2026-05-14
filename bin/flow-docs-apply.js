@@ -3,7 +3,14 @@
  * Apply a flow-docs JSONL change log to a local docs folder.
  *
  * Usage:
- *   node bin/flow-docs-apply.js <changes.jsonl> <local-docs-folder> [--dry]
+ *   node bin/flow-docs-apply.js <changes.jsonl> <local-docs-folder> [--dry] [--flatten] [--skill <name>]
+ *
+ * Flags:
+ *   --dry            Preview without writing files.
+ *   --flatten        Target dir IS the skill folder (single-skill repo).
+ *                    Skips the skill-name subdirectory prefix.
+ *   --skill <name>   Only apply entries for this skill (implies --flatten if
+ *                    you want the target dir to be that skill's root).
  *
  * Each JSONL line: {ts, user, skill, file, bytes, created, content}
  * The latest entry per (skill, file) wins. After running, review with
@@ -17,11 +24,20 @@ function die(msg) { console.error('error:', msg); process.exit(1) }
 
 const args = process.argv.slice(2)
 const dry = args.includes('--dry')
-const positional = args.filter(a => !a.startsWith('--'))
+const flatten = args.includes('--flatten')
+const skillIdx = args.indexOf('--skill')
+const onlySkill = skillIdx >= 0 ? args[skillIdx + 1] : null
+if (skillIdx >= 0 && !onlySkill) die('--skill requires a name')
+
+const positional = args.filter((a, i) => {
+  if (a.startsWith('--')) return false
+  if (i > 0 && args[i - 1] === '--skill') return false
+  return true
+})
 const [logFile, targetDir] = positional
 
 if (!logFile || !targetDir) {
-  console.error('Usage: flow-docs-apply <changes.jsonl> <local-docs-folder> [--dry]')
+  console.error('Usage: flow-docs-apply <changes.jsonl> <local-docs-folder> [--dry] [--flatten] [--skill <name>]')
   process.exit(1)
 }
 
@@ -38,6 +54,7 @@ for (const line of lines) {
   let entry
   try { entry = JSON.parse(line) } catch (e) { stats.skipped++; continue }
   if (!entry.skill || !entry.file || typeof entry.content !== 'string') { stats.skipped++; continue }
+  if (onlySkill && entry.skill !== onlySkill) { stats.skipped++; continue }
   const key = `${entry.skill}/${entry.file}`
   latest.set(key, entry)
   stats.total++
@@ -49,7 +66,7 @@ const applied = []
 const created = []
 
 for (const [key, entry] of latest) {
-  const relParts = key.split('/')
+  const relParts = flatten ? key.split('/').slice(1) : key.split('/')
   const filePath = path.resolve(targetResolved, ...relParts)
   if (!filePath.startsWith(targetResolved + path.sep) && filePath !== targetResolved) {
     console.warn(`skip (path traversal): ${key}`)
