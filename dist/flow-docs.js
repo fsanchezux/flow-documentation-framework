@@ -26,7 +26,7 @@ var FlowDocsModule = (() => {
     return method;
   };
 
-  // ../../../node_modules/marked/lib/marked.esm.js
+  // node_modules/marked/lib/marked.esm.js
   function _getDefaults() {
     return {
       async: false,
@@ -208,7 +208,7 @@ var FlowDocsModule = (() => {
   }
   var _defaults, escapeTest, escapeReplace, escapeTestNoEncode, escapeReplaceNoEncode, escapeReplacements, getEscapeReplacement, unescapeTest, caret, noopTest, _Tokenizer, block, inline, _Lexer, _Renderer, _TextRenderer, _Parser, _Hooks, _parseMarkdown, parseMarkdown_fn, _onError, onError_fn, Marked, markedInstance, options, setOptions, use, walkTokens, parseInline, parser, lexer;
   var init_marked_esm = __esm({
-    "../../../node_modules/marked/lib/marked.esm.js"() {
+    "node_modules/marked/lib/marked.esm.js"() {
       _defaults = _getDefaults();
       escapeTest = /[&<>"']/;
       escapeReplace = new RegExp(escapeTest.source, "g");
@@ -2026,11 +2026,11 @@ ${content}</tr>
     }
   });
 
-  // css-text:C:\Users\ferry\flow-documentation-framework\.claude\worktrees\distracted-payne-c64940\src\style.css
+  // css-text:C:\Users\ferry\flow-documentation-framework\src\style.css
   var style_default;
   var init_style = __esm({
-    "css-text:C:\\Users\\ferry\\flow-documentation-framework\\.claude\\worktrees\\distracted-payne-c64940\\src\\style.css"() {
-      style_default = "/* \u2500\u2500 Variables \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root {\r\n  --fd-bg:        #0f1117;\r\n  --fd-bg2:       #161b22;\r\n  --fd-bg3:       #1c2128;\r\n  --fd-border:    #30363d;\r\n  --fd-text:      #e6edf3;\r\n  --fd-text2:     #8b949e;\r\n  --fd-text3:     #6e7681;\r\n  --fd-accent:    #58a6ff;\r\n  --fd-accent-bg: #1f3d5c;\r\n  --fd-green:     #3fb950;\r\n  --fd-yellow:    #d29922;\r\n  --fd-red:       #f85149;\r\n  --fd-radius:    8px;\r\n  --fd-sidebar-w: 260px;\r\n  --fd-toc-w:     220px;\r\n  --fd-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;\r\n}\r\n\r\n/* \u2500\u2500 Reset (scoped) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root *, .flow-docs-root *::before, .flow-docs-root *::after {\r\n  box-sizing: border-box;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\n.flow-docs-root {\r\n  display: flex;\r\n  width: 100%;\r\n  height: 100%;\r\n  overflow: hidden;\r\n  background: var(--fd-bg);\r\n  color: var(--fd-text);\r\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;\r\n  font-size: 14px;\r\n  line-height: 1.6;\r\n  position: relative;\r\n}\r\n\r\n/* \u2500\u2500 Sidebar \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-sidebar {\r\n  width: var(--fd-sidebar-w);\r\n  flex-shrink: 0;\r\n  background: var(--fd-bg2);\r\n  border-right: 1px solid var(--fd-border);\r\n  display: flex;\r\n  flex-direction: column;\r\n  overflow: hidden;\r\n}\r\n\r\n.flow-docs-root .fd-sidebar-header {\r\n  padding: 16px 12px 12px;\r\n  border-bottom: 1px solid var(--fd-border);\r\n}\r\n\r\n.flow-docs-root .fd-logo {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 8px;\r\n  font-weight: 600;\r\n  font-size: 15px;\r\n  color: var(--fd-text);\r\n  margin-bottom: 12px;\r\n  cursor: pointer;\r\n}\r\n.flow-docs-root .fd-logo svg { color: var(--fd-accent); }\r\n\r\n.flow-docs-root .fd-logo-row {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n  margin-bottom: 12px;\r\n}\r\n.flow-docs-root .fd-logo-row .fd-logo { margin-bottom: 0; }\r\n\r\n.flow-docs-root .fd-btn-download {\r\n  display: inline-flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  width: 28px;\r\n  height: 28px;\r\n  padding: 0;\r\n  border: 1px solid var(--fd-border);\r\n  border-radius: 6px;\r\n  background: var(--fd-bg3);\r\n  color: var(--fd-text2);\r\n  cursor: pointer;\r\n  transition: all 0.15s;\r\n}\r\n.flow-docs-root .fd-btn-download:hover {\r\n  color: var(--fd-accent);\r\n  border-color: var(--fd-accent);\r\n  background: var(--fd-accent-bg);\r\n}\r\n\r\n/* \u2500\u2500 Search box \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-search-box {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 6px;\r\n  background: var(--fd-bg3);\r\n  border: 1px solid var(--fd-border);\r\n  border-radius: var(--fd-radius);\r\n  padding: 6px 10px;\r\n  transition: border-color .15s;\r\n  position: relative;\r\n}\r\n.flow-docs-root .fd-search-box:focus-within { border-color: var(--fd-accent); }\r\n.flow-docs-root .fd-search-box svg { color: var(--fd-text3); flex-shrink: 0; }\r\n.flow-docs-root .fd-search-box input {\r\n  flex: 1;\r\n  background: none;\r\n  border: none;\r\n  outline: none;\r\n  color: var(--fd-text);\r\n  font-size: 13px;\r\n  min-width: 0;\r\n}\r\n.flow-docs-root .fd-search-box input::placeholder { color: var(--fd-text3); }\r\n.flow-docs-root .fd-search-box kbd {\r\n  font-size: 10px;\r\n  color: var(--fd-text3);\r\n  background: var(--fd-bg2);\r\n  border: 1px solid var(--fd-border);\r\n  border-radius: 4px;\r\n  padding: 1px 4px;\r\n  flex-shrink: 0;\r\n}\r\n\r\n.flow-docs-root .fd-skill-list {\r\n  flex: 1;\r\n  overflow-y: auto;\r\n  padding: 8px 0;\r\n}\r\n.flow-docs-root .fd-skill-list::-webkit-scrollbar { width: 4px; }\r\n.flow-docs-root .fd-skill-list::-webkit-scrollbar-track { background: transparent; }\r\n.flow-docs-root .fd-skill-list::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 2px; }\r\n\r\n.flow-docs-root .fd-skill-item {\r\n  padding: 8px 14px;\r\n  cursor: pointer;\r\n  border-radius: 6px;\r\n  margin: 1px 6px;\r\n  transition: background .1s;\r\n}\r\n.flow-docs-root .fd-skill-item:hover { background: var(--fd-bg3); }\r\n.flow-docs-root .fd-skill-item.active { background: var(--fd-accent-bg); }\r\n.flow-docs-root .fd-skill-item.active .fd-skill-name { color: var(--fd-accent); }\r\n\r\n.flow-docs-root .fd-skill-name {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 6px;\r\n  font-size: 13px;\r\n  font-weight: 500;\r\n  color: var(--fd-text);\r\n}\r\n.flow-docs-root .fd-skill-name svg { color: var(--fd-text3); flex-shrink: 0; }\r\n\r\n.flow-docs-root .fd-skill-desc {\r\n  font-size: 11px;\r\n  color: var(--fd-text3);\r\n  margin-top: 2px;\r\n  padding-left: 20px;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\r\n}\r\n\r\n.flow-docs-root .fd-empty-state {\r\n  padding: 20px 14px;\r\n  color: var(--fd-text2);\r\n  font-size: 13px;\r\n  line-height: 1.7;\r\n}\r\n\r\n/* \u2500\u2500 Main \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-main {\r\n  flex: 1;\r\n  display: flex;\r\n  overflow: hidden;\r\n  position: relative;\r\n}\r\n\r\n.flow-docs-root .fd-content-area {\r\n  flex: 1;\r\n  overflow-y: auto;\r\n  padding: 10px 48px 40px;\r\n  min-width: 0;\r\n}\r\n.flow-docs-root .fd-content-area::-webkit-scrollbar { width: 6px; }\r\n.flow-docs-root .fd-content-area::-webkit-scrollbar-track { background: transparent; }\r\n.flow-docs-root .fd-content-area::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 3px; }\r\n\r\n.flow-docs-root .fd-hidden { display: none !important; }\r\n\r\n/* \u2500\u2500 Welcome \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-welcome {\r\n  height: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n}\r\n.flow-docs-root .fd-welcome:has(.fd-home-content) {\r\n  align-items: flex-start;\r\n  justify-content: flex-start;\r\n}\r\n.flow-docs-root .fd-welcome-inner {\r\n  text-align: center;\r\n  color: var(--fd-text2);\r\n}\r\n.flow-docs-root .fd-welcome-inner svg { color: var(--fd-text3); margin-bottom: 16px; }\r\n.flow-docs-root .fd-welcome-inner h1 { font-size: 24px; color: var(--fd-text); margin-bottom: 8px; }\r\n.flow-docs-root .fd-welcome-inner p { font-size: 14px; margin-bottom: 6px; }\r\n.flow-docs-root .fd-welcome-inner .fd-hint { font-size: 12px; color: var(--fd-text3); }\r\n.flow-docs-root .fd-welcome-inner kbd {\r\n  background: var(--fd-bg3);\r\n  border: 1px solid var(--fd-border);\r\n  border-radius: 4px;\r\n  padding: 1px 5px;\r\n  font-size: 11px;\r\n}\r\n\r\n/* \u2500\u2500 Home page content \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-home-content {\r\n  max-width: 720px;\r\n  padding: 48px 32px;\r\n}\r\n.flow-docs-root .fd-home-content h1 { font-size: 26px; font-weight: 700; margin: 0 0 8px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 12px; }\r\n.flow-docs-root .fd-home-content h2 { font-size: 20px; font-weight: 600; margin: 28px 0 12px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 8px; }\r\n.flow-docs-root .fd-home-content h3 { font-size: 16px; font-weight: 600; margin: 20px 0 8px; color: var(--fd-text); }\r\n.flow-docs-root .fd-home-content p { margin: 0 0 14px; color: var(--fd-text); }\r\n.flow-docs-root .fd-home-content ul, .flow-docs-root .fd-home-content ol { margin: 0 0 14px 20px; color: var(--fd-text); }\r\n.flow-docs-root .fd-home-content li { margin-bottom: 4px; }\r\n.flow-docs-root .fd-home-content a { color: var(--fd-accent); text-decoration: none; }\r\n.flow-docs-root .fd-home-content a:hover { text-decoration: underline; }\r\n.flow-docs-root .fd-home-content strong { font-weight: 600; color: var(--fd-text); }\r\n.flow-docs-root .fd-home-content code:not(pre code) {\r\n  background: var(--fd-bg3);\r\n  border: 1px solid var(--fd-border);\r\n  border-radius: 4px;\r\n  padding: 1px 6px;\r\n  font-family: var(--fd-font-mono);\r\n  font-size: 12px;\r\n  color: #e2a97e;\r\n}\r\n\r\n/* \u2500\u2500 Markdown content \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-skill-content h1 { font-size: 26px; font-weight: 700; margin: 0 0 8px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 12px; }\r\n.flow-docs-root .fd-skill-content h2 { font-size: 20px; font-weight: 600; margin: 36px 0 12px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 8px; }\r\n.flow-docs-root .fd-skill-content h3 { font-size: 16px; font-weight: 600; margin: 24px 0 8px; color: var(--fd-text); }\r\n.flow-docs-root .fd-skill-content h4 { font-size: 14px; font-weight: 600; margin: 16px 0 6px; color: var(--fd-text2); }\r\n.flow-docs-root .fd-skill-content p { margin: 0 0 14px; color: var(--fd-text); }\r\n.flow-docs-root .fd-skill-content ul, .flow-docs-root .fd-skill-content ol { margin: 0 0 14px 20px; color: var(--fd-text); }\r\n.flow-docs-root .fd-skill-content li { margin-bottom: 4px; }\r\n.flow-docs-root .fd-skill-content a { color: var(--fd-accent); text-decoration: none; }\r\n.flow-docs-root .fd-skill-content a:hover { text-decoration: underline; }\r\n.flow-docs-root .fd-skill-content strong { font-weight: 600; color: var(--fd-text); }\r\n.flow-docs-root .fd-skill-content em { font-style: italic; color: var(--fd-text2); }\r\n.flow-docs-root .fd-skill-content hr { border: none; border-top: 1px solid var(--fd-border); margin: 28px 0; }\r\n\r\n.flow-docs-root .fd-skill-content blockquote {\r\n  border-left: 3px solid var(--fd-accent);\r\n  margin: 0 0 14px;\r\n  padding: 8px 16px;\r\n  background: var(--fd-bg2);\r\n  border-radius: 0 var(--fd-radius) var(--fd-radius) 0;\r\n  color: var(--fd-text2);\r\n}\r\n\r\n.flow-docs-root .fd-skill-content table {\r\n  width: 100%;\r\n  border-collapse: collapse;\r\n  margin-bottom: 16px;\r\n  font-size: 13px;\r\n}\r\n.flow-docs-root .fd-skill-content th {\r\n  background: var(--fd-bg2);\r\n  padding: 8px 12px;\r\n  text-align: left;\r\n  border: 1px solid var(--fd-border);\r\n  font-weight: 600;\r\n}\r\n.flow-docs-root .fd-skill-content td {\r\n  padding: 7px 12px;\r\n  border: 1px solid var(--fd-border);\r\n}\r\n.flow-docs-root .fd-skill-content tr:nth-child(even) td { background: var(--fd-bg2); }\r\n\r\n.flow-docs-root .fd-skill-content code:not(pre code) {\r\n  background: var(--fd-bg3);\r\n  border: 1px solid var(--fd-border);\r\n  border-radius: 4px;\r\n  padding: 1px 6px;\r\n  font-family: var(--fd-font-mono);\r\n  font-size: 12px;\r\n  color: #e2a97e;\r\n}\r\n\r\n/* \u2500\u2500 Code blocks \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-code-block {\r\n  margin: 12px 0 20px;\r\n  border: 1px solid var(--fd-border);\r\n  border-radius: var(--fd-radius);\r\n  overflow: hidden;\r\n}\r\n\r\n.flow-docs-root .fd-code-header {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n  padding: 6px 14px;\r\n  background: var(--fd-bg3);\r\n  border-bottom: 1px solid var(--fd-border);\r\n}\r\n\r\n.flow-docs-root .fd-code-lang {\r\n  font-size: 11px;\r\n  font-family: var(--fd-font-mono);\r\n  color: var(--fd-text3);\r\n  text-transform: uppercase;\r\n  letter-spacing: .5px;\r\n}\r\n\r\n.flow-docs-root .fd-btn-copy {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 5px;\r\n  font-size: 12px;\r\n  color: var(--fd-text2);\r\n  background: none;\r\n  border: 1px solid transparent;\r\n  border-radius: 5px;\r\n  padding: 3px 8px;\r\n  cursor: pointer;\r\n  transition: all .15s;\r\n}\r\n.flow-docs-root .fd-btn-copy:hover {\r\n  color: var(--fd-text);\r\n  background: var(--fd-bg2);\r\n  border-color: var(--fd-border);\r\n}\r\n\r\n.flow-docs-root .fd-code-block pre {\r\n  margin: 0;\r\n  overflow-x: auto;\r\n  padding: 16px;\r\n  background: #0d1117;\r\n  font-size: 13px;\r\n  line-height: 1.6;\r\n}\r\n.flow-docs-root .fd-code-block pre::-webkit-scrollbar { height: 4px; }\r\n.flow-docs-root .fd-code-block pre::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 2px; }\r\n\r\n/* \u2500\u2500 TOC \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-toc {\r\n  width: var(--fd-toc-w);\r\n  flex-shrink: 0;\r\n  padding: 40px 16px 40px 10px;\r\n  overflow-y: auto;\r\n  display: none;\r\n  position: relative;\r\n}\r\n.flow-docs-root .fd-toc.visible { display: block; }\r\n\r\n.flow-docs-root .fd-toc-resizer {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  bottom: 0;\r\n  width: 4px;\r\n  cursor: col-resize;\r\n  background: transparent;\r\n  transition: background .15s;\r\n  z-index: 5;\r\n}\r\n.flow-docs-root .fd-toc-resizer:hover { background: var(--fd-border); }\r\n.flow-docs-root .fd-toc-resizer.dragging { background: var(--fd-accent); }\r\n\r\n.flow-docs-root .fd-toc-title {\r\n  font-size: 11px;\r\n  font-weight: 600;\r\n  text-transform: uppercase;\r\n  letter-spacing: .8px;\r\n  color: var(--fd-text3);\r\n  margin-bottom: 10px;\r\n}\r\n\r\n.flow-docs-root .fd-toc-list {\r\n  list-style: none;\r\n  border-left: 1px solid var(--fd-border);\r\n  padding-left: 12px;\r\n}\r\n.flow-docs-root .fd-toc-list li a {\r\n  display: block;\r\n  font-size: 12px;\r\n  color: var(--fd-text2);\r\n  text-decoration: none;\r\n  padding: 3px 0;\r\n  transition: color .1s;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\r\n}\r\n.flow-docs-root .fd-toc-list li a:hover { color: var(--fd-accent); }\r\n.flow-docs-root .fd-toc-level-1 { font-weight: 600; }\r\n.flow-docs-root .fd-toc-level-2 { padding-left: 0; }\r\n.flow-docs-root .fd-toc-level-3 { padding-left: 12px; }\r\n\r\n/* \u2500\u2500 Search results \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-search-header {\r\n  font-size: 13px;\r\n  color: var(--fd-text2);\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.flow-docs-root .fd-search-result {\r\n  background: var(--fd-bg2);\r\n  border: 1px solid var(--fd-border);\r\n  border-radius: var(--fd-radius);\r\n  padding: 14px 16px;\r\n  margin-bottom: 10px;\r\n  cursor: pointer;\r\n  transition: border-color .15s;\r\n}\r\n.flow-docs-root .fd-search-result:hover { border-color: var(--fd-accent); }\r\n\r\n.flow-docs-root .fd-search-result-meta {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 8px;\r\n  margin-bottom: 6px;\r\n}\r\n\r\n.flow-docs-root .fd-tag {\r\n  font-size: 11px;\r\n  background: var(--fd-accent-bg);\r\n  color: var(--fd-accent);\r\n  padding: 2px 7px;\r\n  border-radius: 12px;\r\n  font-weight: 500;\r\n}\r\n\r\n.flow-docs-root .fd-file-path {\r\n  font-size: 11px;\r\n  color: var(--fd-text3);\r\n  font-family: var(--fd-font-mono);\r\n}\r\n\r\n.flow-docs-root .fd-search-result-match {\r\n  font-size: 13px;\r\n  color: var(--fd-text);\r\n  margin-bottom: 4px;\r\n  font-family: var(--fd-font-mono);\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\r\n}\r\n\r\n.flow-docs-root .fd-search-result-context {\r\n  font-size: 12px;\r\n  color: var(--fd-text2);\r\n  font-family: var(--fd-font-mono);\r\n  white-space: pre-wrap;\r\n  max-height: 60px;\r\n  overflow: hidden;\r\n}\r\n\r\n.flow-docs-root .fd-search-result-match mark,\r\n.flow-docs-root .fd-search-result-context mark {\r\n  background: #4a3500;\r\n  color: #e3b341;\r\n  border-radius: 2px;\r\n  padding: 0 2px;\r\n}\r\n\r\n.flow-docs-root .fd-search-empty {\r\n  color: var(--fd-text2);\r\n  padding: 20px 0;\r\n  font-size: 14px;\r\n}\r\n\r\n/* \u2500\u2500 Toast \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-toast {\r\n  position: absolute;\r\n  bottom: 24px;\r\n  right: 24px;\r\n  background: var(--fd-bg3);\r\n  border: 1px solid var(--fd-border);\r\n  border-radius: var(--fd-radius);\r\n  padding: 8px 14px;\r\n  font-size: 13px;\r\n  color: var(--fd-green);\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 6px;\r\n  opacity: 0;\r\n  transform: translateY(8px);\r\n  transition: opacity .2s, transform .2s;\r\n  pointer-events: none;\r\n  z-index: 100;\r\n}\r\n.flow-docs-root .fd-toast.show { opacity: 1; transform: translateY(0); }\r\n\r\n/* \u2500\u2500 File tree \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-skill-tree {\r\n  margin: 0 0 6px;\r\n}\r\n\r\n.flow-docs-root .fd-tree-dir-header {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 5px;\r\n  padding: 4px 14px;\r\n  font-size: 12px;\r\n  color: var(--fd-text2);\r\n  cursor: pointer;\r\n  user-select: none;\r\n  transition: color .1s;\r\n}\r\n.flow-docs-root .fd-tree-dir-header:hover { color: var(--fd-text); }\r\n.flow-docs-root .fd-tree-dir-header > svg { flex-shrink: 0; }\r\n.flow-docs-root .fd-tree-dir-header span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }\r\n.flow-docs-root .fd-tree-chevron { transition: transform .15s; color: var(--fd-text3); flex-shrink: 0; }\r\n\r\n.flow-docs-root .fd-tree-count {\r\n  font-size: 10px;\r\n  color: var(--fd-text3);\r\n  background: var(--fd-bg3);\r\n  border-radius: 8px;\r\n  padding: 0 5px;\r\n  flex-shrink: 0;\r\n}\r\n\r\n.flow-docs-root .fd-tree-dir-children {\r\n  padding-left: 20px;\r\n}\r\n\r\n.flow-docs-root .fd-tree-file {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 5px;\r\n  padding: 3px 14px;\r\n  font-size: 12px;\r\n  color: var(--fd-text2);\r\n  cursor: pointer;\r\n  border-radius: 4px;\r\n  margin: 0 6px;\r\n  transition: background .1s, color .1s;\r\n}\r\n.flow-docs-root .fd-tree-file span {\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\r\n  min-width: 0;\r\n}\r\n.flow-docs-root .fd-tree-file:hover { background: var(--fd-bg3); color: var(--fd-text); }\r\n.flow-docs-root .fd-tree-file.active { background: var(--fd-accent-bg); color: var(--fd-accent); }\r\n.flow-docs-root .fd-tree-file svg { color: var(--fd-text3); flex-shrink: 0; }\r\n.flow-docs-root .fd-tree-file.active svg { color: var(--fd-accent); }\r\n\r\n/* \u2500\u2500 File breadcrumb \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-file-header {\r\n  margin-bottom: 20px;\r\n  padding-bottom: 12px;\r\n  border-bottom: 1px solid var(--fd-border);\r\n}\r\n.flow-docs-root .fd-file-breadcrumb {\r\n  font-size: 12px;\r\n  color: var(--fd-text3);\r\n  font-family: var(--fd-font-mono);\r\n}\r\n\r\n/* \u2500\u2500 Error \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-error {\r\n  background: #2d1215;\r\n  border: 1px solid #f85149;\r\n  border-radius: var(--fd-radius);\r\n  padding: 14px 16px;\r\n  color: var(--fd-red);\r\n  font-size: 13px;\r\n}\r\n\r\n/* \u2500\u2500 Search flags \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-flag-suggestions {\r\n  position: absolute;\r\n  top: calc(100% + 6px);\r\n  left: 0;\r\n  right: 0;\r\n  background: var(--fd-bg3);\r\n  border: 1px solid var(--fd-border);\r\n  border-radius: var(--fd-radius);\r\n  overflow: hidden;\r\n  z-index: 50;\r\n  box-shadow: 0 4px 12px rgba(0,0,0,.4);\r\n}\r\n\r\n.flow-docs-root .fd-flag-suggestion {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 10px;\r\n  padding: 7px 12px;\r\n  cursor: pointer;\r\n  transition: background .1s;\r\n}\r\n.flow-docs-root .fd-flag-suggestion:hover { background: var(--fd-bg2); }\r\n.flow-docs-root .fd-flag-suggestion code {\r\n  font-family: var(--fd-font-mono);\r\n  font-size: 12px;\r\n  color: var(--fd-accent);\r\n  flex-shrink: 0;\r\n}\r\n.flow-docs-root .fd-flag-suggestion span {\r\n  font-size: 12px;\r\n  color: var(--fd-text2);\r\n}\r\n\r\n.flow-docs-root .fd-search-flags {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  gap: 4px;\r\n  padding: 6px 0 2px;\r\n}\r\n\r\n.flow-docs-root .fd-flag-chip {\r\n  font-size: 11px;\r\n  background: var(--fd-accent-bg);\r\n  color: var(--fd-accent);\r\n  border-radius: 10px;\r\n  padding: 1px 8px;\r\n  font-weight: 500;\r\n  white-space: nowrap;\r\n}\r\n\r\n.flow-docs-root .fd-search-filter-badges {\r\n  display: inline-flex;\r\n  gap: 4px;\r\n  vertical-align: middle;\r\n  margin-left: 6px;\r\n}\r\n\r\n/* \u2500\u2500 Priority badge & divider \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-priority-badge {\r\n  font-size: 11px;\r\n  background: #3a2a00;\r\n  color: var(--fd-yellow);\r\n  border-radius: 10px;\r\n  padding: 1px 8px;\r\n  font-weight: 500;\r\n  white-space: nowrap;\r\n  margin-left: auto;\r\n}\r\n\r\n.flow-docs-root .fd-search-result.priority {\r\n  border-color: #3a2a00;\r\n}\r\n.flow-docs-root .fd-search-result.priority:hover {\r\n  border-color: var(--fd-yellow);\r\n}\r\n\r\n.flow-docs-root .fd-search-divider {\r\n  font-size: 11px;\r\n  color: var(--fd-text3);\r\n  text-transform: uppercase;\r\n  letter-spacing: .6px;\r\n  font-weight: 600;\r\n  padding: 14px 0 8px;\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 10px;\r\n}\r\n.flow-docs-root .fd-search-divider::before,\r\n.flow-docs-root .fd-search-divider::after {\r\n  content: '';\r\n  flex: 1;\r\n  height: 1px;\r\n  background: var(--fd-border);\r\n}\r\n\r\n/* \u2500\u2500 Editor toolbar \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-editor-toolbar {\r\n  position: sticky;\r\n  top: 0;\r\n  z-index: 10;\r\n  display: flex;\r\n  justify-content: flex-end;\r\n  align-items: center;\r\n  gap: 10px;\r\n  padding: 0 0 12px;\r\n  background: var(--fd-bg);\r\n}\r\n\r\n.flow-docs-root .fd-editor-switch {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 7px;\r\n  cursor: pointer;\r\n  user-select: none;\r\n  color: var(--fd-text2);\r\n  transition: color .15s;\r\n}\r\n.flow-docs-root .fd-editor-switch:hover { color: var(--fd-text); }\r\n.flow-docs-root .fd-editor-switch input { display: none; }\r\n\r\n.flow-docs-root .fd-switch-track {\r\n  width: 32px;\r\n  height: 18px;\r\n  background: var(--fd-bg3);\r\n  border: 1px solid var(--fd-border);\r\n  border-radius: 9px;\r\n  position: relative;\r\n  transition: background .2s, border-color .2s;\r\n  flex-shrink: 0;\r\n}\r\n.flow-docs-root .fd-switch-thumb {\r\n  position: absolute;\r\n  top: 2px;\r\n  left: 2px;\r\n  width: 12px;\r\n  height: 12px;\r\n  background: var(--fd-text3);\r\n  border-radius: 50%;\r\n  transition: left .2s, background .2s;\r\n}\r\n.flow-docs-root .fd-editor-switch input:checked + .fd-switch-track { background: var(--fd-accent-bg); border-color: var(--fd-accent); }\r\n.flow-docs-root .fd-editor-switch input:checked + .fd-switch-track .fd-switch-thumb { left: 16px; background: var(--fd-accent); }\r\n.flow-docs-root .fd-switch-label { font-size: 12px; }\r\n\r\n.flow-docs-root .fd-btn-save {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 5px;\r\n  padding: 5px 12px;\r\n  background: var(--fd-accent);\r\n  color: #fff;\r\n  border: none;\r\n  border-radius: var(--fd-radius);\r\n  font-size: 12px;\r\n  font-weight: 500;\r\n  cursor: pointer;\r\n  transition: opacity .15s;\r\n}\r\n.flow-docs-root .fd-btn-save:hover { opacity: .85; }\r\n.flow-docs-root .fd-btn-save:disabled { opacity: .5; cursor: not-allowed; }\r\n\r\n/* \u2500\u2500 Editor area \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root .fd-editor-area {\r\n  min-height: 400px;\r\n}\r\n\r\n.flow-docs-root .fd-content-area.editor-mode-active {\r\n  display: flex;\r\n  flex-direction: column;\r\n  overflow: hidden;\r\n  padding-bottom: 16px;\r\n}\r\n.flow-docs-root .fd-content-area.editor-mode-active .fd-editor-toolbar {\r\n  position: relative;\r\n  flex-shrink: 0;\r\n}\r\n.flow-docs-root .fd-content-area.editor-mode-active .fd-editor-area {\r\n  flex: 1;\r\n  min-height: 0;\r\n  height: auto;\r\n}\r\n.flow-docs-root .fd-editor-textarea {\r\n  width: 100%;\r\n  height: 100%;\r\n  background: var(--fd-bg2);\r\n  border: 1px solid var(--fd-border);\r\n  border-radius: var(--fd-radius);\r\n  color: var(--fd-text);\r\n  font-family: var(--fd-font-mono);\r\n  font-size: 13px;\r\n  line-height: 1.7;\r\n  padding: 20px;\r\n  resize: none;\r\n  outline: none;\r\n  tab-size: 2;\r\n}\r\n.flow-docs-root .fd-editor-textarea:focus { border-color: var(--fd-accent); }\r\n\r\n/* \u2500\u2500 Scrollbar global \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\r\n.flow-docs-root ::-webkit-scrollbar { width: 6px; height: 6px; }\r\n.flow-docs-root ::-webkit-scrollbar-track { background: transparent; }\r\n.flow-docs-root ::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 3px; }\r\n";
+    "css-text:C:\\Users\\ferry\\flow-documentation-framework\\src\\style.css"() {
+      style_default = "/* \u2500\u2500 Variables \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root {\n  --fd-bg:        #0f1117;\n  --fd-bg2:       #161b22;\n  --fd-bg3:       #1c2128;\n  --fd-border:    #30363d;\n  --fd-text:      #e6edf3;\n  --fd-text2:     #8b949e;\n  --fd-text3:     #6e7681;\n  --fd-accent:    #58a6ff;\n  --fd-accent-bg: #1f3d5c;\n  --fd-green:     #3fb950;\n  --fd-yellow:    #d29922;\n  --fd-red:       #f85149;\n  --fd-radius:    8px;\n  --fd-sidebar-w: 260px;\n  --fd-toc-w:     220px;\n  --fd-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;\n}\n\n/* \u2500\u2500 Reset (scoped) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root *, .flow-docs-root *::before, .flow-docs-root *::after {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\n.flow-docs-root {\n  display: flex;\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n  background: var(--fd-bg);\n  color: var(--fd-text);\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;\n  font-size: 14px;\n  line-height: 1.6;\n  position: relative;\n}\n\n/* \u2500\u2500 Sidebar \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-sidebar {\n  width: var(--fd-sidebar-w);\n  flex-shrink: 0;\n  background: var(--fd-bg2);\n  border-right: 1px solid var(--fd-border);\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n}\n\n.flow-docs-root .fd-sidebar-header {\n  padding: 16px 12px 12px;\n  border-bottom: 1px solid var(--fd-border);\n}\n\n.flow-docs-root .fd-logo-row {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 12px;\n}\n\n.flow-docs-root .fd-logo {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  font-weight: 600;\n  font-size: 15px;\n  color: var(--fd-text);\n  cursor: pointer;\n}\n.flow-docs-root .fd-logo svg { color: var(--fd-accent); }\n\n.flow-docs-root .fd-btn-download,\n.flow-docs-root .fd-btn-reload {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 28px;\n  height: 28px;\n  padding: 0;\n  border: 1px solid var(--fd-border);\n  border-radius: 6px;\n  background: var(--fd-bg3);\n  color: var(--fd-text2);\n  cursor: pointer;\n  transition: all 0.15s;\n}\n.flow-docs-root .fd-btn-download:hover,\n.flow-docs-root .fd-btn-reload:hover {\n  color: var(--fd-accent);\n  border-color: var(--fd-accent);\n  background: var(--fd-accent-bg);\n}\n\n/* \u2500\u2500 Search box \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-search-box {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: var(--fd-radius);\n  padding: 6px 10px;\n  transition: border-color .15s;\n  position: relative;\n}\n.flow-docs-root .fd-search-box:focus-within { border-color: var(--fd-accent); }\n.flow-docs-root .fd-search-box svg { color: var(--fd-text3); flex-shrink: 0; }\n.flow-docs-root .fd-search-box input {\n  flex: 1;\n  background: none;\n  border: none;\n  outline: none;\n  color: var(--fd-text);\n  font-size: 13px;\n  min-width: 0;\n}\n.flow-docs-root .fd-search-box input::placeholder { color: var(--fd-text3); }\n.flow-docs-root .fd-search-box kbd {\n  font-size: 10px;\n  color: var(--fd-text3);\n  background: var(--fd-bg2);\n  border: 1px solid var(--fd-border);\n  border-radius: 4px;\n  padding: 1px 4px;\n  flex-shrink: 0;\n}\n\n.flow-docs-root .fd-skill-list {\n  flex: 1;\n  overflow-y: auto;\n  padding: 8px 0;\n}\n.flow-docs-root .fd-skill-list::-webkit-scrollbar { width: 4px; }\n.flow-docs-root .fd-skill-list::-webkit-scrollbar-track { background: transparent; }\n.flow-docs-root .fd-skill-list::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 2px; }\n\n.flow-docs-root .fd-skill-item {\n  padding: 8px 14px;\n  cursor: pointer;\n  border-radius: 6px;\n  margin: 1px 6px;\n  transition: background .1s;\n}\n.flow-docs-root .fd-skill-item:hover { background: var(--fd-bg3); }\n.flow-docs-root .fd-skill-item.active { background: var(--fd-accent-bg); }\n.flow-docs-root .fd-skill-item.active .fd-skill-name { color: var(--fd-accent); }\n\n.flow-docs-root .fd-skill-name {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--fd-text);\n}\n.flow-docs-root .fd-skill-name svg { color: var(--fd-text3); flex-shrink: 0; }\n\n.flow-docs-root .fd-skill-desc {\n  font-size: 11px;\n  color: var(--fd-text3);\n  margin-top: 2px;\n  padding-left: 20px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.flow-docs-root .fd-empty-state {\n  padding: 20px 14px;\n  color: var(--fd-text2);\n  font-size: 13px;\n  line-height: 1.7;\n}\n\n/* \u2500\u2500 Main \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-main {\n  flex: 1;\n  display: flex;\n  overflow: hidden;\n  position: relative;\n}\n\n.flow-docs-root .fd-content-area {\n  flex: 1;\n  overflow-y: auto;\n  padding: 10px 48px 40px;\n  min-width: 0;\n}\n.flow-docs-root .fd-content-area::-webkit-scrollbar { width: 6px; }\n.flow-docs-root .fd-content-area::-webkit-scrollbar-track { background: transparent; }\n.flow-docs-root .fd-content-area::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 3px; }\n\n.flow-docs-root .fd-hidden { display: none !important; }\n\n/* \u2500\u2500 Welcome \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-welcome {\n  height: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.flow-docs-root .fd-welcome:has(.fd-home-content) {\n  align-items: flex-start;\n  justify-content: flex-start;\n}\n.flow-docs-root .fd-welcome-inner {\n  text-align: center;\n  color: var(--fd-text2);\n}\n.flow-docs-root .fd-welcome-inner svg { color: var(--fd-text3); margin-bottom: 16px; }\n.flow-docs-root .fd-welcome-inner h1 { font-size: 24px; color: var(--fd-text); margin-bottom: 8px; }\n.flow-docs-root .fd-welcome-inner p { font-size: 14px; margin-bottom: 6px; }\n.flow-docs-root .fd-welcome-inner .fd-hint { font-size: 12px; color: var(--fd-text3); }\n.flow-docs-root .fd-welcome-inner kbd {\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: 4px;\n  padding: 1px 5px;\n  font-size: 11px;\n}\n\n/* \u2500\u2500 Home page content \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-home-content {\n  max-width: 720px;\n  padding: 48px 32px;\n}\n.flow-docs-root .fd-home-content h1 { font-size: 26px; font-weight: 700; margin: 0 0 8px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 12px; }\n.flow-docs-root .fd-home-content h2 { font-size: 20px; font-weight: 600; margin: 28px 0 12px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 8px; }\n.flow-docs-root .fd-home-content h3 { font-size: 16px; font-weight: 600; margin: 20px 0 8px; color: var(--fd-text); }\n.flow-docs-root .fd-home-content p { margin: 0 0 14px; color: var(--fd-text); }\n.flow-docs-root .fd-home-content ul, .flow-docs-root .fd-home-content ol { margin: 0 0 14px 20px; color: var(--fd-text); }\n.flow-docs-root .fd-home-content li { margin-bottom: 4px; }\n.flow-docs-root .fd-home-content a { color: var(--fd-accent); text-decoration: none; }\n.flow-docs-root .fd-home-content a:hover { text-decoration: underline; }\n.flow-docs-root .fd-home-content strong { font-weight: 600; color: var(--fd-text); }\n.flow-docs-root .fd-home-content code:not(pre code) {\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: 4px;\n  padding: 1px 6px;\n  font-family: var(--fd-font-mono);\n  font-size: 12px;\n  color: #e2a97e;\n}\n\n/* \u2500\u2500 Markdown content \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-skill-content h1 { font-size: 26px; font-weight: 700; margin: 0 0 8px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 12px; }\n.flow-docs-root .fd-skill-content h2 { font-size: 20px; font-weight: 600; margin: 36px 0 12px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 8px; }\n.flow-docs-root .fd-skill-content h3 { font-size: 16px; font-weight: 600; margin: 24px 0 8px; color: var(--fd-text); }\n.flow-docs-root .fd-skill-content h4 { font-size: 14px; font-weight: 600; margin: 16px 0 6px; color: var(--fd-text2); }\n.flow-docs-root .fd-skill-content p { margin: 0 0 14px; color: var(--fd-text); }\n.flow-docs-root .fd-skill-content ul, .flow-docs-root .fd-skill-content ol { margin: 0 0 14px 20px; color: var(--fd-text); }\n.flow-docs-root .fd-skill-content li { margin-bottom: 4px; }\n.flow-docs-root .fd-skill-content a { color: var(--fd-accent); text-decoration: none; }\n.flow-docs-root .fd-skill-content a:hover { text-decoration: underline; }\n.flow-docs-root .fd-skill-content strong { font-weight: 600; color: var(--fd-text); }\n.flow-docs-root .fd-skill-content em { font-style: italic; color: var(--fd-text2); }\n.flow-docs-root .fd-skill-content hr { border: none; border-top: 1px solid var(--fd-border); margin: 28px 0; }\n\n.flow-docs-root .fd-skill-content blockquote {\n  border-left: 3px solid var(--fd-accent);\n  margin: 0 0 14px;\n  padding: 8px 16px;\n  background: var(--fd-bg2);\n  border-radius: 0 var(--fd-radius) var(--fd-radius) 0;\n  color: var(--fd-text2);\n}\n\n.flow-docs-root .fd-skill-content table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-bottom: 16px;\n  font-size: 13px;\n}\n.flow-docs-root .fd-skill-content th {\n  background: var(--fd-bg2);\n  padding: 8px 12px;\n  text-align: left;\n  border: 1px solid var(--fd-border);\n  font-weight: 600;\n}\n.flow-docs-root .fd-skill-content td {\n  padding: 7px 12px;\n  border: 1px solid var(--fd-border);\n}\n.flow-docs-root .fd-skill-content tr:nth-child(even) td { background: var(--fd-bg2); }\n\n.flow-docs-root .fd-skill-content code:not(pre code) {\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: 4px;\n  padding: 1px 6px;\n  font-family: var(--fd-font-mono);\n  font-size: 12px;\n  color: #e2a97e;\n}\n\n/* \u2500\u2500 Code blocks \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-code-block {\n  margin: 12px 0 20px;\n  border: 1px solid var(--fd-border);\n  border-radius: var(--fd-radius);\n  overflow: hidden;\n}\n\n.flow-docs-root .fd-code-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 6px 14px;\n  background: var(--fd-bg3);\n  border-bottom: 1px solid var(--fd-border);\n}\n\n.flow-docs-root .fd-code-lang {\n  font-size: 11px;\n  font-family: var(--fd-font-mono);\n  color: var(--fd-text3);\n  text-transform: uppercase;\n  letter-spacing: .5px;\n}\n\n.flow-docs-root .fd-btn-copy {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 12px;\n  color: var(--fd-text2);\n  background: none;\n  border: 1px solid transparent;\n  border-radius: 5px;\n  padding: 3px 8px;\n  cursor: pointer;\n  transition: all .15s;\n}\n.flow-docs-root .fd-btn-copy:hover {\n  color: var(--fd-text);\n  background: var(--fd-bg2);\n  border-color: var(--fd-border);\n}\n\n.flow-docs-root .fd-code-block pre {\n  margin: 0;\n  overflow-x: auto;\n  padding: 16px;\n  background: #0d1117;\n  font-size: 13px;\n  line-height: 1.6;\n}\n.flow-docs-root .fd-code-block pre::-webkit-scrollbar { height: 4px; }\n.flow-docs-root .fd-code-block pre::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 2px; }\n\n/* \u2500\u2500 TOC \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-toc {\n  width: var(--fd-toc-w);\n  flex-shrink: 0;\n  padding: 40px 16px 40px 10px;\n  overflow-y: auto;\n  display: none;\n  position: relative;\n}\n.flow-docs-root .fd-toc.visible { display: block; }\n\n.flow-docs-root .fd-toc-resizer {\n  position: absolute;\n  left: 0;\n  top: 0;\n  bottom: 0;\n  width: 4px;\n  cursor: col-resize;\n  background: transparent;\n  transition: background .15s;\n  z-index: 5;\n}\n.flow-docs-root .fd-toc-resizer:hover { background: var(--fd-border); }\n.flow-docs-root .fd-toc-resizer.dragging { background: var(--fd-accent); }\n\n.flow-docs-root .fd-toc-title {\n  font-size: 11px;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: .8px;\n  color: var(--fd-text3);\n  margin-bottom: 10px;\n}\n\n.flow-docs-root .fd-toc-list {\n  list-style: none;\n  border-left: 1px solid var(--fd-border);\n  padding-left: 12px;\n}\n.flow-docs-root .fd-toc-list li a {\n  display: block;\n  font-size: 12px;\n  color: var(--fd-text2);\n  text-decoration: none;\n  padding: 3px 0;\n  transition: color .1s;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.flow-docs-root .fd-toc-list li a:hover { color: var(--fd-accent); }\n.flow-docs-root .fd-toc-level-1 { font-weight: 600; }\n.flow-docs-root .fd-toc-level-2 { padding-left: 0; }\n.flow-docs-root .fd-toc-level-3 { padding-left: 12px; }\n\n/* \u2500\u2500 Search results \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-search-header {\n  font-size: 13px;\n  color: var(--fd-text2);\n  margin-bottom: 20px;\n}\n\n.flow-docs-root .fd-search-result {\n  background: var(--fd-bg2);\n  border: 1px solid var(--fd-border);\n  border-radius: var(--fd-radius);\n  padding: 14px 16px;\n  margin-bottom: 10px;\n  cursor: pointer;\n  transition: border-color .15s;\n}\n.flow-docs-root .fd-search-result:hover { border-color: var(--fd-accent); }\n\n.flow-docs-root .fd-search-result-meta {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 6px;\n}\n\n.flow-docs-root .fd-tag {\n  font-size: 11px;\n  background: var(--fd-accent-bg);\n  color: var(--fd-accent);\n  padding: 2px 7px;\n  border-radius: 12px;\n  font-weight: 500;\n}\n\n.flow-docs-root .fd-file-path {\n  font-size: 11px;\n  color: var(--fd-text3);\n  font-family: var(--fd-font-mono);\n}\n\n.flow-docs-root .fd-search-result-match {\n  font-size: 13px;\n  color: var(--fd-text);\n  margin-bottom: 4px;\n  font-family: var(--fd-font-mono);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.flow-docs-root .fd-search-result-context {\n  font-size: 12px;\n  color: var(--fd-text2);\n  font-family: var(--fd-font-mono);\n  white-space: pre-wrap;\n  max-height: 60px;\n  overflow: hidden;\n}\n\n.flow-docs-root .fd-search-result-match mark,\n.flow-docs-root .fd-search-result-context mark {\n  background: #4a3500;\n  color: #e3b341;\n  border-radius: 2px;\n  padding: 0 2px;\n}\n\n.flow-docs-root .fd-search-empty {\n  color: var(--fd-text2);\n  padding: 20px 0;\n  font-size: 14px;\n}\n\n/* \u2500\u2500 Toast \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-toast {\n  position: absolute;\n  bottom: 24px;\n  right: 24px;\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: var(--fd-radius);\n  padding: 8px 14px;\n  font-size: 13px;\n  color: var(--fd-green);\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  opacity: 0;\n  transform: translateY(8px);\n  transition: opacity .2s, transform .2s;\n  pointer-events: none;\n  z-index: 100;\n}\n.flow-docs-root .fd-toast.show { opacity: 1; transform: translateY(0); }\n\n/* \u2500\u2500 File tree \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-skill-tree {\n  margin: 0 0 6px;\n}\n\n.flow-docs-root .fd-tree-dir-header {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  padding: 4px 14px;\n  font-size: 12px;\n  color: var(--fd-text2);\n  cursor: pointer;\n  user-select: none;\n  transition: color .1s;\n}\n.flow-docs-root .fd-tree-dir-header:hover { color: var(--fd-text); }\n.flow-docs-root .fd-tree-dir-header > svg { flex-shrink: 0; }\n.flow-docs-root .fd-tree-dir-header span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }\n.flow-docs-root .fd-tree-chevron { transition: transform .15s; color: var(--fd-text3); flex-shrink: 0; }\n\n.flow-docs-root .fd-tree-count {\n  font-size: 10px;\n  color: var(--fd-text3);\n  background: var(--fd-bg3);\n  border-radius: 8px;\n  padding: 0 5px;\n  flex-shrink: 0;\n}\n\n.flow-docs-root .fd-tree-dir-children {\n  padding-left: 20px;\n}\n\n.flow-docs-root .fd-tree-file {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  padding: 3px 14px;\n  font-size: 12px;\n  color: var(--fd-text2);\n  cursor: pointer;\n  border-radius: 4px;\n  margin: 0 6px;\n  transition: background .1s, color .1s;\n}\n.flow-docs-root .fd-tree-file span {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-width: 0;\n}\n.flow-docs-root .fd-tree-file:hover { background: var(--fd-bg3); color: var(--fd-text); }\n.flow-docs-root .fd-tree-file.active { background: var(--fd-accent-bg); color: var(--fd-accent); }\n.flow-docs-root .fd-tree-file svg { color: var(--fd-text3); flex-shrink: 0; }\n.flow-docs-root .fd-tree-file.active svg { color: var(--fd-accent); }\n\n/* \u2500\u2500 File breadcrumb \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-file-header {\n  margin-bottom: 20px;\n  padding-bottom: 12px;\n  border-bottom: 1px solid var(--fd-border);\n}\n.flow-docs-root .fd-file-breadcrumb {\n  font-size: 12px;\n  color: var(--fd-text3);\n  font-family: var(--fd-font-mono);\n}\n\n/* \u2500\u2500 Loading \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-loading {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  text-align: center;\n  color: var(--fd-text2);\n  z-index: 200;\n}\n\n.flow-docs-root .fd-loading-spinner {\n  width: 36px;\n  height: 36px;\n  margin: 0 auto 12px;\n  border: 3px solid var(--fd-border);\n  border-top-color: var(--fd-accent);\n  border-radius: 50%;\n  animation: fd-spin 0.8s linear infinite;\n}\n\n@keyframes fd-spin {\n  to { transform: rotate(360deg); }\n}\n\n.flow-docs-root .fd-loading-text {\n  font-size: 13px;\n}\n\n/* \u2500\u2500 Error \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-error {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: #2d1215;\n  border: 1px solid var(--fd-red);\n  border-radius: var(--fd-radius);\n  padding: 16px 20px;\n  color: var(--fd-red);\n  font-size: 13px;\n  max-width: 500px;\n  z-index: 200;\n}\n\n/* \u2500\u2500 Search flags \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-flag-suggestions {\n  position: absolute;\n  top: calc(100% + 6px);\n  left: 0;\n  right: 0;\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: var(--fd-radius);\n  overflow: hidden;\n  z-index: 50;\n  box-shadow: 0 4px 12px rgba(0,0,0,.4);\n}\n\n.flow-docs-root .fd-flag-suggestion {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 7px 12px;\n  cursor: pointer;\n  transition: background .1s;\n}\n.flow-docs-root .fd-flag-suggestion:hover { background: var(--fd-bg2); }\n.flow-docs-root .fd-flag-suggestion code {\n  font-family: var(--fd-font-mono);\n  font-size: 12px;\n  color: var(--fd-accent);\n  flex-shrink: 0;\n}\n.flow-docs-root .fd-flag-suggestion span {\n  font-size: 12px;\n  color: var(--fd-text2);\n}\n\n.flow-docs-root .fd-search-flags {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n  padding: 6px 0 2px;\n}\n\n.flow-docs-root .fd-flag-chip {\n  font-size: 11px;\n  background: var(--fd-accent-bg);\n  color: var(--fd-accent);\n  border-radius: 10px;\n  padding: 1px 8px;\n  font-weight: 500;\n  white-space: nowrap;\n}\n\n.flow-docs-root .fd-search-filter-badges {\n  display: inline-flex;\n  gap: 4px;\n  vertical-align: middle;\n  margin-left: 6px;\n}\n\n/* \u2500\u2500 Priority badge & divider \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-priority-badge {\n  font-size: 11px;\n  background: #3a2a00;\n  color: var(--fd-yellow);\n  border-radius: 10px;\n  padding: 1px 8px;\n  font-weight: 500;\n  white-space: nowrap;\n  margin-left: auto;\n}\n\n.flow-docs-root .fd-search-result.priority {\n  border-color: #3a2a00;\n}\n.flow-docs-root .fd-search-result.priority:hover {\n  border-color: var(--fd-yellow);\n}\n\n.flow-docs-root .fd-search-divider {\n  font-size: 11px;\n  color: var(--fd-text3);\n  text-transform: uppercase;\n  letter-spacing: .6px;\n  font-weight: 600;\n  padding: 14px 0 8px;\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.flow-docs-root .fd-search-divider::before,\n.flow-docs-root .fd-search-divider::after {\n  content: '';\n  flex: 1;\n  height: 1px;\n  background: var(--fd-border);\n}\n\n/* \u2500\u2500 Scrollbar global \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root ::-webkit-scrollbar { width: 6px; height: 6px; }\n.flow-docs-root ::-webkit-scrollbar-track { background: transparent; }\n.flow-docs-root ::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 3px; }\n";
     }
   });
 
@@ -2048,12 +2048,12 @@ ${content}</tr>
           copy: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
           check: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
           folder: '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>',
-          save: '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>',
           fileMd: '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
           db: '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>',
           css: '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83"/></svg>',
           chevron: '<svg class="fd-tree-chevron" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>',
-          download: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>'
+          download: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+          refresh: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>'
         };
         const FILE_ICONS = { md: "fileMd", vb: "code", js: "code", html: "code", cs: "code", sql: "db", css: "css" };
         function escHtml(str) {
@@ -2329,26 +2329,119 @@ ${files[normalizedRef]}
         function countFiles(nodes) {
           return nodes.reduce((n, node) => n + (node.type === "file" ? 1 : countFiles(node.children || [])), 0);
         }
+        async function loadFromGitHub(config) {
+          const { owner, repo, branch = "main", token } = config;
+          const headers = { "Accept": "application/vnd.github.v3+json" };
+          if (token)
+            headers["Authorization"] = `token ${token}`;
+          const baseUrl = `https://api.github.com/repos/${owner}/${repo}`;
+          const treeRes = await fetch(`${baseUrl}/git/trees/${branch}?recursive=1`, { headers });
+          if (!treeRes.ok)
+            throw new Error(`GitHub API error: ${treeRes.status} ${treeRes.statusText}`);
+          const treeData = await treeRes.json();
+          const files = treeData.tree.filter((item) => item.type === "blob");
+          const skillDirs = /* @__PURE__ */ new Set();
+          for (const f of files) {
+            const parts = f.path.split("/");
+            if (parts.length > 1 && parts[parts.length - 1] === "SKILL.md") {
+              skillDirs.add(parts[0]);
+            }
+          }
+          const rootFiles = {};
+          const rootSkillMd = files.find((f) => f.path === "SKILL.md");
+          const rootHomeMd = files.find((f) => f.path === "home.md");
+          let homePage = null;
+          const skills = [];
+          if (rootSkillMd) {
+            const rootSkill = { name: repo, description: "", files: {} };
+            for (const f of files) {
+              if (f.path.split("/").length === 1) {
+                rootSkill.files[f.path] = null;
+              }
+            }
+            skills.push(rootSkill);
+          }
+          for (const dir of skillDirs) {
+            const skill = { name: dir, description: "", files: {} };
+            for (const f of files) {
+              if (f.path.startsWith(dir + "/")) {
+                const relPath = f.path.slice(dir.length + 1);
+                skill.files[relPath] = null;
+              }
+            }
+            skills.push(skill);
+          }
+          const BATCH_SIZE = 50;
+          const allFiles = files.filter((f) => {
+            if (rootSkillMd) {
+              if (f.path.split("/").length === 1)
+                return true;
+            }
+            for (const dir of skillDirs) {
+              if (f.path.startsWith(dir + "/"))
+                return true;
+            }
+            return false;
+          });
+          for (let i = 0; i < allFiles.length; i += BATCH_SIZE) {
+            const batch = allFiles.slice(i, i + BATCH_SIZE);
+            const promises = batch.map(async (f) => {
+              try {
+                const res = await fetch(f.url, { headers });
+                const data = await res.json();
+                return { path: f.path, content: atob(data.content.replace(/\n/g, "")) };
+              } catch (e) {
+                return { path: f.path, content: "" };
+              }
+            });
+            const results = await Promise.all(promises);
+            for (const r of results) {
+              const parts = r.path.split("/");
+              if (parts.length === 1) {
+                const skill = skills.find((s) => s.name === repo);
+                if (skill)
+                  skill.files[r.path] = r.content;
+                if (r.path === "home.md")
+                  homePage = r.content;
+              } else {
+                const dir = parts[0];
+                const skill = skills.find((s) => s.name === dir);
+                if (skill) {
+                  const relPath = parts.slice(1).join("/");
+                  skill.files[relPath] = r.content;
+                }
+              }
+            }
+          }
+          for (const skill of skills) {
+            const skillMd = skill.files["SKILL.md"];
+            if (skillMd) {
+              const firstLine = skillMd.split("\n")[0];
+              const m = firstLine.match(/^#\s+(.+)/);
+              if (m)
+                skill.description = m[1].trim();
+            }
+          }
+          return { skills, flags: [], homePage };
+        }
         class FlowDocsInstance {
           constructor(options2) {
             this.container = typeof options2.container === "string" ? document.querySelector(options2.container) : options2.container;
             if (!this.container)
               throw new Error("FlowDocs: container not found");
-            this.onSave = options2.onSave || null;
-            this.apiUrl = options2.apiUrl || null;
+            this.github = options2.github || null;
             this.homePage = options2.homePage || null;
             this.data = null;
             this.markedInstance = createMarked();
             this.currentSkill = null;
             this.currentFilePath = null;
             this.currentRawContent = "";
-            this.editorMode = false;
             this.searchTimeout = null;
             this._injectCSS();
             this._buildDOM();
             this._bindEvents();
-            if (this.apiUrl) {
-              this._loadFromApi();
+            if (this.github) {
+              this._loadFromGitHub();
             } else if (options2.dataUrl) {
               this.loadFromUrl(options2.dataUrl);
             } else if (options2.data) {
@@ -2395,62 +2488,18 @@ ${files[normalizedRef]}
               document.head.appendChild(s);
             });
           }
-          // ─── API mode (dynamic server) ────────────────────────────────────────
-          async _loadFromApi() {
+          // ─── GitHub API mode ───────────────────────────────────────────────────
+          async _loadFromGitHub() {
             try {
-              const base = this.apiUrl.replace(/\/+$/, "");
-              const res = await fetch(base);
-              const data = await res.json();
+              this._showLoading("Cargando desde GitHub...");
+              const data = await loadFromGitHub(this.github);
               this.loadData(data);
+              this._hideLoading();
             } catch (e) {
-              console.error("FlowDocs: failed to load from API", e);
+              this._hideLoading();
+              this._showError("Error al cargar desde GitHub: " + e.message);
+              console.error("FlowDocs: GitHub load failed", e);
             }
-          }
-          _getUserName() {
-            let name = null;
-            try {
-              name = localStorage.getItem("flow-docs-user");
-            } catch (_) {
-            }
-            if (name && name.trim())
-              return name.trim();
-            const entered = typeof prompt === "function" ? prompt("Tu nombre (se guardar\xE1 en el log de cambios):", "") : "";
-            const clean = (entered || "").trim() || "anonymous";
-            try {
-              localStorage.setItem("flow-docs-user", clean);
-            } catch (_) {
-            }
-            return clean;
-          }
-          async _saveViaApi(skillName, filePath, content) {
-            const base = this.apiUrl.replace(/\/+$/, "");
-            const user = this._getUserName();
-            const isAshx = /\.ashx(\?|$)/i.test(base);
-            const url = isAshx ? `${base}?action=save` : `${base}/save`;
-            const res = await fetch(url, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ skill: skillName, file: filePath, content, user })
-            });
-            if (!res.ok) {
-              const err = await res.json().catch(() => ({ error: "Server error" }));
-              throw new Error(err.error || "Save failed");
-            }
-          }
-          _downloadChanges() {
-            if (!this.apiUrl) {
-              this._showToast("Solo disponible en modo API");
-              return;
-            }
-            const base = this.apiUrl.replace(/\/+$/, "");
-            const isAshx = /\.ashx(\?|$)/i.test(base);
-            const url = isAshx ? `${base}?action=changes` : `${base}/changes`;
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "flow-docs-changes.jsonl";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
           }
           // ─── DOM structure ─────────────────────────────────────────────────────
           _buildDOM() {
@@ -2458,7 +2507,6 @@ ${files[normalizedRef]}
             const root = document.createElement("div");
             root.className = "flow-docs-root";
             root.innerHTML = `
-        <!-- Sidebar -->
         <aside class="fd-sidebar">
           <div class="fd-sidebar-header">
             <div class="fd-logo-row">
@@ -2469,8 +2517,8 @@ ${files[normalizedRef]}
               <button class="fd-btn-download" title="Descargar todo como .zip">
                 ${ICONS.download}
               </button>
-              <button class="fd-btn-changes fd-hidden" title="Descargar log de cambios (.jsonl)">
-                ${ICONS.download}
+              <button class="fd-btn-reload" title="Recargar desde GitHub">
+                ${ICONS.refresh}
               </button>
             </div>
             <div class="fd-search-box">
@@ -2484,21 +2532,8 @@ ${files[normalizedRef]}
           <nav class="fd-skill-list"></nav>
         </aside>
 
-        <!-- Main content -->
         <main class="fd-main">
           <div class="fd-content-area">
-            <!-- Editor toolbar -->
-            <div class="fd-editor-toolbar fd-hidden">
-              <label class="fd-editor-switch" title="Activar modo editor">
-                <input type="checkbox" class="fd-editor-toggle">
-                <span class="fd-switch-track"><span class="fd-switch-thumb"></span></span>
-                <span class="fd-switch-label">Editor</span>
-              </label>
-              <button class="fd-btn-save fd-hidden">
-                ${ICONS.save} Guardar
-              </button>
-            </div>
-
             <div class="fd-welcome">
               <div class="fd-welcome-inner">
                 ${ICONS.book}
@@ -2508,13 +2543,9 @@ ${files[normalizedRef]}
               </div>
             </div>
             <div class="fd-skill-content fd-hidden"></div>
-            <div class="fd-editor-area fd-hidden">
-              <textarea class="fd-editor-textarea" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
-            </div>
             <div class="fd-search-results fd-hidden"></div>
           </div>
 
-          <!-- TOC -->
           <div class="fd-toc">
             <div class="fd-toc-resizer"></div>
             <div class="fd-toc-title">En esta p\xE1gina</div>
@@ -2522,10 +2553,18 @@ ${files[normalizedRef]}
           </div>
         </main>
 
-        <!-- Toast -->
         <div class="fd-toast">
           ${ICONS.check}
           <span class="fd-toast-msg">Copiado</span>
+        </div>
+
+        <div class="fd-loading fd-hidden">
+          <div class="fd-loading-spinner"></div>
+          <div class="fd-loading-text">Cargando...</div>
+        </div>
+
+        <div class="fd-error fd-hidden">
+          <div class="fd-error-text"></div>
         </div>
       `;
             this.container.appendChild(root);
@@ -2538,20 +2577,19 @@ ${files[normalizedRef]}
               welcome: root.querySelector(".fd-welcome"),
               skillContent: root.querySelector(".fd-skill-content"),
               searchResults: root.querySelector(".fd-search-results"),
-              editorToolbar: root.querySelector(".fd-editor-toolbar"),
-              editorToggle: root.querySelector(".fd-editor-toggle"),
-              editorArea: root.querySelector(".fd-editor-area"),
-              editorTextarea: root.querySelector(".fd-editor-textarea"),
-              btnSave: root.querySelector(".fd-btn-save"),
               btnDownload: root.querySelector(".fd-btn-download"),
-              btnChanges: root.querySelector(".fd-btn-changes"),
+              btnReload: root.querySelector(".fd-btn-reload"),
               toc: root.querySelector(".fd-toc"),
               tocList: root.querySelector(".fd-toc-list"),
               tocResizer: root.querySelector(".fd-toc-resizer"),
               contentArea: root.querySelector(".fd-content-area"),
               toast: root.querySelector(".fd-toast"),
               toastMsg: root.querySelector(".fd-toast-msg"),
-              main: root.querySelector(".fd-main")
+              main: root.querySelector(".fd-main"),
+              loading: root.querySelector(".fd-loading"),
+              loadingText: root.querySelector(".fd-loading-text"),
+              error: root.querySelector(".fd-error"),
+              errorText: root.querySelector(".fd-error-text")
             };
           }
           // ─── Event binding ─────────────────────────────────────────────────────
@@ -2612,25 +2650,14 @@ ${files[normalizedRef]}
                 this._loadFile(fileEl.dataset.skill, fileEl.dataset.path);
               }
             });
-            this.$.editorToggle.addEventListener("change", (e) => {
-              this._toggleEditorMode(e.target.checked);
-            });
-            this.$.btnSave.addEventListener("click", () => this._saveFile());
             this.$.btnDownload.addEventListener("click", (e) => {
               e.stopPropagation();
               this._downloadZip();
             });
-            if (this.apiUrl) {
-              this.$.btnChanges.classList.remove("fd-hidden");
-              this.$.btnChanges.addEventListener("click", (e) => {
-                e.stopPropagation();
-                this._downloadChanges();
-              });
-            }
-            this.$.editorTextarea.addEventListener("keydown", (e) => {
-              if ((e.ctrlKey || e.metaKey) && (e.key === "s" || e.key === "Enter")) {
-                e.preventDefault();
-                this._saveFile();
+            this.$.btnReload.addEventListener("click", (e) => {
+              e.stopPropagation();
+              if (this.github) {
+                this._loadFromGitHub();
               }
             });
             this.root.querySelector(".fd-logo").addEventListener("click", () => {
@@ -2671,6 +2698,18 @@ ${files[normalizedRef]}
               this._loadSkill(this.currentSkill);
             }
           }
+          // ─── Loading / Error states ────────────────────────────────────────────
+          _showLoading(msg) {
+            this.$.loadingText.textContent = msg || "Cargando...";
+            this.$.loading.classList.remove("fd-hidden");
+          }
+          _hideLoading() {
+            this.$.loading.classList.add("fd-hidden");
+          }
+          _showError(msg) {
+            this.$.errorText.textContent = msg;
+            this.$.error.classList.remove("fd-hidden");
+          }
           // ─── Skill list ────────────────────────────────────────────────────────
           _renderSkillList() {
             if (!this.data || !this.data.skills.length) {
@@ -2705,10 +2744,6 @@ ${files[normalizedRef]}
             });
             this.root.querySelectorAll(".fd-tree-file").forEach((el) => el.classList.remove("active"));
             this.$.toc.classList.add("visible");
-            if (this.editorMode) {
-              this.$.editorToggle.checked = false;
-              this._toggleEditorMode(false);
-            }
             this.currentFilePath = null;
             const rawContent = skill.files[defaultFile];
             this.currentRawContent = rawContent;
@@ -2749,10 +2784,6 @@ ${files[normalizedRef]}
             this.root.querySelectorAll(".fd-tree-file").forEach((el) => {
               el.classList.toggle("active", el.dataset.skill === skillName && el.dataset.path === filePath);
             });
-            if (this.editorMode) {
-              this.$.editorToggle.checked = false;
-              this._toggleEditorMode(false);
-            }
             this._showPanel("skillContent");
             const ext = getExt(filePath);
             if (ext === "md") {
@@ -2960,66 +2991,6 @@ ${files[normalizedRef]}
             });
             this.$.toc.classList.remove("visible");
           }
-          // ─── Editor ────────────────────────────────────────────────────────────
-          _toggleEditorMode(active) {
-            this.editorMode = active;
-            if (active) {
-              this.$.editorTextarea.value = this.currentRawContent;
-              this.$.skillContent.classList.add("fd-hidden");
-              this.$.editorArea.classList.remove("fd-hidden");
-              this.$.btnSave.classList.remove("fd-hidden");
-              this.$.contentArea.classList.add("editor-mode-active");
-              this.$.editorTextarea.focus();
-            } else {
-              this.$.editorArea.classList.add("fd-hidden");
-              this.$.skillContent.classList.remove("fd-hidden");
-              this.$.btnSave.classList.add("fd-hidden");
-              this.$.contentArea.classList.remove("editor-mode-active");
-            }
-          }
-          async _saveFile() {
-            if (!this.currentSkill)
-              return;
-            const content = this.$.editorTextarea.value;
-            const filePath = this.currentFilePath || "SKILL.md";
-            const btn = this.$.btnSave;
-            btn.disabled = true;
-            try {
-              const skill = this.data.skills.find((s) => s.name === this.currentSkill);
-              if (skill) {
-                skill.files[filePath] = content;
-                if (filePath === "SKILL.md") {
-                  const lines = content.split("\n").slice(0, 5);
-                  for (const line of lines) {
-                    const m = line.match(/^#\s+(.+)/);
-                    if (m) {
-                      skill.description = m[1].trim();
-                      break;
-                    }
-                  }
-                }
-              }
-              this.currentRawContent = content;
-              this.$.editorToggle.checked = false;
-              this._toggleEditorMode(false);
-              if (this.currentFilePath) {
-                this._loadFile(this.currentSkill, this.currentFilePath);
-              } else {
-                this._loadSkill(this.currentSkill);
-              }
-              if (this.apiUrl) {
-                await this._saveViaApi(this.currentSkill, filePath, content);
-              }
-              if (this.onSave) {
-                await this.onSave(this.currentSkill, filePath, content);
-              }
-              this._showToast("Guardado");
-            } catch (e) {
-              this._showToast("Error: " + e.message);
-            } finally {
-              btn.disabled = false;
-            }
-          }
           // ─── Download ──────────────────────────────────────────────────────────
           _downloadZip() {
             if (!this.data || !this.data.skills || !this.data.skills.length) {
@@ -3092,8 +3063,6 @@ ${files[normalizedRef]}
             for (const [key, el] of Object.entries(panels)) {
               el.classList.toggle("fd-hidden", key !== id);
             }
-            this.$.editorArea.classList.add("fd-hidden");
-            this.$.editorToolbar.classList.toggle("fd-hidden", id !== "skillContent");
           }
           _showToast(msg) {
             this.$.toastMsg.textContent = msg || "Copiado";

@@ -1,6 +1,6 @@
 # Flow Documentation Framework
 
-Embeddable documentation viewer for SKILL.md files. Single JS file, no server required for static mode. Includes server adapters for dynamic folder reading.
+Embeddable documentation viewer that loads directly from GitHub repositories. Single JS file, no build step required.
 
 ## CDN
 
@@ -10,15 +10,29 @@ Embeddable documentation viewer for SKILL.md files. Single JS file, no server re
 
 ## Usage
 
-### Option A: Static mode (pre-built JSON)
+### GitHub API mode (recommended)
 
-Generate the JSON from your docs folder:
+Point the framework at any GitHub repository. It scans the repo for `SKILL.md` files and loads all documentation automatically.
 
-```bash
-npx flow-documentation-framework ./my-docs -o flow-docs-data.json
+```html
+<div id="docs" style="height:100vh"></div>
+<script src="https://cdn.jsdelivr.net/npm/flow-documentation-framework/dist/flow-docs.min.js"></script>
+<script>
+  FlowDocs.init({
+    container: '#docs',
+    github: {
+      owner: 'fsanchezux',
+      repo: 'flow-documentation-framework',
+      branch: 'main',
+      token: 'optional-github-token' // optional, increases rate limit
+    }
+  })
+</script>
 ```
 
-Then include in your page:
+### Static mode (pre-built JSON)
+
+If you prefer to serve a pre-built JSON file:
 
 ```html
 <div id="docs" style="height:100vh"></div>
@@ -31,89 +45,39 @@ Then include in your page:
 </script>
 ```
 
-### Option B: Dynamic mode (server reads folder live)
-
-Point the framework at a server endpoint that scans your docs folder on each request. No build step needed.
-
-```html
-<div id="docs" style="height:100vh"></div>
-<script src="https://cdn.jsdelivr.net/npm/flow-documentation-framework/dist/flow-docs.min.js"></script>
-<script>
-  FlowDocs.init({
-    container: '#docs',
-    apiUrl: '/FlowDocsHandler.ashx'  // or your endpoint
-  })
-</script>
-```
-
-## Server Adapters
-
-### ASP.NET WebForms (.ashx)
-
-Copy `servers/FlowDocsHandler.ashx` into your project. Edit the `DOCS_FOLDER` constant:
-
-```vb
-Private Const DOCS_FOLDER As String = "~/Docs"
-```
-
-The handler exposes two endpoints:
-
-| Method | URL | Description |
-|--------|-----|-------------|
-| GET | `/FlowDocsHandler.ashx` | Returns all skills and files as JSON |
-| POST | `/FlowDocsHandler.ashx?action=save` | Saves a file (body: `{skill, file, content}`) |
-
-### Node.js / Express
-
-```javascript
-const express = require('express')
-const flowDocs = require('flow-documentation-framework/servers/flow-docs-server')
-
-const app = express()
-app.use('/api/docs', flowDocs('./my-docs-folder'))
-app.listen(3000)
-```
-
-### PHP
-
-Copy `servers/flow-docs-server.php` into your project. Edit `$DOCS_FOLDER`:
-
-```php
-$DOCS_FOLDER = __DIR__ . '/docs';
-```
-
 ## How It Works
 
-1. **One GET request** at init loads all documentation into browser memory
+1. **One GET request** at init loads all documentation from GitHub into browser memory
 2. **Navigation, search, TOC** — all client-side, zero additional requests
-3. **Editor save** — one POST per save, writes file to disk via the server adapter
+3. **Reload button** — fetches latest from GitHub on demand
 
 ```
-Browser                         Server
+Browser                         GitHub API
   │                               │
-  │  GET /FlowDocsHandler.ashx    │
-  │──────────────────────────────>│  Scans docs folder
-  │<──────────────────────────────│  Returns JSON with all files
+  │  GET /repos/{owner}/{repo}    │
+  │     /git/trees/{branch}       │
+  │──────────────────────────────>│  Returns file tree
+  │<──────────────────────────────│
+  │                               │
+  │  GET /repos/{owner}/{repo}    │
+  │     /git/blobs/{sha}          │
+  │──────────────────────────────>│  Returns file content
+  │<──────────────────────────────│  (base64 encoded)
   │                               │
   │  (navigate, search, TOC)      │
   │  all in-memory, no requests   │
-  │                               │
-  │  POST ?action=save            │
-  │──────────────────────────────>│  Writes file to disk
-  │<──────────────────────────────│  {success: true}
 ```
 
-## Docs Folder Structure
+## Repo Structure
 
-Each skill is a folder containing a `SKILL.md` entry point:
+Each top-level folder containing a `SKILL.md` is treated as a skill:
 
 ```
-my-docs/
+my-repo/
   getting-started/
     SKILL.md
     examples/
       hello.js
-      query.sql
     references/
       guide.md
   api-reference/
@@ -171,10 +135,10 @@ Tag sections in any file to prioritize them in flag searches:
 | Option | Type | Description |
 |--------|------|-------------|
 | `container` | `string \| Element` | CSS selector or DOM element (required) |
+| `github` | `object` | GitHub repo config (owner, repo, branch, token) |
 | `dataUrl` | `string` | URL to pre-built JSON file |
-| `apiUrl` | `string` | URL to server endpoint (dynamic mode) |
 | `data` | `object` | Inline data object |
-| `onSave` | `function(skill, filePath, content)` | Callback after editor save |
+| `homePage` | `string` | Custom home page markdown |
 
 Returns a `FlowDocsInstance` with:
 
@@ -187,6 +151,5 @@ Returns a `FlowDocsInstance` with:
 ```bash
 npm install
 npm run build        # builds dist/flow-docs.min.js
-npm run build:data   # generates example JSON
-npm run dev          # builds both
+npm run dev          # same as build
 ```
