@@ -440,6 +440,12 @@ import CSS_TEXT from './style.css'
       if (!this.container) throw new Error('FlowDocs: container not found')
       if (!options.github) throw new Error('FlowDocs: `github` option is required')
 
+      const mode = options.mode || 'full'
+      if (!['full', 'chat', 'modal'].includes(mode)) {
+        throw new Error(`FlowDocs: invalid mode "${mode}". Use 'full', 'chat' or 'modal'.`)
+      }
+      this.mode = mode
+
       this.github = options.github
       this.homePage = null
       this.data = null
@@ -447,11 +453,24 @@ import CSS_TEXT from './style.css'
       this.currentSkill = null
       this.currentFilePath = null
       this.searchTimeout = null
+      this.askIndex = null
 
       this._injectCSS()
       this._buildDOM()
       this._bindEvents()
       this._loadFromGitHub()
+    }
+
+    // ─── Public methods for modal/chat modes ───────────────────────────────
+
+    open() {
+      if (this.mode === 'modal') this._openModal()
+      else if (this.mode === 'chat') this._openAsk()
+    }
+
+    close() {
+      if (this.mode === 'modal') this._closeModal()
+      else if (this.mode === 'chat') this._closeAsk()
     }
 
     // ─── CSS injection ─────────────────────────────────────────────────────
@@ -515,8 +534,24 @@ import CSS_TEXT from './style.css'
     _buildDOM() {
       this.container.innerHTML = ''
       const root = document.createElement('div')
-      root.className = 'flow-docs-root'
-      root.innerHTML = `
+      root.className = `flow-docs-root fd-mode-${this.mode}`
+
+      if (this.mode === 'chat') {
+        root.innerHTML = this._dom_overlays() + this._dom_askUI()
+      } else if (this.mode === 'modal') {
+        root.innerHTML = this._dom_modalTrigger() + this._dom_modalShell() + this._dom_overlays() + this._dom_askUI()
+      } else {
+        root.innerHTML = this._dom_viewerInner() + this._dom_overlays() + this._dom_askUI()
+      }
+
+      this.container.appendChild(root)
+      this.root = root
+      this._cacheElements()
+    }
+
+    // Viewer shell (sidebar + main + toc). Used in 'full' and (wrapped) 'modal'.
+    _dom_viewerInner() {
+      return `
         <aside class="fd-sidebar">
           <div class="fd-sidebar-header">
             <div class="fd-logo-row">
@@ -557,25 +592,30 @@ import CSS_TEXT from './style.css'
             <ul class="fd-toc-list"></ul>
           </div>
         </main>
+      `
+    }
 
+    _dom_overlays() {
+      return `
         <div class="fd-toast">
           ${ICONS.check}
           <span class="fd-toast-msg">Copiado</span>
         </div>
-
         <div class="fd-loading fd-hidden">
           <div class="fd-loading-spinner"></div>
           <div class="fd-loading-text">Cargando...</div>
         </div>
-
         <div class="fd-error fd-hidden">
           <div class="fd-error-text"></div>
         </div>
+      `
+    }
 
+    _dom_askUI() {
+      return `
         <button class="fd-ask-fab" title="Pregunta a los docs">
           ${ICONS.chat}
         </button>
-
         <div class="fd-ask-panel fd-hidden">
           <div class="fd-ask-header">
             <span class="fd-ask-title">Pregunta a los docs</span>
@@ -592,111 +632,69 @@ import CSS_TEXT from './style.css'
           </form>
         </div>
       `
+    }
 
-      this.container.appendChild(root)
-      this.root = root
+    _dom_modalTrigger() {
+      return `
+        <button class="fd-modal-fab" title="Abrir documentación">
+          ${ICONS.book}
+        </button>
+      `
+    }
 
+    _dom_modalShell() {
+      return `
+        <div class="fd-modal-backdrop fd-hidden"></div>
+        <div class="fd-modal fd-hidden">
+          <button class="fd-modal-close" title="Cerrar">${ICONS.close}</button>
+          ${this._dom_viewerInner()}
+        </div>
+      `
+    }
+
+    _cacheElements() {
+      const r = this.root
       this.$ = {
-        skillList: root.querySelector('.fd-skill-list'),
-        searchInput: root.querySelector('.fd-search-input'),
-        welcome: root.querySelector('.fd-welcome'),
-        skillContent: root.querySelector('.fd-skill-content'),
-        searchResults: root.querySelector('.fd-search-results'),
-        btnReload: root.querySelector('.fd-btn-reload'),
-        toc: root.querySelector('.fd-toc'),
-        tocList: root.querySelector('.fd-toc-list'),
-        tocResizer: root.querySelector('.fd-toc-resizer'),
-        contentArea: root.querySelector('.fd-content-area'),
-        toast: root.querySelector('.fd-toast'),
-        toastMsg: root.querySelector('.fd-toast-msg'),
-        main: root.querySelector('.fd-main'),
-        loading: root.querySelector('.fd-loading'),
-        loadingText: root.querySelector('.fd-loading-text'),
-        error: root.querySelector('.fd-error'),
-        errorText: root.querySelector('.fd-error-text'),
-        askFab: root.querySelector('.fd-ask-fab'),
-        askPanel: root.querySelector('.fd-ask-panel'),
-        askClose: root.querySelector('.fd-ask-close'),
-        askResults: root.querySelector('.fd-ask-results'),
-        askForm: root.querySelector('.fd-ask-input-row'),
-        askInput: root.querySelector('.fd-ask-input'),
+        // viewer (may be null in chat mode)
+        skillList: r.querySelector('.fd-skill-list'),
+        searchInput: r.querySelector('.fd-search-input'),
+        welcome: r.querySelector('.fd-welcome'),
+        skillContent: r.querySelector('.fd-skill-content'),
+        searchResults: r.querySelector('.fd-search-results'),
+        btnReload: r.querySelector('.fd-btn-reload'),
+        toc: r.querySelector('.fd-toc'),
+        tocList: r.querySelector('.fd-toc-list'),
+        tocResizer: r.querySelector('.fd-toc-resizer'),
+        contentArea: r.querySelector('.fd-content-area'),
+        main: r.querySelector('.fd-main'),
+        // overlays
+        toast: r.querySelector('.fd-toast'),
+        toastMsg: r.querySelector('.fd-toast-msg'),
+        loading: r.querySelector('.fd-loading'),
+        loadingText: r.querySelector('.fd-loading-text'),
+        error: r.querySelector('.fd-error'),
+        errorText: r.querySelector('.fd-error-text'),
+        // ask
+        askFab: r.querySelector('.fd-ask-fab'),
+        askPanel: r.querySelector('.fd-ask-panel'),
+        askClose: r.querySelector('.fd-ask-close'),
+        askResults: r.querySelector('.fd-ask-results'),
+        askForm: r.querySelector('.fd-ask-input-row'),
+        askInput: r.querySelector('.fd-ask-input'),
+        // modal (only in modal mode)
+        modalFab: r.querySelector('.fd-modal-fab'),
+        modal: r.querySelector('.fd-modal'),
+        modalBackdrop: r.querySelector('.fd-modal-backdrop'),
+        modalClose: r.querySelector('.fd-modal-close'),
       }
     }
 
     // ─── Event binding ─────────────────────────────────────────────────────
 
     _bindEvents() {
-      this.$.searchInput.addEventListener('input', () => {
-        clearTimeout(this.searchTimeout)
-        const q = this.$.searchInput.value.trim()
-        if (q.length < 2) {
-          if (this.currentSkill) this._loadSkill(this.currentSkill)
-          else this._showPanel('welcome')
-          return
-        }
-        this.searchTimeout = setTimeout(() => this._doSearch(q), 250)
-      })
-
-      this.root.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-          e.preventDefault()
-          this.$.searchInput.focus()
-          this.$.searchInput.select()
-        }
-        if (e.key === 'Escape') {
-          if (document.activeElement === this.$.searchInput) {
-            this.$.searchInput.value = ''
-            this.$.searchInput.blur()
-            if (this.currentSkill) this._loadSkill(this.currentSkill)
-            else this._showPanel('welcome')
-          }
-        }
-      })
-
       this.root.setAttribute('tabindex', '-1')
 
-      this.$.skillList.addEventListener('click', (e) => {
-        const header = e.target.closest('.fd-tree-dir-header')
-        if (header) {
-          e.stopPropagation()
-          const children = header.nextElementSibling
-          const open = header.dataset.open === 'true'
-          header.dataset.open = !open
-          children.classList.toggle('fd-hidden', open)
-          return
-        }
-
-        const fileEl = e.target.closest('.fd-tree-file')
-        if (fileEl) {
-          e.stopPropagation()
-          this._loadFile(fileEl.dataset.skill, fileEl.dataset.path)
-        }
-      })
-
-      this.$.btnReload.addEventListener('click', (e) => {
-        e.stopPropagation()
-        this._loadFromGitHub()
-      })
-
-      this.root.querySelector('.fd-logo').addEventListener('click', () => {
-        this.currentSkill = null
-        this.currentFilePath = null
-        this.root.querySelectorAll('.fd-skill-item').forEach(el => el.classList.remove('active'))
-        this.root.querySelectorAll('.fd-skill-tree').forEach(el => el.remove())
-        this.$.toc.classList.remove('visible')
-        this._showPanel('welcome')
-        this._renderHomePage()
-      })
-
-      this.root.addEventListener('click', (e) => {
-        const btn = e.target.closest('.fd-btn-copy')
-        if (btn) {
-          const code = btn.closest('.fd-code-block').querySelector('code')
-          navigator.clipboard.writeText(code.innerText).then(() => this._showToast())
-        }
-      })
-
-      // Ask panel
+      // Ask panel events (always present)
       this.$.askFab.addEventListener('click', () => this._toggleAsk())
       this.$.askClose.addEventListener('click', () => this._closeAsk())
       this.$.askForm.addEventListener('submit', (e) => {
@@ -709,6 +707,15 @@ import CSS_TEXT from './style.css'
         const skill = card.dataset.skill
         const file = card.dataset.file
         const section = card.dataset.section
+
+        // In chat mode there's no viewer → open the file on GitHub directly
+        if (this.mode === 'chat') {
+          const url = `https://github.com/${this.github.owner}/${this.github.repo}/blob/${this.github.branch || 'main'}/${file}${section ? '#' + section : ''}`
+          window.open(url, '_blank', 'noopener')
+          return
+        }
+
+        // In full/modal: navigate inside the viewer
         this._loadFile(skill, file)
         if (section) {
           setTimeout(() => {
@@ -719,7 +726,115 @@ import CSS_TEXT from './style.css'
         this._closeAsk()
       })
 
-      this._initTocResizer()
+      // Modal trigger events (modal mode only)
+      if (this.mode === 'modal') {
+        this.$.modalFab.addEventListener('click', () => this._openModal())
+        this.$.modalClose.addEventListener('click', () => this._closeModal())
+        this.$.modalBackdrop.addEventListener('click', () => this._closeModal())
+      }
+
+      // Keyboard: Esc closes whatever is open
+      this.root.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (this.$.searchInput && document.activeElement === this.$.searchInput) {
+            this.$.searchInput.value = ''
+            this.$.searchInput.blur()
+            if (this.currentSkill) this._loadSkill(this.currentSkill)
+            else this._showPanel('welcome')
+            return
+          }
+          if (this.mode === 'modal' && this.$.modal && !this.$.modal.classList.contains('fd-hidden')) {
+            this._closeModal()
+            return
+          }
+          if (this.$.askPanel && !this.$.askPanel.classList.contains('fd-hidden')) {
+            this._closeAsk()
+          }
+        }
+        if (this.$.searchInput && (e.ctrlKey || e.metaKey) && e.key === 'k') {
+          e.preventDefault()
+          this.$.searchInput.focus()
+          this.$.searchInput.select()
+        }
+      })
+
+      // Viewer-only events (full + modal modes)
+      if (this.$.searchInput) {
+        this.$.searchInput.addEventListener('input', () => {
+          clearTimeout(this.searchTimeout)
+          const q = this.$.searchInput.value.trim()
+          if (q.length < 2) {
+            if (this.currentSkill) this._loadSkill(this.currentSkill)
+            else this._showPanel('welcome')
+            return
+          }
+          this.searchTimeout = setTimeout(() => this._doSearch(q), 250)
+        })
+      }
+
+      if (this.$.skillList) {
+        this.$.skillList.addEventListener('click', (e) => {
+          const header = e.target.closest('.fd-tree-dir-header')
+          if (header) {
+            e.stopPropagation()
+            const children = header.nextElementSibling
+            const open = header.dataset.open === 'true'
+            header.dataset.open = !open
+            children.classList.toggle('fd-hidden', open)
+            return
+          }
+
+          const fileEl = e.target.closest('.fd-tree-file')
+          if (fileEl) {
+            e.stopPropagation()
+            this._loadFile(fileEl.dataset.skill, fileEl.dataset.path)
+          }
+        })
+      }
+
+      if (this.$.btnReload) {
+        this.$.btnReload.addEventListener('click', (e) => {
+          e.stopPropagation()
+          this._loadFromGitHub()
+        })
+      }
+
+      const logo = this.root.querySelector('.fd-logo')
+      if (logo) {
+        logo.addEventListener('click', () => {
+          this.currentSkill = null
+          this.currentFilePath = null
+          this.root.querySelectorAll('.fd-skill-item').forEach(el => el.classList.remove('active'))
+          this.root.querySelectorAll('.fd-skill-tree').forEach(el => el.remove())
+          this.$.toc.classList.remove('visible')
+          this._showPanel('welcome')
+          this._renderHomePage()
+        })
+      }
+
+      this.root.addEventListener('click', (e) => {
+        const btn = e.target.closest('.fd-btn-copy')
+        if (btn) {
+          const code = btn.closest('.fd-code-block').querySelector('code')
+          navigator.clipboard.writeText(code.innerText).then(() => this._showToast())
+        }
+      })
+
+      if (this.$.tocResizer) this._initTocResizer()
+    }
+
+    // ─── Modal open/close ──────────────────────────────────────────────────
+
+    _openModal() {
+      this.$.modal.classList.remove('fd-hidden')
+      this.$.modalBackdrop.classList.remove('fd-hidden')
+      this.$.modalFab.classList.add('fd-hidden')
+    }
+
+    _closeModal() {
+      this.$.modal.classList.add('fd-hidden')
+      this.$.modalBackdrop.classList.add('fd-hidden')
+      this.$.modalFab.classList.remove('fd-hidden')
     }
 
     // ─── Data loading ──────────────────────────────────────────────────────
@@ -728,22 +843,33 @@ import CSS_TEXT from './style.css'
       this.data = data
       this.homePage = data.homePage || null
       this.askIndex = null // built lazily on first ask
-      this._renderSkillList()
-      this._renderHomePage()
+      if (this.$.skillList) this._renderSkillList()
+      if (this.$.welcome) this._renderHomePage()
+      // If the ask panel was opened before data finished loading, swap the
+      // "loading…" message for the regular placeholder.
+      if (this.$.askPanel && !this.$.askPanel.classList.contains('fd-hidden')) {
+        this.$.askResults.innerHTML = `
+          <div class="fd-ask-placeholder">
+            Haz una pregunta en lenguaje natural y te muestro los fragmentos más relevantes de la documentación.
+          </div>`
+      }
     }
 
     // ─── Loading / Error states ────────────────────────────────────────────
 
     _showLoading(msg) {
+      if (!this.$.loading) return
       this.$.loadingText.textContent = msg || 'Cargando...'
       this.$.loading.classList.remove('fd-hidden')
     }
 
     _hideLoading() {
+      if (!this.$.loading) return
       this.$.loading.classList.add('fd-hidden')
     }
 
     _showError(msg) {
+      if (!this.$.error) return
       this.$.errorText.textContent = msg
       this.$.error.classList.remove('fd-hidden')
     }
@@ -1043,6 +1169,14 @@ import CSS_TEXT from './style.css'
     _openAsk() {
       this.$.askPanel.classList.remove('fd-hidden')
       this.$.askFab.classList.add('fd-hidden')
+      // If data isn't loaded yet, show a loading message in the panel
+      if (!this.data) {
+        this.$.askResults.innerHTML = `
+          <div class="fd-ask-placeholder">
+            <div class="fd-ask-spinner"></div>
+            Cargando documentación de GitHub...
+          </div>`
+      }
       setTimeout(() => this.$.askInput.focus(), 50)
     }
 

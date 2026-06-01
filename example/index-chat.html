@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowDocs — Modo Chat</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f5f5f7;
+      color: #222;
+      min-height: 100vh;
+      padding: 40px;
+    }
+    .page { max-width: 720px; margin: 0 auto; }
+    h1 { font-size: 28px; margin: 0 0 12px; }
+    p { line-height: 1.6; color: #555; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Mi web normal</h1>
+    <p>Esto es una página cualquiera. FlowDocs en modo <strong>chat</strong> añade un botón flotante abajo-derecha que abre el panel de Q&A sobre la documentación del repo de GitHub configurado. No interfiere con el resto del layout.</p>
+    <p>Pulsa el botón azul de la esquina inferior derecha para probarlo.</p>
+  </div>
+
+  <div id="docs-mount"></div>
+
+  <script src="../dist/flow-docs.min.js"></script>
+  <script>
+    FlowDocs.init({
+      container: '#docs-mount',
+      mode: 'chat',
+      github: {
+        owner: 'fsanchezux',
+        repo: 'flow-documentation-framework',
+        branch: 'master',
+      }
+    })
+  </script>
+</body>
+</html>

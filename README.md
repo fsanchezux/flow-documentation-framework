@@ -10,6 +10,7 @@ Visor de documentación embebible que lee directamente desde un repositorio de G
 <script>
   FlowDocs.init({
     container: '#docs',
+    mode: 'full',   // 'full' (default) | 'chat' | 'modal'
     github: {
       owner: 'tu-usuario',
       repo: 'tu-repo',
@@ -20,7 +21,51 @@ Visor de documentación embebible que lee directamente desde un repositorio de G
 </script>
 ```
 
-El visor escanea el repo, detecta carpetas con `SKILL.md` y las muestra como skills navegables en el sidebar.
+El visor escanea el repo, detecta carpetas con `SKILL.md` y las muestra como skills navegables.
+
+## Modos de visualización
+
+Tres formas de embeber el visor según el espacio que quieras darle:
+
+### `mode: 'full'` (default)
+
+El visor ocupa todo el contenedor (sidebar + contenido + TOC). Pensado para una página dedicada a la documentación.
+
+```html
+<div id="docs" style="height:100vh"></div>
+<script>
+  FlowDocs.init({ container: '#docs', github: {...} })
+</script>
+```
+
+### `mode: 'chat'`
+
+Solo un botón flotante con el chat de "Pregunta a los docs". Sin sidebar ni visor — pensado para empotrar el Q&A en cualquier página sin ocupar layout. Los resultados se abren en GitHub en una pestaña nueva.
+
+```html
+<div id="docs-mount"></div>
+<script>
+  FlowDocs.init({ container: '#docs-mount', mode: 'chat', github: {...} })
+</script>
+```
+
+El contenedor puede ser de 0x0 — el botón flota anclado al viewport.
+
+### `mode: 'modal'`
+
+Botón flotante que abre una ventana al 90% del viewport con el visor compacto dentro (sidebar + contenido + TOC). Cierra con la X, click fuera, o `Esc`.
+
+```html
+<div id="docs-mount"></div>
+<script>
+  const docs = FlowDocs.init({ container: '#docs-mount', mode: 'modal', github: {...} })
+  // Para abrir/cerrar programáticamente:
+  // docs.open()
+  // docs.close()
+</script>
+```
+
+> En los tres modos, el panel de "Pregunta a los docs" (BM25) está disponible vía el botón flotante azul.
 
 ## Estructura del repo
 
@@ -78,10 +123,18 @@ Cómo conseguirlo:
 | Opción | Tipo | Descripción |
 |---|---|---|
 | `container` | `string \| Element` | Selector CSS o elemento DOM donde montar el visor (requerido) |
+| `mode` | `'full' \| 'chat' \| 'modal'` | Tipo de visualización (default: `'full'`) |
 | `github.owner` | `string` | Usuario u organización en GitHub (requerido) |
 | `github.repo` | `string` | Nombre del repo (requerido) |
 | `github.branch` | `string` | Rama a leer (default: `main`) |
 | `github.token` | `string` | Personal Access Token (opcional) |
+
+Métodos de la instancia devuelta:
+
+| Método | Descripción |
+|---|---|
+| `open()` | En modo `modal`/`chat`, abre el visor/chat |
+| `close()` | Cierra el modal/chat |
 
 ## Features
 

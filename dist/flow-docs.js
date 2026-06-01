@@ -2664,15 +2664,26 @@ ${content}</tr>
   z-index: 200;
 }
 
+/* \u2500\u2500 Mode-specific root sizing \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+/* Chat & modal modes don't need a sized container \u2014 the floating UI is
+   viewport-anchored. */
+.flow-docs-root.fd-mode-chat,
+.flow-docs-root.fd-mode-modal {
+  width: 0;
+  height: 0;
+  overflow: visible;
+  display: block;
+}
+
 /* \u2500\u2500 Ask panel (BM25 Q&A) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root .fd-ask-fab {
-  position: absolute;
+.fd-ask-fab {
+  position: fixed;
   bottom: 24px;
   right: 24px;
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: var(--fd-accent);
+  background: #58a6ff;
   color: #fff;
   border: none;
   display: flex;
@@ -2681,30 +2692,150 @@ ${content}</tr>
   cursor: pointer;
   box-shadow: 0 4px 14px rgba(0,0,0,.4);
   transition: transform .15s, box-shadow .15s;
-  z-index: 90;
+  z-index: 9990;
 }
-.flow-docs-root .fd-ask-fab:hover {
+.fd-ask-fab:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(88,166,255,.4);
 }
 
-.flow-docs-root .fd-ask-panel {
-  position: absolute;
+.fd-ask-panel {
+  position: fixed;
   bottom: 24px;
   right: 24px;
   width: 420px;
-  max-width: calc(100% - 48px);
+  max-width: calc(100vw - 48px);
   height: 560px;
-  max-height: calc(100% - 48px);
-  background: var(--fd-bg2);
-  border: 1px solid var(--fd-border);
-  border-radius: var(--fd-radius);
+  max-height: calc(100vh - 48px);
+  background: #161b22;
+  color: #e6edf3;
+  border: 1px solid #30363d;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 8px 28px rgba(0,0,0,.5);
-  z-index: 95;
+  z-index: 9995;
   overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
 }
+.fd-ask-panel.fd-hidden { display: none !important; }
+.fd-ask-fab.fd-hidden { display: none !important; }
+
+.fd-ask-spinner {
+  width: 22px;
+  height: 22px;
+  margin: 0 auto 10px;
+  border: 2px solid #30363d;
+  border-top-color: #58a6ff;
+  border-radius: 50%;
+  animation: fd-spin 0.8s linear infinite;
+}
+
+/* In chat-only mode, overlays float over the viewport since root is 0x0 */
+.flow-docs-root.fd-mode-chat .fd-toast,
+.flow-docs-root.fd-mode-chat .fd-error,
+.flow-docs-root.fd-mode-chat .fd-loading {
+  position: fixed;
+}
+
+/* \u2500\u2500 Modal mode \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.fd-modal-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 84px;  /* sits next to the ask fab */
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--fd-bg3, #1c2128);
+  color: #58a6ff;
+  border: 1px solid #30363d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,.4);
+  transition: transform .15s, box-shadow .15s;
+  z-index: 9990;
+}
+.fd-modal-fab:hover {
+  transform: translateY(-2px);
+  border-color: #58a6ff;
+}
+.fd-modal-fab.fd-hidden { display: none !important; }
+
+.fd-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(2px);
+  z-index: 9980;
+}
+.fd-modal-backdrop.fd-hidden { display: none !important; }
+
+.fd-modal {
+  position: fixed;
+  top: 5vh;
+  left: 5vw;
+  width: 90vw;
+  height: 90vh;
+  background: #0f1117;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.7);
+  z-index: 9985;
+  overflow: hidden;
+  display: flex;
+}
+.fd-modal.fd-hidden { display: none !important; }
+
+.fd-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.5);
+  color: #e6edf3;
+  border: 1px solid #30363d;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s, color .15s;
+}
+.fd-modal-close:hover { background: #f85149; color: #fff; border-color: #f85149; }
+
+/* The viewer inside a modal: copy of .flow-docs-root flex layout, scoped */
+.fd-modal {
+  background: var(--fd-bg, #0f1117);
+  color: var(--fd-text, #e6edf3);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  --fd-bg:        #0f1117;
+  --fd-bg2:       #161b22;
+  --fd-bg3:       #1c2128;
+  --fd-border:    #30363d;
+  --fd-text:      #e6edf3;
+  --fd-text2:     #8b949e;
+  --fd-text3:     #6e7681;
+  --fd-accent:    #58a6ff;
+  --fd-accent-bg: #1f3d5c;
+  --fd-radius:    8px;
+  --fd-sidebar-w: 240px;
+  --fd-toc-w:     200px;
+}
+.fd-modal *, .fd-modal *::before, .fd-modal *::after {
+  box-sizing: border-box;
+}
+/* Compact modal sidebar/padding */
+.fd-modal .fd-sidebar { width: var(--fd-sidebar-w); }
+.fd-modal .fd-content-area { padding: 10px 28px 32px; }
+.fd-modal .fd-sidebar-header { padding: 14px 10px 10px; }
+.fd-modal .fd-toc { padding: 32px 12px 32px 10px; }
 
 .flow-docs-root .fd-ask-header {
   display: flex;
@@ -3321,6 +3452,11 @@ ${files[normalizedRef]}
               throw new Error("FlowDocs: container not found");
             if (!options2.github)
               throw new Error("FlowDocs: `github` option is required");
+            const mode = options2.mode || "full";
+            if (!["full", "chat", "modal"].includes(mode)) {
+              throw new Error(`FlowDocs: invalid mode "${mode}". Use 'full', 'chat' or 'modal'.`);
+            }
+            this.mode = mode;
             this.github = options2.github;
             this.homePage = null;
             this.data = null;
@@ -3328,10 +3464,24 @@ ${files[normalizedRef]}
             this.currentSkill = null;
             this.currentFilePath = null;
             this.searchTimeout = null;
+            this.askIndex = null;
             this._injectCSS();
             this._buildDOM();
             this._bindEvents();
             this._loadFromGitHub();
+          }
+          // ─── Public methods for modal/chat modes ───────────────────────────────
+          open() {
+            if (this.mode === "modal")
+              this._openModal();
+            else if (this.mode === "chat")
+              this._openAsk();
+          }
+          close() {
+            if (this.mode === "modal")
+              this._closeModal();
+            else if (this.mode === "chat")
+              this._closeAsk();
           }
           // ─── CSS injection ─────────────────────────────────────────────────────
           _injectCSS() {
@@ -3390,8 +3540,21 @@ ${files[normalizedRef]}
           _buildDOM() {
             this.container.innerHTML = "";
             const root = document.createElement("div");
-            root.className = "flow-docs-root";
-            root.innerHTML = `
+            root.className = `flow-docs-root fd-mode-${this.mode}`;
+            if (this.mode === "chat") {
+              root.innerHTML = this._dom_overlays() + this._dom_askUI();
+            } else if (this.mode === "modal") {
+              root.innerHTML = this._dom_modalTrigger() + this._dom_modalShell() + this._dom_overlays() + this._dom_askUI();
+            } else {
+              root.innerHTML = this._dom_viewerInner() + this._dom_overlays() + this._dom_askUI();
+            }
+            this.container.appendChild(root);
+            this.root = root;
+            this._cacheElements();
+          }
+          // Viewer shell (sidebar + main + toc). Used in 'full' and (wrapped) 'modal'.
+          _dom_viewerInner() {
+            return `
         <aside class="fd-sidebar">
           <div class="fd-sidebar-header">
             <div class="fd-logo-row">
@@ -3432,25 +3595,28 @@ ${files[normalizedRef]}
             <ul class="fd-toc-list"></ul>
           </div>
         </main>
-
+      `;
+          }
+          _dom_overlays() {
+            return `
         <div class="fd-toast">
           ${ICONS.check}
           <span class="fd-toast-msg">Copiado</span>
         </div>
-
         <div class="fd-loading fd-hidden">
           <div class="fd-loading-spinner"></div>
           <div class="fd-loading-text">Cargando...</div>
         </div>
-
         <div class="fd-error fd-hidden">
           <div class="fd-error-text"></div>
         </div>
-
+      `;
+          }
+          _dom_askUI() {
+            return `
         <button class="fd-ask-fab" title="Pregunta a los docs">
           ${ICONS.chat}
         </button>
-
         <div class="fd-ask-panel fd-hidden">
           <div class="fd-ask-header">
             <span class="fd-ask-title">Pregunta a los docs</span>
@@ -3467,102 +3633,62 @@ ${files[normalizedRef]}
           </form>
         </div>
       `;
-            this.container.appendChild(root);
-            this.root = root;
+          }
+          _dom_modalTrigger() {
+            return `
+        <button class="fd-modal-fab" title="Abrir documentaci\xF3n">
+          ${ICONS.book}
+        </button>
+      `;
+          }
+          _dom_modalShell() {
+            return `
+        <div class="fd-modal-backdrop fd-hidden"></div>
+        <div class="fd-modal fd-hidden">
+          <button class="fd-modal-close" title="Cerrar">${ICONS.close}</button>
+          ${this._dom_viewerInner()}
+        </div>
+      `;
+          }
+          _cacheElements() {
+            const r = this.root;
             this.$ = {
-              skillList: root.querySelector(".fd-skill-list"),
-              searchInput: root.querySelector(".fd-search-input"),
-              welcome: root.querySelector(".fd-welcome"),
-              skillContent: root.querySelector(".fd-skill-content"),
-              searchResults: root.querySelector(".fd-search-results"),
-              btnReload: root.querySelector(".fd-btn-reload"),
-              toc: root.querySelector(".fd-toc"),
-              tocList: root.querySelector(".fd-toc-list"),
-              tocResizer: root.querySelector(".fd-toc-resizer"),
-              contentArea: root.querySelector(".fd-content-area"),
-              toast: root.querySelector(".fd-toast"),
-              toastMsg: root.querySelector(".fd-toast-msg"),
-              main: root.querySelector(".fd-main"),
-              loading: root.querySelector(".fd-loading"),
-              loadingText: root.querySelector(".fd-loading-text"),
-              error: root.querySelector(".fd-error"),
-              errorText: root.querySelector(".fd-error-text"),
-              askFab: root.querySelector(".fd-ask-fab"),
-              askPanel: root.querySelector(".fd-ask-panel"),
-              askClose: root.querySelector(".fd-ask-close"),
-              askResults: root.querySelector(".fd-ask-results"),
-              askForm: root.querySelector(".fd-ask-input-row"),
-              askInput: root.querySelector(".fd-ask-input")
+              // viewer (may be null in chat mode)
+              skillList: r.querySelector(".fd-skill-list"),
+              searchInput: r.querySelector(".fd-search-input"),
+              welcome: r.querySelector(".fd-welcome"),
+              skillContent: r.querySelector(".fd-skill-content"),
+              searchResults: r.querySelector(".fd-search-results"),
+              btnReload: r.querySelector(".fd-btn-reload"),
+              toc: r.querySelector(".fd-toc"),
+              tocList: r.querySelector(".fd-toc-list"),
+              tocResizer: r.querySelector(".fd-toc-resizer"),
+              contentArea: r.querySelector(".fd-content-area"),
+              main: r.querySelector(".fd-main"),
+              // overlays
+              toast: r.querySelector(".fd-toast"),
+              toastMsg: r.querySelector(".fd-toast-msg"),
+              loading: r.querySelector(".fd-loading"),
+              loadingText: r.querySelector(".fd-loading-text"),
+              error: r.querySelector(".fd-error"),
+              errorText: r.querySelector(".fd-error-text"),
+              // ask
+              askFab: r.querySelector(".fd-ask-fab"),
+              askPanel: r.querySelector(".fd-ask-panel"),
+              askClose: r.querySelector(".fd-ask-close"),
+              askResults: r.querySelector(".fd-ask-results"),
+              askForm: r.querySelector(".fd-ask-input-row"),
+              askInput: r.querySelector(".fd-ask-input"),
+              // modal (only in modal mode)
+              modalFab: r.querySelector(".fd-modal-fab"),
+              modal: r.querySelector(".fd-modal"),
+              modalBackdrop: r.querySelector(".fd-modal-backdrop"),
+              modalClose: r.querySelector(".fd-modal-close")
             };
           }
           // ─── Event binding ─────────────────────────────────────────────────────
           _bindEvents() {
-            this.$.searchInput.addEventListener("input", () => {
-              clearTimeout(this.searchTimeout);
-              const q = this.$.searchInput.value.trim();
-              if (q.length < 2) {
-                if (this.currentSkill)
-                  this._loadSkill(this.currentSkill);
-                else
-                  this._showPanel("welcome");
-                return;
-              }
-              this.searchTimeout = setTimeout(() => this._doSearch(q), 250);
-            });
-            this.root.addEventListener("keydown", (e) => {
-              if ((e.ctrlKey || e.metaKey) && e.key === "k") {
-                e.preventDefault();
-                this.$.searchInput.focus();
-                this.$.searchInput.select();
-              }
-              if (e.key === "Escape") {
-                if (document.activeElement === this.$.searchInput) {
-                  this.$.searchInput.value = "";
-                  this.$.searchInput.blur();
-                  if (this.currentSkill)
-                    this._loadSkill(this.currentSkill);
-                  else
-                    this._showPanel("welcome");
-                }
-              }
-            });
             this.root.setAttribute("tabindex", "-1");
-            this.$.skillList.addEventListener("click", (e) => {
-              const header = e.target.closest(".fd-tree-dir-header");
-              if (header) {
-                e.stopPropagation();
-                const children = header.nextElementSibling;
-                const open = header.dataset.open === "true";
-                header.dataset.open = !open;
-                children.classList.toggle("fd-hidden", open);
-                return;
-              }
-              const fileEl = e.target.closest(".fd-tree-file");
-              if (fileEl) {
-                e.stopPropagation();
-                this._loadFile(fileEl.dataset.skill, fileEl.dataset.path);
-              }
-            });
-            this.$.btnReload.addEventListener("click", (e) => {
-              e.stopPropagation();
-              this._loadFromGitHub();
-            });
-            this.root.querySelector(".fd-logo").addEventListener("click", () => {
-              this.currentSkill = null;
-              this.currentFilePath = null;
-              this.root.querySelectorAll(".fd-skill-item").forEach((el) => el.classList.remove("active"));
-              this.root.querySelectorAll(".fd-skill-tree").forEach((el) => el.remove());
-              this.$.toc.classList.remove("visible");
-              this._showPanel("welcome");
-              this._renderHomePage();
-            });
-            this.root.addEventListener("click", (e) => {
-              const btn = e.target.closest(".fd-btn-copy");
-              if (btn) {
-                const code = btn.closest(".fd-code-block").querySelector("code");
-                navigator.clipboard.writeText(code.innerText).then(() => this._showToast());
-              }
-            });
             this.$.askFab.addEventListener("click", () => this._toggleAsk());
             this.$.askClose.addEventListener("click", () => this._closeAsk());
             this.$.askForm.addEventListener("submit", (e) => {
@@ -3576,6 +3702,11 @@ ${files[normalizedRef]}
               const skill = card.dataset.skill;
               const file = card.dataset.file;
               const section = card.dataset.section;
+              if (this.mode === "chat") {
+                const url = `https://github.com/${this.github.owner}/${this.github.repo}/blob/${this.github.branch || "main"}/${file}${section ? "#" + section : ""}`;
+                window.open(url, "_blank", "noopener");
+                return;
+              }
               this._loadFile(skill, file);
               if (section) {
                 setTimeout(() => {
@@ -3586,25 +3717,138 @@ ${files[normalizedRef]}
               }
               this._closeAsk();
             });
-            this._initTocResizer();
+            if (this.mode === "modal") {
+              this.$.modalFab.addEventListener("click", () => this._openModal());
+              this.$.modalClose.addEventListener("click", () => this._closeModal());
+              this.$.modalBackdrop.addEventListener("click", () => this._closeModal());
+            }
+            this.root.addEventListener("keydown", (e) => {
+              if (e.key === "Escape") {
+                if (this.$.searchInput && document.activeElement === this.$.searchInput) {
+                  this.$.searchInput.value = "";
+                  this.$.searchInput.blur();
+                  if (this.currentSkill)
+                    this._loadSkill(this.currentSkill);
+                  else
+                    this._showPanel("welcome");
+                  return;
+                }
+                if (this.mode === "modal" && this.$.modal && !this.$.modal.classList.contains("fd-hidden")) {
+                  this._closeModal();
+                  return;
+                }
+                if (this.$.askPanel && !this.$.askPanel.classList.contains("fd-hidden")) {
+                  this._closeAsk();
+                }
+              }
+              if (this.$.searchInput && (e.ctrlKey || e.metaKey) && e.key === "k") {
+                e.preventDefault();
+                this.$.searchInput.focus();
+                this.$.searchInput.select();
+              }
+            });
+            if (this.$.searchInput) {
+              this.$.searchInput.addEventListener("input", () => {
+                clearTimeout(this.searchTimeout);
+                const q = this.$.searchInput.value.trim();
+                if (q.length < 2) {
+                  if (this.currentSkill)
+                    this._loadSkill(this.currentSkill);
+                  else
+                    this._showPanel("welcome");
+                  return;
+                }
+                this.searchTimeout = setTimeout(() => this._doSearch(q), 250);
+              });
+            }
+            if (this.$.skillList) {
+              this.$.skillList.addEventListener("click", (e) => {
+                const header = e.target.closest(".fd-tree-dir-header");
+                if (header) {
+                  e.stopPropagation();
+                  const children = header.nextElementSibling;
+                  const open = header.dataset.open === "true";
+                  header.dataset.open = !open;
+                  children.classList.toggle("fd-hidden", open);
+                  return;
+                }
+                const fileEl = e.target.closest(".fd-tree-file");
+                if (fileEl) {
+                  e.stopPropagation();
+                  this._loadFile(fileEl.dataset.skill, fileEl.dataset.path);
+                }
+              });
+            }
+            if (this.$.btnReload) {
+              this.$.btnReload.addEventListener("click", (e) => {
+                e.stopPropagation();
+                this._loadFromGitHub();
+              });
+            }
+            const logo = this.root.querySelector(".fd-logo");
+            if (logo) {
+              logo.addEventListener("click", () => {
+                this.currentSkill = null;
+                this.currentFilePath = null;
+                this.root.querySelectorAll(".fd-skill-item").forEach((el) => el.classList.remove("active"));
+                this.root.querySelectorAll(".fd-skill-tree").forEach((el) => el.remove());
+                this.$.toc.classList.remove("visible");
+                this._showPanel("welcome");
+                this._renderHomePage();
+              });
+            }
+            this.root.addEventListener("click", (e) => {
+              const btn = e.target.closest(".fd-btn-copy");
+              if (btn) {
+                const code = btn.closest(".fd-code-block").querySelector("code");
+                navigator.clipboard.writeText(code.innerText).then(() => this._showToast());
+              }
+            });
+            if (this.$.tocResizer)
+              this._initTocResizer();
+          }
+          // ─── Modal open/close ──────────────────────────────────────────────────
+          _openModal() {
+            this.$.modal.classList.remove("fd-hidden");
+            this.$.modalBackdrop.classList.remove("fd-hidden");
+            this.$.modalFab.classList.add("fd-hidden");
+          }
+          _closeModal() {
+            this.$.modal.classList.add("fd-hidden");
+            this.$.modalBackdrop.classList.add("fd-hidden");
+            this.$.modalFab.classList.remove("fd-hidden");
           }
           // ─── Data loading ──────────────────────────────────────────────────────
           _loadData(data) {
             this.data = data;
             this.homePage = data.homePage || null;
             this.askIndex = null;
-            this._renderSkillList();
-            this._renderHomePage();
+            if (this.$.skillList)
+              this._renderSkillList();
+            if (this.$.welcome)
+              this._renderHomePage();
+            if (this.$.askPanel && !this.$.askPanel.classList.contains("fd-hidden")) {
+              this.$.askResults.innerHTML = `
+          <div class="fd-ask-placeholder">
+            Haz una pregunta en lenguaje natural y te muestro los fragmentos m\xE1s relevantes de la documentaci\xF3n.
+          </div>`;
+            }
           }
           // ─── Loading / Error states ────────────────────────────────────────────
           _showLoading(msg) {
+            if (!this.$.loading)
+              return;
             this.$.loadingText.textContent = msg || "Cargando...";
             this.$.loading.classList.remove("fd-hidden");
           }
           _hideLoading() {
+            if (!this.$.loading)
+              return;
             this.$.loading.classList.add("fd-hidden");
           }
           _showError(msg) {
+            if (!this.$.error)
+              return;
             this.$.errorText.textContent = msg;
             this.$.error.classList.remove("fd-hidden");
           }
@@ -3863,6 +4107,13 @@ ${files[normalizedRef]}
           _openAsk() {
             this.$.askPanel.classList.remove("fd-hidden");
             this.$.askFab.classList.add("fd-hidden");
+            if (!this.data) {
+              this.$.askResults.innerHTML = `
+          <div class="fd-ask-placeholder">
+            <div class="fd-ask-spinner"></div>
+            Cargando documentaci\xF3n de GitHub...
+          </div>`;
+            }
             setTimeout(() => this.$.askInput.focus(), 50);
           }
           _closeAsk() {

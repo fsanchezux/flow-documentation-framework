@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowDocs — Modo Modal</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f5f5f7;
+      color: #222;
+      min-height: 100vh;
+      padding: 40px;
+    }
+    .page { max-width: 720px; margin: 0 auto; }
+    h1 { font-size: 28px; margin: 0 0 12px; }
+    p { line-height: 1.6; color: #555; }
+    button.demo {
+      margin-top: 16px;
+      padding: 10px 20px;
+      background: #58a6ff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Mi web normal</h1>
+    <p>FlowDocs en modo <strong>modal</strong> añade dos botones flotantes abajo-derecha: uno con el icono de libro (abre el visor completo en una ventana al 90%) y otro azul con el chat (panel de Q&A BM25). Cierra con la X, click fuera del modal, o tecla Esc.</p>
+    <p>Pulsa cualquier botón flotante de la esquina inferior derecha.</p>
+    <button class="demo" onclick="docs.open()">Abrir documentación (programático)</button>
+  </div>
+
+  <div id="docs-mount"></div>
+
+  <script src="../dist/flow-docs.min.js"></script>
+  <script>
+    const docs = FlowDocs.init({
+      container: '#docs-mount',
+      mode: 'modal',
+      github: {
+        owner: 'fsanchezux',
+        repo: 'flow-documentation-framework',
+        branch: 'master',
+      }
+    })
+  </script>
+</body>
+</html>
