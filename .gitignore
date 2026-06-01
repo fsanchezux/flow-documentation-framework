@@ -1,5 +1,3 @@
 node_modules/
 .claude/
 serve-example.js
-.env
-flow-docs.config.json

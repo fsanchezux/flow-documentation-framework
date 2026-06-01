@@ -69,10 +69,10 @@
   font-size: 15px;
   color: var(--fd-text);
   cursor: pointer;
+  flex: 1;
 }
 .flow-docs-root .fd-logo svg { color: var(--fd-accent); }
 
-.flow-docs-root .fd-btn-download,
 .flow-docs-root .fd-btn-reload {
   display: inline-flex;
   align-items: center;
@@ -87,7 +87,6 @@
   cursor: pointer;
   transition: all 0.15s;
 }
-.flow-docs-root .fd-btn-download:hover,
 .flow-docs-root .fd-btn-reload:hover {
   color: var(--fd-accent);
   border-color: var(--fd-accent);
@@ -104,7 +103,6 @@
   border-radius: var(--fd-radius);
   padding: 6px 10px;
   transition: border-color .15s;
-  position: relative;
 }
 .flow-docs-root .fd-search-box:focus-within { border-color: var(--fd-accent); }
 .flow-docs-root .fd-search-box svg { color: var(--fd-text3); flex-shrink: 0; }
@@ -173,6 +171,15 @@
   color: var(--fd-text2);
   font-size: 13px;
   line-height: 1.7;
+}
+.flow-docs-root .fd-empty-state code {
+  background: var(--fd-bg3);
+  border: 1px solid var(--fd-border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: var(--fd-font-mono);
+  font-size: 12px;
+  color: #e2a97e;
 }
 
 /* ── Main ──────────────────────────────────────────────────────────────────── */
@@ -522,7 +529,15 @@
 .flow-docs-root .fd-tree-dir-header:hover { color: var(--fd-text); }
 .flow-docs-root .fd-tree-dir-header > svg { flex-shrink: 0; }
 .flow-docs-root .fd-tree-dir-header span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.flow-docs-root .fd-tree-chevron { transition: transform .15s; color: var(--fd-text3); flex-shrink: 0; }
+
+.flow-docs-root .fd-tree-chevron {
+  transition: transform .15s;
+  color: var(--fd-text3);
+  flex-shrink: 0;
+}
+.flow-docs-root .fd-tree-dir-header[data-open="true"] .fd-tree-chevron {
+  transform: rotate(90deg);
+}
 
 .flow-docs-root .fd-tree-count {
   font-size: 10px;
@@ -615,102 +630,6 @@
   font-size: 13px;
   max-width: 500px;
   z-index: 200;
-}
-
-/* ── Search flags ──────────────────────────────────────────────────────────── */
-.flow-docs-root .fd-flag-suggestions {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  right: 0;
-  background: var(--fd-bg3);
-  border: 1px solid var(--fd-border);
-  border-radius: var(--fd-radius);
-  overflow: hidden;
-  z-index: 50;
-  box-shadow: 0 4px 12px rgba(0,0,0,.4);
-}
-
-.flow-docs-root .fd-flag-suggestion {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 7px 12px;
-  cursor: pointer;
-  transition: background .1s;
-}
-.flow-docs-root .fd-flag-suggestion:hover { background: var(--fd-bg2); }
-.flow-docs-root .fd-flag-suggestion code {
-  font-family: var(--fd-font-mono);
-  font-size: 12px;
-  color: var(--fd-accent);
-  flex-shrink: 0;
-}
-.flow-docs-root .fd-flag-suggestion span {
-  font-size: 12px;
-  color: var(--fd-text2);
-}
-
-.flow-docs-root .fd-search-flags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  padding: 6px 0 2px;
-}
-
-.flow-docs-root .fd-flag-chip {
-  font-size: 11px;
-  background: var(--fd-accent-bg);
-  color: var(--fd-accent);
-  border-radius: 10px;
-  padding: 1px 8px;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.flow-docs-root .fd-search-filter-badges {
-  display: inline-flex;
-  gap: 4px;
-  vertical-align: middle;
-  margin-left: 6px;
-}
-
-/* ── Priority badge & divider ──────────────────────────────────────────────── */
-.flow-docs-root .fd-priority-badge {
-  font-size: 11px;
-  background: #3a2a00;
-  color: var(--fd-yellow);
-  border-radius: 10px;
-  padding: 1px 8px;
-  font-weight: 500;
-  white-space: nowrap;
-  margin-left: auto;
-}
-
-.flow-docs-root .fd-search-result.priority {
-  border-color: #3a2a00;
-}
-.flow-docs-root .fd-search-result.priority:hover {
-  border-color: var(--fd-yellow);
-}
-
-.flow-docs-root .fd-search-divider {
-  font-size: 11px;
-  color: var(--fd-text3);
-  text-transform: uppercase;
-  letter-spacing: .6px;
-  font-weight: 600;
-  padding: 14px 0 8px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.flow-docs-root .fd-search-divider::before,
-.flow-docs-root .fd-search-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--fd-border);
 }
 
 /* ── Scrollbar global ──────────────────────────────────────────────────────── */

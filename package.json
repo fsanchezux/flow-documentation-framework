@@ -1,7 +1,7 @@
 {
   "name": "flow-documentation-framework",
-  "version": "2.0.0",
-  "description": "Embeddable documentation viewer — loads directly from GitHub repos",
+  "version": "3.0.0",
+  "description": "Embeddable documentation viewer that reads docs directly from a GitHub repo",
   "author": "fsanchezux",
   "license": "MIT",
   "main": "dist/flow-docs.min.js",
@@ -24,11 +24,7 @@
   "homepage": "https://github.com/fsanchezux/flow-documentation-framework",
   "scripts": {
     "build": "node build.js",
-    "dev": "node build.js",
-    "build:data": "node build-data.js"
-  },
-  "dependencies": {
-    "dotenv": "^16.6.1"
+    "dev": "node build.js"
   },
   "devDependencies": {
     "esbuild": "^0.20.0",

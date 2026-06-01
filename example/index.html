@@ -17,10 +17,11 @@
   <script>
     FlowDocs.init({
       container: '#docs',
-      dataUrl: './flow-docs-data.json',
-      onSave: (skill, filePath, content) => {
-        console.log('Save requested:', skill, filePath, content.length, 'chars')
-        // In a real app, POST to your backend here
+      github: {
+        owner: 'fsanchezux',
+        repo: 'flow-documentation-framework',
+        branch: 'master',
+        // token: 'ghp_...'  // opcional para repos privados o subir rate limit
       }
     })
   </script>

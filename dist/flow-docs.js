@@ -2030,7 +2030,645 @@ ${content}</tr>
   var style_default;
   var init_style = __esm({
     "css-text:C:\\Users\\ferry\\flow-documentation-framework\\src\\style.css"() {
-      style_default = "/* \u2500\u2500 Variables \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root {\n  --fd-bg:        #0f1117;\n  --fd-bg2:       #161b22;\n  --fd-bg3:       #1c2128;\n  --fd-border:    #30363d;\n  --fd-text:      #e6edf3;\n  --fd-text2:     #8b949e;\n  --fd-text3:     #6e7681;\n  --fd-accent:    #58a6ff;\n  --fd-accent-bg: #1f3d5c;\n  --fd-green:     #3fb950;\n  --fd-yellow:    #d29922;\n  --fd-red:       #f85149;\n  --fd-radius:    8px;\n  --fd-sidebar-w: 260px;\n  --fd-toc-w:     220px;\n  --fd-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;\n}\n\n/* \u2500\u2500 Reset (scoped) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root *, .flow-docs-root *::before, .flow-docs-root *::after {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\n.flow-docs-root {\n  display: flex;\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n  background: var(--fd-bg);\n  color: var(--fd-text);\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;\n  font-size: 14px;\n  line-height: 1.6;\n  position: relative;\n}\n\n/* \u2500\u2500 Sidebar \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-sidebar {\n  width: var(--fd-sidebar-w);\n  flex-shrink: 0;\n  background: var(--fd-bg2);\n  border-right: 1px solid var(--fd-border);\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n}\n\n.flow-docs-root .fd-sidebar-header {\n  padding: 16px 12px 12px;\n  border-bottom: 1px solid var(--fd-border);\n}\n\n.flow-docs-root .fd-logo-row {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 12px;\n}\n\n.flow-docs-root .fd-logo {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  font-weight: 600;\n  font-size: 15px;\n  color: var(--fd-text);\n  cursor: pointer;\n}\n.flow-docs-root .fd-logo svg { color: var(--fd-accent); }\n\n.flow-docs-root .fd-btn-download,\n.flow-docs-root .fd-btn-reload {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 28px;\n  height: 28px;\n  padding: 0;\n  border: 1px solid var(--fd-border);\n  border-radius: 6px;\n  background: var(--fd-bg3);\n  color: var(--fd-text2);\n  cursor: pointer;\n  transition: all 0.15s;\n}\n.flow-docs-root .fd-btn-download:hover,\n.flow-docs-root .fd-btn-reload:hover {\n  color: var(--fd-accent);\n  border-color: var(--fd-accent);\n  background: var(--fd-accent-bg);\n}\n\n/* \u2500\u2500 Search box \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-search-box {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: var(--fd-radius);\n  padding: 6px 10px;\n  transition: border-color .15s;\n  position: relative;\n}\n.flow-docs-root .fd-search-box:focus-within { border-color: var(--fd-accent); }\n.flow-docs-root .fd-search-box svg { color: var(--fd-text3); flex-shrink: 0; }\n.flow-docs-root .fd-search-box input {\n  flex: 1;\n  background: none;\n  border: none;\n  outline: none;\n  color: var(--fd-text);\n  font-size: 13px;\n  min-width: 0;\n}\n.flow-docs-root .fd-search-box input::placeholder { color: var(--fd-text3); }\n.flow-docs-root .fd-search-box kbd {\n  font-size: 10px;\n  color: var(--fd-text3);\n  background: var(--fd-bg2);\n  border: 1px solid var(--fd-border);\n  border-radius: 4px;\n  padding: 1px 4px;\n  flex-shrink: 0;\n}\n\n.flow-docs-root .fd-skill-list {\n  flex: 1;\n  overflow-y: auto;\n  padding: 8px 0;\n}\n.flow-docs-root .fd-skill-list::-webkit-scrollbar { width: 4px; }\n.flow-docs-root .fd-skill-list::-webkit-scrollbar-track { background: transparent; }\n.flow-docs-root .fd-skill-list::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 2px; }\n\n.flow-docs-root .fd-skill-item {\n  padding: 8px 14px;\n  cursor: pointer;\n  border-radius: 6px;\n  margin: 1px 6px;\n  transition: background .1s;\n}\n.flow-docs-root .fd-skill-item:hover { background: var(--fd-bg3); }\n.flow-docs-root .fd-skill-item.active { background: var(--fd-accent-bg); }\n.flow-docs-root .fd-skill-item.active .fd-skill-name { color: var(--fd-accent); }\n\n.flow-docs-root .fd-skill-name {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--fd-text);\n}\n.flow-docs-root .fd-skill-name svg { color: var(--fd-text3); flex-shrink: 0; }\n\n.flow-docs-root .fd-skill-desc {\n  font-size: 11px;\n  color: var(--fd-text3);\n  margin-top: 2px;\n  padding-left: 20px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.flow-docs-root .fd-empty-state {\n  padding: 20px 14px;\n  color: var(--fd-text2);\n  font-size: 13px;\n  line-height: 1.7;\n}\n\n/* \u2500\u2500 Main \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-main {\n  flex: 1;\n  display: flex;\n  overflow: hidden;\n  position: relative;\n}\n\n.flow-docs-root .fd-content-area {\n  flex: 1;\n  overflow-y: auto;\n  padding: 10px 48px 40px;\n  min-width: 0;\n}\n.flow-docs-root .fd-content-area::-webkit-scrollbar { width: 6px; }\n.flow-docs-root .fd-content-area::-webkit-scrollbar-track { background: transparent; }\n.flow-docs-root .fd-content-area::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 3px; }\n\n.flow-docs-root .fd-hidden { display: none !important; }\n\n/* \u2500\u2500 Welcome \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-welcome {\n  height: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.flow-docs-root .fd-welcome:has(.fd-home-content) {\n  align-items: flex-start;\n  justify-content: flex-start;\n}\n.flow-docs-root .fd-welcome-inner {\n  text-align: center;\n  color: var(--fd-text2);\n}\n.flow-docs-root .fd-welcome-inner svg { color: var(--fd-text3); margin-bottom: 16px; }\n.flow-docs-root .fd-welcome-inner h1 { font-size: 24px; color: var(--fd-text); margin-bottom: 8px; }\n.flow-docs-root .fd-welcome-inner p { font-size: 14px; margin-bottom: 6px; }\n.flow-docs-root .fd-welcome-inner .fd-hint { font-size: 12px; color: var(--fd-text3); }\n.flow-docs-root .fd-welcome-inner kbd {\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: 4px;\n  padding: 1px 5px;\n  font-size: 11px;\n}\n\n/* \u2500\u2500 Home page content \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-home-content {\n  max-width: 720px;\n  padding: 48px 32px;\n}\n.flow-docs-root .fd-home-content h1 { font-size: 26px; font-weight: 700; margin: 0 0 8px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 12px; }\n.flow-docs-root .fd-home-content h2 { font-size: 20px; font-weight: 600; margin: 28px 0 12px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 8px; }\n.flow-docs-root .fd-home-content h3 { font-size: 16px; font-weight: 600; margin: 20px 0 8px; color: var(--fd-text); }\n.flow-docs-root .fd-home-content p { margin: 0 0 14px; color: var(--fd-text); }\n.flow-docs-root .fd-home-content ul, .flow-docs-root .fd-home-content ol { margin: 0 0 14px 20px; color: var(--fd-text); }\n.flow-docs-root .fd-home-content li { margin-bottom: 4px; }\n.flow-docs-root .fd-home-content a { color: var(--fd-accent); text-decoration: none; }\n.flow-docs-root .fd-home-content a:hover { text-decoration: underline; }\n.flow-docs-root .fd-home-content strong { font-weight: 600; color: var(--fd-text); }\n.flow-docs-root .fd-home-content code:not(pre code) {\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: 4px;\n  padding: 1px 6px;\n  font-family: var(--fd-font-mono);\n  font-size: 12px;\n  color: #e2a97e;\n}\n\n/* \u2500\u2500 Markdown content \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-skill-content h1 { font-size: 26px; font-weight: 700; margin: 0 0 8px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 12px; }\n.flow-docs-root .fd-skill-content h2 { font-size: 20px; font-weight: 600; margin: 36px 0 12px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 8px; }\n.flow-docs-root .fd-skill-content h3 { font-size: 16px; font-weight: 600; margin: 24px 0 8px; color: var(--fd-text); }\n.flow-docs-root .fd-skill-content h4 { font-size: 14px; font-weight: 600; margin: 16px 0 6px; color: var(--fd-text2); }\n.flow-docs-root .fd-skill-content p { margin: 0 0 14px; color: var(--fd-text); }\n.flow-docs-root .fd-skill-content ul, .flow-docs-root .fd-skill-content ol { margin: 0 0 14px 20px; color: var(--fd-text); }\n.flow-docs-root .fd-skill-content li { margin-bottom: 4px; }\n.flow-docs-root .fd-skill-content a { color: var(--fd-accent); text-decoration: none; }\n.flow-docs-root .fd-skill-content a:hover { text-decoration: underline; }\n.flow-docs-root .fd-skill-content strong { font-weight: 600; color: var(--fd-text); }\n.flow-docs-root .fd-skill-content em { font-style: italic; color: var(--fd-text2); }\n.flow-docs-root .fd-skill-content hr { border: none; border-top: 1px solid var(--fd-border); margin: 28px 0; }\n\n.flow-docs-root .fd-skill-content blockquote {\n  border-left: 3px solid var(--fd-accent);\n  margin: 0 0 14px;\n  padding: 8px 16px;\n  background: var(--fd-bg2);\n  border-radius: 0 var(--fd-radius) var(--fd-radius) 0;\n  color: var(--fd-text2);\n}\n\n.flow-docs-root .fd-skill-content table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-bottom: 16px;\n  font-size: 13px;\n}\n.flow-docs-root .fd-skill-content th {\n  background: var(--fd-bg2);\n  padding: 8px 12px;\n  text-align: left;\n  border: 1px solid var(--fd-border);\n  font-weight: 600;\n}\n.flow-docs-root .fd-skill-content td {\n  padding: 7px 12px;\n  border: 1px solid var(--fd-border);\n}\n.flow-docs-root .fd-skill-content tr:nth-child(even) td { background: var(--fd-bg2); }\n\n.flow-docs-root .fd-skill-content code:not(pre code) {\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: 4px;\n  padding: 1px 6px;\n  font-family: var(--fd-font-mono);\n  font-size: 12px;\n  color: #e2a97e;\n}\n\n/* \u2500\u2500 Code blocks \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-code-block {\n  margin: 12px 0 20px;\n  border: 1px solid var(--fd-border);\n  border-radius: var(--fd-radius);\n  overflow: hidden;\n}\n\n.flow-docs-root .fd-code-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 6px 14px;\n  background: var(--fd-bg3);\n  border-bottom: 1px solid var(--fd-border);\n}\n\n.flow-docs-root .fd-code-lang {\n  font-size: 11px;\n  font-family: var(--fd-font-mono);\n  color: var(--fd-text3);\n  text-transform: uppercase;\n  letter-spacing: .5px;\n}\n\n.flow-docs-root .fd-btn-copy {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 12px;\n  color: var(--fd-text2);\n  background: none;\n  border: 1px solid transparent;\n  border-radius: 5px;\n  padding: 3px 8px;\n  cursor: pointer;\n  transition: all .15s;\n}\n.flow-docs-root .fd-btn-copy:hover {\n  color: var(--fd-text);\n  background: var(--fd-bg2);\n  border-color: var(--fd-border);\n}\n\n.flow-docs-root .fd-code-block pre {\n  margin: 0;\n  overflow-x: auto;\n  padding: 16px;\n  background: #0d1117;\n  font-size: 13px;\n  line-height: 1.6;\n}\n.flow-docs-root .fd-code-block pre::-webkit-scrollbar { height: 4px; }\n.flow-docs-root .fd-code-block pre::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 2px; }\n\n/* \u2500\u2500 TOC \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-toc {\n  width: var(--fd-toc-w);\n  flex-shrink: 0;\n  padding: 40px 16px 40px 10px;\n  overflow-y: auto;\n  display: none;\n  position: relative;\n}\n.flow-docs-root .fd-toc.visible { display: block; }\n\n.flow-docs-root .fd-toc-resizer {\n  position: absolute;\n  left: 0;\n  top: 0;\n  bottom: 0;\n  width: 4px;\n  cursor: col-resize;\n  background: transparent;\n  transition: background .15s;\n  z-index: 5;\n}\n.flow-docs-root .fd-toc-resizer:hover { background: var(--fd-border); }\n.flow-docs-root .fd-toc-resizer.dragging { background: var(--fd-accent); }\n\n.flow-docs-root .fd-toc-title {\n  font-size: 11px;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: .8px;\n  color: var(--fd-text3);\n  margin-bottom: 10px;\n}\n\n.flow-docs-root .fd-toc-list {\n  list-style: none;\n  border-left: 1px solid var(--fd-border);\n  padding-left: 12px;\n}\n.flow-docs-root .fd-toc-list li a {\n  display: block;\n  font-size: 12px;\n  color: var(--fd-text2);\n  text-decoration: none;\n  padding: 3px 0;\n  transition: color .1s;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.flow-docs-root .fd-toc-list li a:hover { color: var(--fd-accent); }\n.flow-docs-root .fd-toc-level-1 { font-weight: 600; }\n.flow-docs-root .fd-toc-level-2 { padding-left: 0; }\n.flow-docs-root .fd-toc-level-3 { padding-left: 12px; }\n\n/* \u2500\u2500 Search results \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-search-header {\n  font-size: 13px;\n  color: var(--fd-text2);\n  margin-bottom: 20px;\n}\n\n.flow-docs-root .fd-search-result {\n  background: var(--fd-bg2);\n  border: 1px solid var(--fd-border);\n  border-radius: var(--fd-radius);\n  padding: 14px 16px;\n  margin-bottom: 10px;\n  cursor: pointer;\n  transition: border-color .15s;\n}\n.flow-docs-root .fd-search-result:hover { border-color: var(--fd-accent); }\n\n.flow-docs-root .fd-search-result-meta {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 6px;\n}\n\n.flow-docs-root .fd-tag {\n  font-size: 11px;\n  background: var(--fd-accent-bg);\n  color: var(--fd-accent);\n  padding: 2px 7px;\n  border-radius: 12px;\n  font-weight: 500;\n}\n\n.flow-docs-root .fd-file-path {\n  font-size: 11px;\n  color: var(--fd-text3);\n  font-family: var(--fd-font-mono);\n}\n\n.flow-docs-root .fd-search-result-match {\n  font-size: 13px;\n  color: var(--fd-text);\n  margin-bottom: 4px;\n  font-family: var(--fd-font-mono);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.flow-docs-root .fd-search-result-context {\n  font-size: 12px;\n  color: var(--fd-text2);\n  font-family: var(--fd-font-mono);\n  white-space: pre-wrap;\n  max-height: 60px;\n  overflow: hidden;\n}\n\n.flow-docs-root .fd-search-result-match mark,\n.flow-docs-root .fd-search-result-context mark {\n  background: #4a3500;\n  color: #e3b341;\n  border-radius: 2px;\n  padding: 0 2px;\n}\n\n.flow-docs-root .fd-search-empty {\n  color: var(--fd-text2);\n  padding: 20px 0;\n  font-size: 14px;\n}\n\n/* \u2500\u2500 Toast \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-toast {\n  position: absolute;\n  bottom: 24px;\n  right: 24px;\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: var(--fd-radius);\n  padding: 8px 14px;\n  font-size: 13px;\n  color: var(--fd-green);\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  opacity: 0;\n  transform: translateY(8px);\n  transition: opacity .2s, transform .2s;\n  pointer-events: none;\n  z-index: 100;\n}\n.flow-docs-root .fd-toast.show { opacity: 1; transform: translateY(0); }\n\n/* \u2500\u2500 File tree \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-skill-tree {\n  margin: 0 0 6px;\n}\n\n.flow-docs-root .fd-tree-dir-header {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  padding: 4px 14px;\n  font-size: 12px;\n  color: var(--fd-text2);\n  cursor: pointer;\n  user-select: none;\n  transition: color .1s;\n}\n.flow-docs-root .fd-tree-dir-header:hover { color: var(--fd-text); }\n.flow-docs-root .fd-tree-dir-header > svg { flex-shrink: 0; }\n.flow-docs-root .fd-tree-dir-header span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }\n.flow-docs-root .fd-tree-chevron { transition: transform .15s; color: var(--fd-text3); flex-shrink: 0; }\n\n.flow-docs-root .fd-tree-count {\n  font-size: 10px;\n  color: var(--fd-text3);\n  background: var(--fd-bg3);\n  border-radius: 8px;\n  padding: 0 5px;\n  flex-shrink: 0;\n}\n\n.flow-docs-root .fd-tree-dir-children {\n  padding-left: 20px;\n}\n\n.flow-docs-root .fd-tree-file {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  padding: 3px 14px;\n  font-size: 12px;\n  color: var(--fd-text2);\n  cursor: pointer;\n  border-radius: 4px;\n  margin: 0 6px;\n  transition: background .1s, color .1s;\n}\n.flow-docs-root .fd-tree-file span {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-width: 0;\n}\n.flow-docs-root .fd-tree-file:hover { background: var(--fd-bg3); color: var(--fd-text); }\n.flow-docs-root .fd-tree-file.active { background: var(--fd-accent-bg); color: var(--fd-accent); }\n.flow-docs-root .fd-tree-file svg { color: var(--fd-text3); flex-shrink: 0; }\n.flow-docs-root .fd-tree-file.active svg { color: var(--fd-accent); }\n\n/* \u2500\u2500 File breadcrumb \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-file-header {\n  margin-bottom: 20px;\n  padding-bottom: 12px;\n  border-bottom: 1px solid var(--fd-border);\n}\n.flow-docs-root .fd-file-breadcrumb {\n  font-size: 12px;\n  color: var(--fd-text3);\n  font-family: var(--fd-font-mono);\n}\n\n/* \u2500\u2500 Loading \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-loading {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  text-align: center;\n  color: var(--fd-text2);\n  z-index: 200;\n}\n\n.flow-docs-root .fd-loading-spinner {\n  width: 36px;\n  height: 36px;\n  margin: 0 auto 12px;\n  border: 3px solid var(--fd-border);\n  border-top-color: var(--fd-accent);\n  border-radius: 50%;\n  animation: fd-spin 0.8s linear infinite;\n}\n\n@keyframes fd-spin {\n  to { transform: rotate(360deg); }\n}\n\n.flow-docs-root .fd-loading-text {\n  font-size: 13px;\n}\n\n/* \u2500\u2500 Error \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-error {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: #2d1215;\n  border: 1px solid var(--fd-red);\n  border-radius: var(--fd-radius);\n  padding: 16px 20px;\n  color: var(--fd-red);\n  font-size: 13px;\n  max-width: 500px;\n  z-index: 200;\n}\n\n/* \u2500\u2500 Search flags \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-flag-suggestions {\n  position: absolute;\n  top: calc(100% + 6px);\n  left: 0;\n  right: 0;\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: var(--fd-radius);\n  overflow: hidden;\n  z-index: 50;\n  box-shadow: 0 4px 12px rgba(0,0,0,.4);\n}\n\n.flow-docs-root .fd-flag-suggestion {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 7px 12px;\n  cursor: pointer;\n  transition: background .1s;\n}\n.flow-docs-root .fd-flag-suggestion:hover { background: var(--fd-bg2); }\n.flow-docs-root .fd-flag-suggestion code {\n  font-family: var(--fd-font-mono);\n  font-size: 12px;\n  color: var(--fd-accent);\n  flex-shrink: 0;\n}\n.flow-docs-root .fd-flag-suggestion span {\n  font-size: 12px;\n  color: var(--fd-text2);\n}\n\n.flow-docs-root .fd-search-flags {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n  padding: 6px 0 2px;\n}\n\n.flow-docs-root .fd-flag-chip {\n  font-size: 11px;\n  background: var(--fd-accent-bg);\n  color: var(--fd-accent);\n  border-radius: 10px;\n  padding: 1px 8px;\n  font-weight: 500;\n  white-space: nowrap;\n}\n\n.flow-docs-root .fd-search-filter-badges {\n  display: inline-flex;\n  gap: 4px;\n  vertical-align: middle;\n  margin-left: 6px;\n}\n\n/* \u2500\u2500 Priority badge & divider \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root .fd-priority-badge {\n  font-size: 11px;\n  background: #3a2a00;\n  color: var(--fd-yellow);\n  border-radius: 10px;\n  padding: 1px 8px;\n  font-weight: 500;\n  white-space: nowrap;\n  margin-left: auto;\n}\n\n.flow-docs-root .fd-search-result.priority {\n  border-color: #3a2a00;\n}\n.flow-docs-root .fd-search-result.priority:hover {\n  border-color: var(--fd-yellow);\n}\n\n.flow-docs-root .fd-search-divider {\n  font-size: 11px;\n  color: var(--fd-text3);\n  text-transform: uppercase;\n  letter-spacing: .6px;\n  font-weight: 600;\n  padding: 14px 0 8px;\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.flow-docs-root .fd-search-divider::before,\n.flow-docs-root .fd-search-divider::after {\n  content: '';\n  flex: 1;\n  height: 1px;\n  background: var(--fd-border);\n}\n\n/* \u2500\u2500 Scrollbar global \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */\n.flow-docs-root ::-webkit-scrollbar { width: 6px; height: 6px; }\n.flow-docs-root ::-webkit-scrollbar-track { background: transparent; }\n.flow-docs-root ::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 3px; }\n";
+      style_default = `/* \u2500\u2500 Variables \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root {
+  --fd-bg:        #0f1117;
+  --fd-bg2:       #161b22;
+  --fd-bg3:       #1c2128;
+  --fd-border:    #30363d;
+  --fd-text:      #e6edf3;
+  --fd-text2:     #8b949e;
+  --fd-text3:     #6e7681;
+  --fd-accent:    #58a6ff;
+  --fd-accent-bg: #1f3d5c;
+  --fd-green:     #3fb950;
+  --fd-yellow:    #d29922;
+  --fd-red:       #f85149;
+  --fd-radius:    8px;
+  --fd-sidebar-w: 260px;
+  --fd-toc-w:     220px;
+  --fd-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+
+/* \u2500\u2500 Reset (scoped) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root *, .flow-docs-root *::before, .flow-docs-root *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.flow-docs-root {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--fd-bg);
+  color: var(--fd-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  position: relative;
+}
+
+/* \u2500\u2500 Sidebar \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root .fd-sidebar {
+  width: var(--fd-sidebar-w);
+  flex-shrink: 0;
+  background: var(--fd-bg2);
+  border-right: 1px solid var(--fd-border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.flow-docs-root .fd-sidebar-header {
+  padding: 16px 12px 12px;
+  border-bottom: 1px solid var(--fd-border);
+}
+
+.flow-docs-root .fd-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.flow-docs-root .fd-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--fd-text);
+  cursor: pointer;
+  flex: 1;
+}
+.flow-docs-root .fd-logo svg { color: var(--fd-accent); }
+
+.flow-docs-root .fd-btn-reload {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--fd-border);
+  border-radius: 6px;
+  background: var(--fd-bg3);
+  color: var(--fd-text2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.flow-docs-root .fd-btn-reload:hover {
+  color: var(--fd-accent);
+  border-color: var(--fd-accent);
+  background: var(--fd-accent-bg);
+}
+
+/* \u2500\u2500 Search box \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root .fd-search-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--fd-bg3);
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  padding: 6px 10px;
+  transition: border-color .15s;
+}
+.flow-docs-root .fd-search-box:focus-within { border-color: var(--fd-accent); }
+.flow-docs-root .fd-search-box svg { color: var(--fd-text3); flex-shrink: 0; }
+.flow-docs-root .fd-search-box input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--fd-text);
+  font-size: 13px;
+  min-width: 0;
+}
+.flow-docs-root .fd-search-box input::placeholder { color: var(--fd-text3); }
+.flow-docs-root .fd-search-box kbd {
+  font-size: 10px;
+  color: var(--fd-text3);
+  background: var(--fd-bg2);
+  border: 1px solid var(--fd-border);
+  border-radius: 4px;
+  padding: 1px 4px;
+  flex-shrink: 0;
+}
+
+.flow-docs-root .fd-skill-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+.flow-docs-root .fd-skill-list::-webkit-scrollbar { width: 4px; }
+.flow-docs-root .fd-skill-list::-webkit-scrollbar-track { background: transparent; }
+.flow-docs-root .fd-skill-list::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 2px; }
+
+.flow-docs-root .fd-skill-item {
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  margin: 1px 6px;
+  transition: background .1s;
+}
+.flow-docs-root .fd-skill-item:hover { background: var(--fd-bg3); }
+.flow-docs-root .fd-skill-item.active { background: var(--fd-accent-bg); }
+.flow-docs-root .fd-skill-item.active .fd-skill-name { color: var(--fd-accent); }
+
+.flow-docs-root .fd-skill-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fd-text);
+}
+.flow-docs-root .fd-skill-name svg { color: var(--fd-text3); flex-shrink: 0; }
+
+.flow-docs-root .fd-skill-desc {
+  font-size: 11px;
+  color: var(--fd-text3);
+  margin-top: 2px;
+  padding-left: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flow-docs-root .fd-empty-state {
+  padding: 20px 14px;
+  color: var(--fd-text2);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.flow-docs-root .fd-empty-state code {
+  background: var(--fd-bg3);
+  border: 1px solid var(--fd-border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: var(--fd-font-mono);
+  font-size: 12px;
+  color: #e2a97e;
+}
+
+/* \u2500\u2500 Main \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root .fd-main {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.flow-docs-root .fd-content-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 48px 40px;
+  min-width: 0;
+}
+.flow-docs-root .fd-content-area::-webkit-scrollbar { width: 6px; }
+.flow-docs-root .fd-content-area::-webkit-scrollbar-track { background: transparent; }
+.flow-docs-root .fd-content-area::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 3px; }
+
+.flow-docs-root .fd-hidden { display: none !important; }
+
+/* \u2500\u2500 Welcome \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root .fd-welcome {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flow-docs-root .fd-welcome:has(.fd-home-content) {
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.flow-docs-root .fd-welcome-inner {
+  text-align: center;
+  color: var(--fd-text2);
+}
+.flow-docs-root .fd-welcome-inner svg { color: var(--fd-text3); margin-bottom: 16px; }
+.flow-docs-root .fd-welcome-inner h1 { font-size: 24px; color: var(--fd-text); margin-bottom: 8px; }
+.flow-docs-root .fd-welcome-inner p { font-size: 14px; margin-bottom: 6px; }
+.flow-docs-root .fd-welcome-inner .fd-hint { font-size: 12px; color: var(--fd-text3); }
+.flow-docs-root .fd-welcome-inner kbd {
+  background: var(--fd-bg3);
+  border: 1px solid var(--fd-border);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 11px;
+}
+
+/* \u2500\u2500 Home page content \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root .fd-home-content {
+  max-width: 720px;
+  padding: 48px 32px;
+}
+.flow-docs-root .fd-home-content h1 { font-size: 26px; font-weight: 700; margin: 0 0 8px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 12px; }
+.flow-docs-root .fd-home-content h2 { font-size: 20px; font-weight: 600; margin: 28px 0 12px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 8px; }
+.flow-docs-root .fd-home-content h3 { font-size: 16px; font-weight: 600; margin: 20px 0 8px; color: var(--fd-text); }
+.flow-docs-root .fd-home-content p { margin: 0 0 14px; color: var(--fd-text); }
+.flow-docs-root .fd-home-content ul, .flow-docs-root .fd-home-content ol { margin: 0 0 14px 20px; color: var(--fd-text); }
+.flow-docs-root .fd-home-content li { margin-bottom: 4px; }
+.flow-docs-root .fd-home-content a { color: var(--fd-accent); text-decoration: none; }
+.flow-docs-root .fd-home-content a:hover { text-decoration: underline; }
+.flow-docs-root .fd-home-content strong { font-weight: 600; color: var(--fd-text); }
+.flow-docs-root .fd-home-content code:not(pre code) {
+  background: var(--fd-bg3);
+  border: 1px solid var(--fd-border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: var(--fd-font-mono);
+  font-size: 12px;
+  color: #e2a97e;
+}
+
+/* \u2500\u2500 Markdown content \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root .fd-skill-content h1 { font-size: 26px; font-weight: 700; margin: 0 0 8px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 12px; }
+.flow-docs-root .fd-skill-content h2 { font-size: 20px; font-weight: 600; margin: 36px 0 12px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 8px; }
+.flow-docs-root .fd-skill-content h3 { font-size: 16px; font-weight: 600; margin: 24px 0 8px; color: var(--fd-text); }
+.flow-docs-root .fd-skill-content h4 { font-size: 14px; font-weight: 600; margin: 16px 0 6px; color: var(--fd-text2); }
+.flow-docs-root .fd-skill-content p { margin: 0 0 14px; color: var(--fd-text); }
+.flow-docs-root .fd-skill-content ul, .flow-docs-root .fd-skill-content ol { margin: 0 0 14px 20px; color: var(--fd-text); }
+.flow-docs-root .fd-skill-content li { margin-bottom: 4px; }
+.flow-docs-root .fd-skill-content a { color: var(--fd-accent); text-decoration: none; }
+.flow-docs-root .fd-skill-content a:hover { text-decoration: underline; }
+.flow-docs-root .fd-skill-content strong { font-weight: 600; color: var(--fd-text); }
+.flow-docs-root .fd-skill-content em { font-style: italic; color: var(--fd-text2); }
+.flow-docs-root .fd-skill-content hr { border: none; border-top: 1px solid var(--fd-border); margin: 28px 0; }
+
+.flow-docs-root .fd-skill-content blockquote {
+  border-left: 3px solid var(--fd-accent);
+  margin: 0 0 14px;
+  padding: 8px 16px;
+  background: var(--fd-bg2);
+  border-radius: 0 var(--fd-radius) var(--fd-radius) 0;
+  color: var(--fd-text2);
+}
+
+.flow-docs-root .fd-skill-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+.flow-docs-root .fd-skill-content th {
+  background: var(--fd-bg2);
+  padding: 8px 12px;
+  text-align: left;
+  border: 1px solid var(--fd-border);
+  font-weight: 600;
+}
+.flow-docs-root .fd-skill-content td {
+  padding: 7px 12px;
+  border: 1px solid var(--fd-border);
+}
+.flow-docs-root .fd-skill-content tr:nth-child(even) td { background: var(--fd-bg2); }
+
+.flow-docs-root .fd-skill-content code:not(pre code) {
+  background: var(--fd-bg3);
+  border: 1px solid var(--fd-border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: var(--fd-font-mono);
+  font-size: 12px;
+  color: #e2a97e;
+}
+
+/* \u2500\u2500 Code blocks \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root .fd-code-block {
+  margin: 12px 0 20px;
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  overflow: hidden;
+}
+
+.flow-docs-root .fd-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px;
+  background: var(--fd-bg3);
+  border-bottom: 1px solid var(--fd-border);
+}
+
+.flow-docs-root .fd-code-lang {
+  font-size: 11px;
+  font-family: var(--fd-font-mono);
+  color: var(--fd-text3);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.flow-docs-root .fd-btn-copy {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--fd-text2);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.flow-docs-root .fd-btn-copy:hover {
+  color: var(--fd-text);
+  background: var(--fd-bg2);
+  border-color: var(--fd-border);
+}
+
+.flow-docs-root .fd-code-block pre {
+  margin: 0;
+  overflow-x: auto;
+  padding: 16px;
+  background: #0d1117;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.flow-docs-root .fd-code-block pre::-webkit-scrollbar { height: 4px; }
+.flow-docs-root .fd-code-block pre::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 2px; }
+
+/* \u2500\u2500 TOC \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root .fd-toc {
+  width: var(--fd-toc-w);
+  flex-shrink: 0;
+  padding: 40px 16px 40px 10px;
+  overflow-y: auto;
+  display: none;
+  position: relative;
+}
+.flow-docs-root .fd-toc.visible { display: block; }
+
+.flow-docs-root .fd-toc-resizer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  cursor: col-resize;
+  background: transparent;
+  transition: background .15s;
+  z-index: 5;
+}
+.flow-docs-root .fd-toc-resizer:hover { background: var(--fd-border); }
+.flow-docs-root .fd-toc-resizer.dragging { background: var(--fd-accent); }
+
+.flow-docs-root .fd-toc-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--fd-text3);
+  margin-bottom: 10px;
+}
+
+.flow-docs-root .fd-toc-list {
+  list-style: none;
+  border-left: 1px solid var(--fd-border);
+  padding-left: 12px;
+}
+.flow-docs-root .fd-toc-list li a {
+  display: block;
+  font-size: 12px;
+  color: var(--fd-text2);
+  text-decoration: none;
+  padding: 3px 0;
+  transition: color .1s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.flow-docs-root .fd-toc-list li a:hover { color: var(--fd-accent); }
+.flow-docs-root .fd-toc-level-1 { font-weight: 600; }
+.flow-docs-root .fd-toc-level-2 { padding-left: 0; }
+.flow-docs-root .fd-toc-level-3 { padding-left: 12px; }
+
+/* \u2500\u2500 Search results \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root .fd-search-header {
+  font-size: 13px;
+  color: var(--fd-text2);
+  margin-bottom: 20px;
+}
+
+.flow-docs-root .fd-search-result {
+  background: var(--fd-bg2);
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: border-color .15s;
+}
+.flow-docs-root .fd-search-result:hover { border-color: var(--fd-accent); }
+
+.flow-docs-root .fd-search-result-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.flow-docs-root .fd-tag {
+  font-size: 11px;
+  background: var(--fd-accent-bg);
+  color: var(--fd-accent);
+  padding: 2px 7px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.flow-docs-root .fd-file-path {
+  font-size: 11px;
+  color: var(--fd-text3);
+  font-family: var(--fd-font-mono);
+}
+
+.flow-docs-root .fd-search-result-match {
+  font-size: 13px;
+  color: var(--fd-text);
+  margin-bottom: 4px;
+  font-family: var(--fd-font-mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flow-docs-root .fd-search-result-context {
+  font-size: 12px;
+  color: var(--fd-text2);
+  font-family: var(--fd-font-mono);
+  white-space: pre-wrap;
+  max-height: 60px;
+  overflow: hidden;
+}
+
+.flow-docs-root .fd-search-result-match mark,
+.flow-docs-root .fd-search-result-context mark {
+  background: #4a3500;
+  color: #e3b341;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+.flow-docs-root .fd-search-empty {
+  color: var(--fd-text2);
+  padding: 20px 0;
+  font-size: 14px;
+}
+
+/* \u2500\u2500 Toast \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root .fd-toast {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  background: var(--fd-bg3);
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  padding: 8px 14px;
+  font-size: 13px;
+  color: var(--fd-green);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .2s, transform .2s;
+  pointer-events: none;
+  z-index: 100;
+}
+.flow-docs-root .fd-toast.show { opacity: 1; transform: translateY(0); }
+
+/* \u2500\u2500 File tree \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root .fd-skill-tree {
+  margin: 0 0 6px;
+}
+
+.flow-docs-root .fd-tree-dir-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 14px;
+  font-size: 12px;
+  color: var(--fd-text2);
+  cursor: pointer;
+  user-select: none;
+  transition: color .1s;
+}
+.flow-docs-root .fd-tree-dir-header:hover { color: var(--fd-text); }
+.flow-docs-root .fd-tree-dir-header > svg { flex-shrink: 0; }
+.flow-docs-root .fd-tree-dir-header span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.flow-docs-root .fd-tree-chevron {
+  transition: transform .15s;
+  color: var(--fd-text3);
+  flex-shrink: 0;
+}
+.flow-docs-root .fd-tree-dir-header[data-open="true"] .fd-tree-chevron {
+  transform: rotate(90deg);
+}
+
+.flow-docs-root .fd-tree-count {
+  font-size: 10px;
+  color: var(--fd-text3);
+  background: var(--fd-bg3);
+  border-radius: 8px;
+  padding: 0 5px;
+  flex-shrink: 0;
+}
+
+.flow-docs-root .fd-tree-dir-children {
+  padding-left: 20px;
+}
+
+.flow-docs-root .fd-tree-file {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 14px;
+  font-size: 12px;
+  color: var(--fd-text2);
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 0 6px;
+  transition: background .1s, color .1s;
+}
+.flow-docs-root .fd-tree-file span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.flow-docs-root .fd-tree-file:hover { background: var(--fd-bg3); color: var(--fd-text); }
+.flow-docs-root .fd-tree-file.active { background: var(--fd-accent-bg); color: var(--fd-accent); }
+.flow-docs-root .fd-tree-file svg { color: var(--fd-text3); flex-shrink: 0; }
+.flow-docs-root .fd-tree-file.active svg { color: var(--fd-accent); }
+
+/* \u2500\u2500 File breadcrumb \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root .fd-file-header {
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--fd-border);
+}
+.flow-docs-root .fd-file-breadcrumb {
+  font-size: 12px;
+  color: var(--fd-text3);
+  font-family: var(--fd-font-mono);
+}
+
+/* \u2500\u2500 Loading \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root .fd-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: var(--fd-text2);
+  z-index: 200;
+}
+
+.flow-docs-root .fd-loading-spinner {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 12px;
+  border: 3px solid var(--fd-border);
+  border-top-color: var(--fd-accent);
+  border-radius: 50%;
+  animation: fd-spin 0.8s linear infinite;
+}
+
+@keyframes fd-spin {
+  to { transform: rotate(360deg); }
+}
+
+.flow-docs-root .fd-loading-text {
+  font-size: 13px;
+}
+
+/* \u2500\u2500 Error \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root .fd-error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #2d1215;
+  border: 1px solid var(--fd-red);
+  border-radius: var(--fd-radius);
+  padding: 16px 20px;
+  color: var(--fd-red);
+  font-size: 13px;
+  max-width: 500px;
+  z-index: 200;
+}
+
+/* \u2500\u2500 Scrollbar global \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+.flow-docs-root ::-webkit-scrollbar { width: 6px; height: 6px; }
+.flow-docs-root ::-webkit-scrollbar-track { background: transparent; }
+.flow-docs-root ::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 3px; }
+`;
     }
   });
 
@@ -2052,7 +2690,6 @@ ${content}</tr>
           db: '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>',
           css: '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83"/></svg>',
           chevron: '<svg class="fd-tree-chevron" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>',
-          download: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
           refresh: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>'
         };
         const FILE_ICONS = { md: "fileMd", vb: "code", js: "code", html: "code", cs: "code", sql: "db", css: "css" };
@@ -2065,86 +2702,6 @@ ${content}</tr>
         function getExt(filePath) {
           const m = filePath.match(/\.([^.]+)$/);
           return m ? m[1].toLowerCase() : "";
-        }
-        const CRC_TABLE = (() => {
-          const t = new Uint32Array(256);
-          for (let i = 0; i < 256; i++) {
-            let c = i;
-            for (let k = 0; k < 8; k++)
-              c = c & 1 ? 3988292384 ^ c >>> 1 : c >>> 1;
-            t[i] = c >>> 0;
-          }
-          return t;
-        })();
-        function crc32(bytes) {
-          let c = 4294967295;
-          for (let i = 0; i < bytes.length; i++)
-            c = CRC_TABLE[(c ^ bytes[i]) & 255] ^ c >>> 8;
-          return (c ^ 4294967295) >>> 0;
-        }
-        function dosDateTime(d) {
-          const date = d.getFullYear() - 1980 << 9 | d.getMonth() + 1 << 5 | d.getDate();
-          const time = d.getHours() << 11 | d.getMinutes() << 5 | d.getSeconds() >> 1;
-          return { date, time };
-        }
-        function buildZip(entries) {
-          const encoder = new TextEncoder();
-          const now = dosDateTime(/* @__PURE__ */ new Date());
-          const chunks = [];
-          const central = [];
-          let offset = 0;
-          for (const { path, content } of entries) {
-            const nameBytes = encoder.encode(path);
-            const data = typeof content === "string" ? encoder.encode(content) : content;
-            const crc = crc32(data);
-            const local = new DataView(new ArrayBuffer(30));
-            local.setUint32(0, 67324752, true);
-            local.setUint16(4, 20, true);
-            local.setUint16(6, 2048, true);
-            local.setUint16(8, 0, true);
-            local.setUint16(10, now.time, true);
-            local.setUint16(12, now.date, true);
-            local.setUint32(14, crc, true);
-            local.setUint32(18, data.length, true);
-            local.setUint32(22, data.length, true);
-            local.setUint16(26, nameBytes.length, true);
-            local.setUint16(28, 0, true);
-            chunks.push(new Uint8Array(local.buffer), nameBytes, data);
-            const cd = new DataView(new ArrayBuffer(46));
-            cd.setUint32(0, 33639248, true);
-            cd.setUint16(4, 20, true);
-            cd.setUint16(6, 20, true);
-            cd.setUint16(8, 2048, true);
-            cd.setUint16(10, 0, true);
-            cd.setUint16(12, now.time, true);
-            cd.setUint16(14, now.date, true);
-            cd.setUint32(16, crc, true);
-            cd.setUint32(20, data.length, true);
-            cd.setUint32(24, data.length, true);
-            cd.setUint16(28, nameBytes.length, true);
-            cd.setUint16(30, 0, true);
-            cd.setUint16(32, 0, true);
-            cd.setUint16(34, 0, true);
-            cd.setUint16(36, 0, true);
-            cd.setUint32(38, 0, true);
-            cd.setUint32(42, offset, true);
-            central.push(new Uint8Array(cd.buffer), nameBytes);
-            offset += 30 + nameBytes.length + data.length;
-          }
-          const cdStart = offset;
-          let cdSize = 0;
-          for (const c of central)
-            cdSize += c.length;
-          const eocd = new DataView(new ArrayBuffer(22));
-          eocd.setUint32(0, 101010256, true);
-          eocd.setUint16(4, 0, true);
-          eocd.setUint16(6, 0, true);
-          eocd.setUint16(8, entries.length, true);
-          eocd.setUint16(10, entries.length, true);
-          eocd.setUint32(12, cdSize, true);
-          eocd.setUint32(16, cdStart, true);
-          eocd.setUint16(20, 0, true);
-          return new Blob([...chunks, ...central, new Uint8Array(eocd.buffer)], { type: "application/zip" });
         }
         function createMarked() {
           const m = marked;
@@ -2201,100 +2758,37 @@ ${files[normalizedRef]}
             return `${hashes} <a id="${id}"></a>${title}`;
           });
         }
-        function searchSkills(data, query, activeFlags) {
+        function searchSkills(data, query) {
           const q = query.toLowerCase();
+          if (q.length < 2)
+            return [];
           const results = [];
           const ALL_EXTS = [".md", ".vb", ".sql", ".html", ".js", ".txt", ".cs"];
-          const flagMap = {};
-          for (const f of data.flags)
-            flagMap[f.flag] = f;
-          let allowedDirs = null;
-          let allowedExts = null;
-          if (activeFlags.length > 0) {
-            const dirSet = /* @__PURE__ */ new Set();
-            const extSet = /* @__PURE__ */ new Set();
-            let anyDirRestriction = false;
-            let anyExtRestriction = false;
-            for (const flagName of activeFlags) {
-              const flagDef = flagMap[flagName];
-              if (!flagDef)
-                continue;
-              if (flagDef.dirs !== null) {
-                anyDirRestriction = true;
-                flagDef.dirs.forEach((d) => dirSet.add(d));
-              }
-              if (flagDef.exts !== null) {
-                anyExtRestriction = true;
-                flagDef.exts.forEach((e) => extSet.add(e));
-              }
-            }
-            if (anyDirRestriction)
-              allowedDirs = dirSet;
-            if (anyExtRestriction)
-              allowedExts = extSet;
-          }
-          const collectLimit = activeFlags.length > 0 ? 150 : 50;
+          const LIMIT = 50;
           for (const skill of data.skills) {
             for (const [filePath, fileContent] of Object.entries(skill.files)) {
               const ext = "." + getExt(filePath);
               if (!ALL_EXTS.includes(ext))
                 continue;
-              const flagOnlyMode = q.length < 2;
-              const dirParts = filePath.split("/");
-              const topDir = dirParts.length > 1 ? dirParts[0] : null;
-              const isRoot = dirParts.length === 1;
-              if (!flagOnlyMode && allowedDirs !== null) {
-                if (isRoot)
-                  continue;
-                if (!allowedDirs.has(topDir))
-                  continue;
-              }
-              if (!flagOnlyMode && allowedExts !== null && !allowedExts.has(ext))
+              if (!fileContent)
                 continue;
               const lines = fileContent.split("\n");
-              const priorityLineSet = /* @__PURE__ */ new Set();
-              if (activeFlags.length > 0) {
-                const ZONE_LINES = 50;
-                for (const flagName of activeFlags) {
-                  const tagName = flagName.replace(/^--/, "");
-                  for (let i = 0; i < lines.length; i++) {
-                    if (lines[i].includes("@" + tagName)) {
-                      const zoneEnd = Math.min(lines.length - 1, i + ZONE_LINES);
-                      for (let j = i; j <= zoneEnd; j++) {
-                        if (j > i && lines[j].includes("@") && !lines[j].includes("@" + tagName))
-                          break;
-                        priorityLineSet.add(j);
-                      }
-                    }
-                  }
-                }
-              }
               for (let i = 0; i < lines.length; i++) {
-                const inPriority = priorityLineSet.has(i);
-                const isMatch = q.length >= 2 ? lines[i].toLowerCase().includes(q) : inPriority;
-                if (isMatch) {
+                if (lines[i].toLowerCase().includes(q)) {
                   results.push({
                     skill: skill.name,
                     file: filePath,
                     line: i + 1,
                     context: lines.slice(Math.max(0, i - 1), i + 2).join("\n"),
-                    match: lines[i].trim(),
-                    priority: activeFlags.length > 0 && inPriority
+                    match: lines[i].trim()
                   });
-                  if (results.length >= collectLimit)
-                    break;
+                  if (results.length >= LIMIT)
+                    return results;
                 }
               }
-              if (results.length >= collectLimit)
-                break;
             }
-            if (results.length >= collectLimit)
-              break;
           }
-          if (activeFlags.length > 0) {
-            results.sort((a, b) => (b.priority ? 1 : 0) - (a.priority ? 1 : 0));
-          }
-          return results.slice(0, 50);
+          return results;
         }
         function buildFileTree(files) {
           const tree = [];
@@ -2347,10 +2841,7 @@ ${files[normalizedRef]}
               skillDirs.add(parts[0]);
             }
           }
-          const rootFiles = {};
           const rootSkillMd = files.find((f) => f.path === "SKILL.md");
-          const rootHomeMd = files.find((f) => f.path === "home.md");
-          let homePage = null;
           const skills = [];
           if (rootSkillMd) {
             const rootSkill = { name: repo, description: "", files: {} };
@@ -2373,16 +2864,15 @@ ${files[normalizedRef]}
           }
           const BATCH_SIZE = 50;
           const allFiles = files.filter((f) => {
-            if (rootSkillMd) {
-              if (f.path.split("/").length === 1)
-                return true;
-            }
+            if (rootSkillMd && f.path.split("/").length === 1)
+              return true;
             for (const dir of skillDirs) {
               if (f.path.startsWith(dir + "/"))
                 return true;
             }
             return false;
           });
+          let homePage = null;
           for (let i = 0; i < allFiles.length; i += BATCH_SIZE) {
             const batch = allFiles.slice(i, i + BATCH_SIZE);
             const promises = batch.map(async (f) => {
@@ -2422,31 +2912,26 @@ ${files[normalizedRef]}
                 skill.description = m[1].trim();
             }
           }
-          return { skills, flags: [], homePage };
+          return { skills, homePage };
         }
         class FlowDocsInstance {
           constructor(options2) {
             this.container = typeof options2.container === "string" ? document.querySelector(options2.container) : options2.container;
             if (!this.container)
               throw new Error("FlowDocs: container not found");
-            this.github = options2.github || null;
-            this.homePage = options2.homePage || null;
+            if (!options2.github)
+              throw new Error("FlowDocs: `github` option is required");
+            this.github = options2.github;
+            this.homePage = null;
             this.data = null;
             this.markedInstance = createMarked();
             this.currentSkill = null;
             this.currentFilePath = null;
-            this.currentRawContent = "";
             this.searchTimeout = null;
             this._injectCSS();
             this._buildDOM();
             this._bindEvents();
-            if (this.github) {
-              this._loadFromGitHub();
-            } else if (options2.dataUrl) {
-              this.loadFromUrl(options2.dataUrl);
-            } else if (options2.data) {
-              this.loadData(options2.data);
-            }
+            this._loadFromGitHub();
           }
           // ─── CSS injection ─────────────────────────────────────────────────────
           _injectCSS() {
@@ -2493,7 +2978,7 @@ ${files[normalizedRef]}
             try {
               this._showLoading("Cargando desde GitHub...");
               const data = await loadFromGitHub(this.github);
-              this.loadData(data);
+              this._loadData(data);
               this._hideLoading();
             } catch (e) {
               this._hideLoading();
@@ -2514,20 +2999,15 @@ ${files[normalizedRef]}
                 ${ICONS.book}
                 <span>Flow-Docs</span>
               </div>
-              <button class="fd-btn-download" title="Descargar todo como .zip">
-                ${ICONS.download}
-              </button>
               <button class="fd-btn-reload" title="Recargar desde GitHub">
                 ${ICONS.refresh}
               </button>
             </div>
             <div class="fd-search-box">
               ${ICONS.search}
-              <input type="text" class="fd-search-input" placeholder="Buscar... (usa --flag para filtrar)" autocomplete="off">
+              <input type="text" class="fd-search-input" placeholder="Buscar..." autocomplete="off">
               <kbd>Ctrl+K</kbd>
-              <div class="fd-flag-suggestions fd-hidden"></div>
             </div>
-            <div class="fd-search-flags fd-hidden"></div>
           </div>
           <nav class="fd-skill-list"></nav>
         </aside>
@@ -2572,12 +3052,9 @@ ${files[normalizedRef]}
             this.$ = {
               skillList: root.querySelector(".fd-skill-list"),
               searchInput: root.querySelector(".fd-search-input"),
-              flagSuggestions: root.querySelector(".fd-flag-suggestions"),
-              searchFlags: root.querySelector(".fd-search-flags"),
               welcome: root.querySelector(".fd-welcome"),
               skillContent: root.querySelector(".fd-skill-content"),
               searchResults: root.querySelector(".fd-search-results"),
-              btnDownload: root.querySelector(".fd-btn-download"),
               btnReload: root.querySelector(".fd-btn-reload"),
               toc: root.querySelector(".fd-toc"),
               tocList: root.querySelector(".fd-toc-list"),
@@ -2596,22 +3073,15 @@ ${files[normalizedRef]}
           _bindEvents() {
             this.$.searchInput.addEventListener("input", () => {
               clearTimeout(this.searchTimeout);
-              const raw = this.$.searchInput.value.trim();
-              const { flags, query } = this._parseSearchQuery(raw);
-              this._updateFlagChips(flags);
-              this._showFlagSuggestions();
-              const hasSearch = query.length >= 2 || flags.length > 0;
-              if (!hasSearch) {
+              const q = this.$.searchInput.value.trim();
+              if (q.length < 2) {
                 if (this.currentSkill)
                   this._loadSkill(this.currentSkill);
                 else
                   this._showPanel("welcome");
                 return;
               }
-              this.searchTimeout = setTimeout(() => this._doSearch(raw), 250);
-            });
-            this.$.searchInput.addEventListener("blur", () => {
-              setTimeout(() => this._hideFlagSuggestions(), 150);
+              this.searchTimeout = setTimeout(() => this._doSearch(q), 250);
             });
             this.root.addEventListener("keydown", (e) => {
               if ((e.ctrlKey || e.metaKey) && e.key === "k") {
@@ -2636,12 +3106,9 @@ ${files[normalizedRef]}
               if (header) {
                 e.stopPropagation();
                 const children = header.nextElementSibling;
-                const chevron = header.querySelector(".fd-tree-chevron");
                 const open = header.dataset.open === "true";
                 header.dataset.open = !open;
                 children.classList.toggle("fd-hidden", open);
-                if (chevron)
-                  chevron.style.transform = open ? "" : "rotate(90deg)";
                 return;
               }
               const fileEl = e.target.closest(".fd-tree-file");
@@ -2650,15 +3117,9 @@ ${files[normalizedRef]}
                 this._loadFile(fileEl.dataset.skill, fileEl.dataset.path);
               }
             });
-            this.$.btnDownload.addEventListener("click", (e) => {
-              e.stopPropagation();
-              this._downloadZip();
-            });
             this.$.btnReload.addEventListener("click", (e) => {
               e.stopPropagation();
-              if (this.github) {
-                this._loadFromGitHub();
-              }
+              this._loadFromGitHub();
             });
             this.root.querySelector(".fd-logo").addEventListener("click", () => {
               this.currentSkill = null;
@@ -2667,6 +3128,7 @@ ${files[normalizedRef]}
               this.root.querySelectorAll(".fd-skill-tree").forEach((el) => el.remove());
               this.$.toc.classList.remove("visible");
               this._showPanel("welcome");
+              this._renderHomePage();
             });
             this.root.addEventListener("click", (e) => {
               const btn = e.target.closest(".fd-btn-copy");
@@ -2678,25 +3140,11 @@ ${files[normalizedRef]}
             this._initTocResizer();
           }
           // ─── Data loading ──────────────────────────────────────────────────────
-          async loadFromUrl(url) {
-            const res = await fetch(url);
-            const data = await res.json();
-            this.loadData(data);
-          }
-          loadData(data) {
+          _loadData(data) {
             this.data = data;
-            if (!this.homePage && data.homePage)
-              this.homePage = data.homePage;
+            this.homePage = data.homePage || null;
             this._renderSkillList();
             this._renderHomePage();
-          }
-          reload(data) {
-            if (data)
-              this.data = data;
-            this._renderSkillList();
-            if (this.currentSkill) {
-              this._loadSkill(this.currentSkill);
-            }
           }
           // ─── Loading / Error states ────────────────────────────────────────────
           _showLoading(msg) {
@@ -2713,7 +3161,7 @@ ${files[normalizedRef]}
           // ─── Skill list ────────────────────────────────────────────────────────
           _renderSkillList() {
             if (!this.data || !this.data.skills.length) {
-              this.$.skillList.innerHTML = `<div class="fd-empty-state">No se encontraron skills.</div>`;
+              this.$.skillList.innerHTML = `<div class="fd-empty-state">No se encontraron skills.<br><br>Aseg\xFArate de que el repo tiene carpetas con un archivo <code>SKILL.md</code>.</div>`;
               return;
             }
             this.$.skillList.innerHTML = this.data.skills.map((s) => `
@@ -2735,27 +3183,31 @@ ${files[normalizedRef]}
             const skill = this.data.skills.find((s) => s.name === name);
             if (!skill)
               return;
-            const defaultFile = skill.files["home.md"] ? "home.md" : "SKILL.md";
-            if (!skill.files[defaultFile])
-              return;
             this.currentSkill = name;
+            this.currentFilePath = null;
             this.root.querySelectorAll(".fd-skill-item").forEach((el) => {
               el.classList.toggle("active", el.dataset.skill === name);
             });
             this.root.querySelectorAll(".fd-tree-file").forEach((el) => el.classList.remove("active"));
-            this.$.toc.classList.add("visible");
-            this.currentFilePath = null;
-            const rawContent = skill.files[defaultFile];
-            this.currentRawContent = rawContent;
-            let content = resolveFileRefs(rawContent, skill.files);
-            content = addHeadingIds(content);
-            const html = this.markedInstance.parse(content);
-            const sections = extractSections(rawContent);
+            const defaultFile = skill.files["home.md"] ? "home.md" : skill.files["SKILL.md"] ? "SKILL.md" : null;
             this._showPanel("skillContent");
-            this.$.skillContent.innerHTML = html;
-            this._highlightCode();
-            this._bindInternalLinks(this.$.skillContent);
-            this._buildTOC(sections, name);
+            if (defaultFile) {
+              const rawContent = skill.files[defaultFile];
+              let content = resolveFileRefs(rawContent, skill.files);
+              content = addHeadingIds(content);
+              const html = this.markedInstance.parse(content);
+              const sections = extractSections(rawContent);
+              this.$.skillContent.innerHTML = html;
+              this._highlightCode();
+              this._bindInternalLinks(this.$.skillContent);
+              this._buildTOC(sections);
+              this.$.toc.classList.add("visible");
+            } else {
+              this.$.skillContent.innerHTML = `<div class="fd-empty-state">Este skill no tiene <code>SKILL.md</code> ni <code>home.md</code>. Selecciona un archivo del \xE1rbol.</div>`;
+              this.$.tocList.innerHTML = "";
+              this.$.toc.classList.remove("visible");
+            }
+            this._buildSkillTree(skill);
             if (section) {
               setTimeout(() => {
                 const el = this.root.querySelector(`#${section}`) || this.root.querySelector(`[id="${section}"]`);
@@ -2765,7 +3217,6 @@ ${files[normalizedRef]}
             } else {
               this.$.contentArea.scrollTop = 0;
             }
-            this._buildSkillTree(skill);
           }
           // ─── Load file ─────────────────────────────────────────────────────────
           _loadFile(skillName, filePath) {
@@ -2777,7 +3228,6 @@ ${files[normalizedRef]}
               return;
             this.currentSkill = skillName;
             this.currentFilePath = filePath;
-            this.currentRawContent = fileContent;
             this.root.querySelectorAll(".fd-skill-item").forEach((el) => {
               el.classList.toggle("active", el.dataset.skill === skillName);
             });
@@ -2793,7 +3243,7 @@ ${files[normalizedRef]}
               this.$.skillContent.innerHTML = html;
               this._highlightCode();
               this._bindInternalLinks(this.$.skillContent);
-              this._buildTOC(sections, skillName);
+              this._buildTOC(sections);
               this.$.toc.classList.add("visible");
             } else {
               const lang = ext || "plaintext";
@@ -2838,13 +3288,13 @@ ${files[normalizedRef]}
                 const hasFiles = (node.children || []).length > 0;
                 return `
             <div class="fd-tree-dir">
-              <div class="fd-tree-dir-header" data-open="false">
+              <div class="fd-tree-dir-header" data-open="true">
                 ${ICONS.chevron}
                 ${ICONS.folder}
                 <span>${escHtml(node.name)}</span>
                 ${hasFiles ? `<span class="fd-tree-count">${countFiles(node.children)}</span>` : ""}
               </div>
-              <div class="fd-tree-dir-children fd-hidden">
+              <div class="fd-tree-dir-children">
                 ${this._renderTreeNodes(node.children || [], skillName)}
               </div>
             </div>`;
@@ -2859,7 +3309,7 @@ ${files[normalizedRef]}
             }).join("");
           }
           // ─── TOC ───────────────────────────────────────────────────────────────
-          _buildTOC(sections, skillName) {
+          _buildTOC(sections) {
             this.$.tocList.innerHTML = sections.map((s) => `
         <li class="fd-toc-level-${s.level}">
           <a href="javascript:void(0)" data-section="${escAttr(s.id)}">${escHtml(s.title)}</a>
@@ -2876,145 +3326,41 @@ ${files[normalizedRef]}
             });
           }
           // ─── Search ────────────────────────────────────────────────────────────
-          _parseSearchQuery(raw) {
-            const tokens = raw.trim().split(/\s+/).filter(Boolean);
-            const flags = tokens.filter((t) => t.startsWith("--") && t.length > 2);
-            const query = tokens.filter((t) => !t.startsWith("--")).join(" ").trim();
-            return { flags, query };
-          }
-          _updateFlagChips(activeFlags) {
-            const container = this.$.searchFlags;
-            if (!activeFlags.length) {
-              container.classList.add("fd-hidden");
-              container.innerHTML = "";
+          _doSearch(query) {
+            if (query.length < 2)
               return;
-            }
-            container.classList.remove("fd-hidden");
-            const allFlags = this.data && this.data.flags || [];
-            container.innerHTML = activeFlags.map((flag) => {
-              const def = allFlags.find((f) => f.flag === flag);
-              return `<span class="fd-flag-chip">${escHtml(def ? def.label : flag)}</span>`;
-            }).join("");
-          }
-          _showFlagSuggestions() {
-            const inputEl = this.$.searchInput;
-            const val = inputEl.value;
-            const cursorPos = inputEl.selectionStart;
-            const textBeforeCursor = val.slice(0, cursorPos);
-            const lastSpaceIdx = textBeforeCursor.lastIndexOf(" ");
-            const currentWord = textBeforeCursor.slice(lastSpaceIdx + 1);
-            if (!currentWord.startsWith("--") || currentWord.length < 2 || !this.data) {
-              this._hideFlagSuggestions();
-              return;
-            }
-            const matches = (this.data.flags || []).filter((f) => f.flag.startsWith(currentWord) && f.flag !== currentWord);
-            if (!matches.length) {
-              this._hideFlagSuggestions();
-              return;
-            }
-            const dropdown = this.$.flagSuggestions;
-            dropdown.innerHTML = matches.map((f) => `
-        <div class="fd-flag-suggestion" data-flag="${escAttr(f.flag)}">
-          <code>${escHtml(f.flag)}</code>
-          <span>${escHtml(f.label)}</span>
-        </div>
-      `).join("");
-            dropdown.classList.remove("fd-hidden");
-            dropdown.querySelectorAll(".fd-flag-suggestion").forEach((el) => {
-              el.addEventListener("mousedown", (ev) => {
-                ev.preventDefault();
-                const flag = el.dataset.flag;
-                const before = val.slice(0, lastSpaceIdx + 1);
-                const after = val.slice(cursorPos).trimStart();
-                inputEl.value = (before + flag + " " + after).trimStart();
-                inputEl.dispatchEvent(new Event("input"));
-                inputEl.focus();
-                this._hideFlagSuggestions();
-              });
-            });
-          }
-          _hideFlagSuggestions() {
-            this.$.flagSuggestions.classList.add("fd-hidden");
-          }
-          _doSearch(rawQuery) {
-            const { flags, query } = this._parseSearchQuery(rawQuery);
-            if (query.length < 2 && !flags.length)
-              return;
-            const results = searchSkills(this.data, query, flags);
+            const results = searchSkills(this.data, query);
             this._showPanel("searchResults");
-            this._hideFlagSuggestions();
-            const allFlags = this.data && this.data.flags || [];
-            const flagBadges = flags.map((f) => {
-              const def = allFlags.find((af) => af.flag === f);
-              return `<span class="fd-flag-chip">${escHtml(def ? def.label : f)}</span>`;
-            }).join("");
             if (results.length === 0) {
-              this.$.searchResults.innerHTML = `<div class="fd-search-empty">Sin resultados para "<strong>${escHtml(query)}</strong>"${flagBadges ? `<span class="fd-search-filter-badges">${flagBadges}</span>` : ""}</div>`;
+              this.$.searchResults.innerHTML = `<div class="fd-search-empty">Sin resultados para "<strong>${escHtml(query)}</strong>"</div>`;
               return;
             }
             const highlighted = (text) => {
-              if (!query)
-                return escHtml(text);
               const re = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi");
               return escHtml(text).replace(re, "<mark>$1</mark>");
             };
-            const renderResult = (r) => `
-        <div class="fd-search-result${r.priority ? " priority" : ""}" data-skill="${escAttr(r.skill)}" data-file="${escAttr(r.file)}">
+            const resultsHtml = results.map((r) => `
+        <div class="fd-search-result" data-skill="${escAttr(r.skill)}" data-file="${escAttr(r.file)}">
           <div class="fd-search-result-meta">
             <span class="fd-tag">${escHtml(r.skill)}</span>
             <span class="fd-file-path">${escHtml(r.file)}:${r.line}</span>
-            ${r.priority ? `<span class="fd-priority-badge">\u2605 destacado</span>` : ""}
           </div>
           <div class="fd-search-result-match">${highlighted(r.match)}</div>
           <div class="fd-search-result-context">${highlighted(r.context)}</div>
-        </div>`;
-            const priorityResults = results.filter((r) => r.priority);
-            const normalResults = results.filter((r) => !r.priority);
-            let resultsHtml = priorityResults.map(renderResult).join("");
-            if (priorityResults.length > 0 && normalResults.length > 0) {
-              resultsHtml += `<div class="fd-search-divider">Otros resultados</div>`;
-            }
-            resultsHtml += normalResults.map(renderResult).join("");
+        </div>`).join("");
             this.$.searchResults.innerHTML = `
         <div class="fd-search-header">
           ${results.length} resultado${results.length !== 1 ? "s" : ""} para "<strong>${escHtml(query)}</strong>"
-          ${flagBadges ? `<span class="fd-search-filter-badges">${flagBadges}</span>` : ""}
         </div>
         ${resultsHtml}
       `;
             this.$.searchResults.querySelectorAll(".fd-search-result").forEach((el) => {
               el.addEventListener("click", () => {
                 this.$.searchInput.value = "";
-                this._updateFlagChips([]);
                 this._loadFile(el.dataset.skill, el.dataset.file);
               });
             });
             this.$.toc.classList.remove("visible");
-          }
-          // ─── Download ──────────────────────────────────────────────────────────
-          _downloadZip() {
-            if (!this.data || !this.data.skills || !this.data.skills.length) {
-              this._showToast("Sin datos para descargar");
-              return;
-            }
-            const entries = [];
-            if (this.homePage)
-              entries.push({ path: "HOME.md", content: this.homePage });
-            for (const skill of this.data.skills) {
-              for (const [filePath, content] of Object.entries(skill.files)) {
-                entries.push({ path: `${skill.name}/${filePath}`, content: content || "" });
-              }
-            }
-            const blob = buildZip(entries);
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "flow-docs.zip";
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            setTimeout(() => URL.revokeObjectURL(url), 1e3);
-            this._showToast("Descargando .zip");
           }
           // ─── Home page ──────────────────────────────────────────────────────────
           _renderHomePage() {

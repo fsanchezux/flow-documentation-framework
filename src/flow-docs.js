@@ -1,5 +1,8 @@
 /**
- * FlowDocs — Embeddable documentation viewer (GitHub API mode)
+ * FlowDocs — Embeddable documentation viewer for GitHub repos
+ *
+ * Reads any GitHub repository and shows its `SKILL.md`-based docs in a
+ * sidebar/content/TOC layout. No build step, no JSON files.
  *
  * Usage:
  *   FlowDocs.init({
@@ -14,7 +17,7 @@ import CSS_TEXT from './style.css'
 ;(function () {
   'use strict'
 
-  // ─── Icons (reusable SVG strings) ──────────────────────────────────────────
+  // ─── Icons ─────────────────────────────────────────────────────────────────
 
   const ICONS = {
     book: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
@@ -27,7 +30,6 @@ import CSS_TEXT from './style.css'
     db: '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>',
     css: '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83"/></svg>',
     chevron: '<svg class="fd-tree-chevron" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>',
-    download: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
     refresh: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>',
   }
 
@@ -45,97 +47,6 @@ import CSS_TEXT from './style.css'
   function getExt(filePath) {
     const m = filePath.match(/\.([^.]+)$/)
     return m ? m[1].toLowerCase() : ''
-  }
-
-  // ─── ZIP writer (store method, no compression) ─────────────────────────────
-
-  const CRC_TABLE = (() => {
-    const t = new Uint32Array(256)
-    for (let i = 0; i < 256; i++) {
-      let c = i
-      for (let k = 0; k < 8; k++) c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1)
-      t[i] = c >>> 0
-    }
-    return t
-  })()
-
-  function crc32(bytes) {
-    let c = 0xffffffff
-    for (let i = 0; i < bytes.length; i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xff] ^ (c >>> 8)
-    return (c ^ 0xffffffff) >>> 0
-  }
-
-  function dosDateTime(d) {
-    const date = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate()
-    const time = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1)
-    return { date, time }
-  }
-
-  function buildZip(entries) {
-    const encoder = new TextEncoder()
-    const now = dosDateTime(new Date())
-    const chunks = []
-    const central = []
-    let offset = 0
-
-    for (const { path, content } of entries) {
-      const nameBytes = encoder.encode(path)
-      const data = typeof content === 'string' ? encoder.encode(content) : content
-      const crc = crc32(data)
-
-      const local = new DataView(new ArrayBuffer(30))
-      local.setUint32(0, 0x04034b50, true)
-      local.setUint16(4, 20, true)
-      local.setUint16(6, 0x0800, true)
-      local.setUint16(8, 0, true)
-      local.setUint16(10, now.time, true)
-      local.setUint16(12, now.date, true)
-      local.setUint32(14, crc, true)
-      local.setUint32(18, data.length, true)
-      local.setUint32(22, data.length, true)
-      local.setUint16(26, nameBytes.length, true)
-      local.setUint16(28, 0, true)
-
-      chunks.push(new Uint8Array(local.buffer), nameBytes, data)
-
-      const cd = new DataView(new ArrayBuffer(46))
-      cd.setUint32(0, 0x02014b50, true)
-      cd.setUint16(4, 20, true)
-      cd.setUint16(6, 20, true)
-      cd.setUint16(8, 0x0800, true)
-      cd.setUint16(10, 0, true)
-      cd.setUint16(12, now.time, true)
-      cd.setUint16(14, now.date, true)
-      cd.setUint32(16, crc, true)
-      cd.setUint32(20, data.length, true)
-      cd.setUint32(24, data.length, true)
-      cd.setUint16(28, nameBytes.length, true)
-      cd.setUint16(30, 0, true)
-      cd.setUint16(32, 0, true)
-      cd.setUint16(34, 0, true)
-      cd.setUint16(36, 0, true)
-      cd.setUint32(38, 0, true)
-      cd.setUint32(42, offset, true)
-      central.push(new Uint8Array(cd.buffer), nameBytes)
-
-      offset += 30 + nameBytes.length + data.length
-    }
-
-    const cdStart = offset
-    let cdSize = 0
-    for (const c of central) cdSize += c.length
-
-    const eocd = new DataView(new ArrayBuffer(22))
-    eocd.setUint32(0, 0x06054b50, true)
-    eocd.setUint16(4, 0, true)
-    eocd.setUint16(6, 0, true)
-    eocd.setUint16(8, entries.length, true)
-    eocd.setUint16(10, entries.length, true)
-    eocd.setUint32(12, cdSize, true)
-    eocd.setUint32(16, cdStart, true)
-    eocd.setUint16(20, 0, true)
-
-    return new Blob([...chunks, ...central, new Uint8Array(eocd.buffer)], { type: 'application/zip' })
   }
 
   // ─── Markdown engine ───────────────────────────────────────────────────────
@@ -196,102 +107,38 @@ import CSS_TEXT from './style.css'
     })
   }
 
-  // ─── Search engine ──────────────────────────────────────────────────────────
+  // ─── Search ─────────────────────────────────────────────────────────────────
 
-  function searchSkills(data, query, activeFlags) {
+  function searchSkills(data, query) {
     const q = query.toLowerCase()
+    if (q.length < 2) return []
     const results = []
     const ALL_EXTS = ['.md', '.vb', '.sql', '.html', '.js', '.txt', '.cs']
-
-    const flagMap = {}
-    for (const f of data.flags) flagMap[f.flag] = f
-
-    let allowedDirs = null
-    let allowedExts = null
-
-    if (activeFlags.length > 0) {
-      const dirSet = new Set()
-      const extSet = new Set()
-      let anyDirRestriction = false
-      let anyExtRestriction = false
-
-      for (const flagName of activeFlags) {
-        const flagDef = flagMap[flagName]
-        if (!flagDef) continue
-        if (flagDef.dirs !== null) { anyDirRestriction = true; flagDef.dirs.forEach(d => dirSet.add(d)) }
-        if (flagDef.exts !== null) { anyExtRestriction = true; flagDef.exts.forEach(e => extSet.add(e)) }
-      }
-
-      if (anyDirRestriction) allowedDirs = dirSet
-      if (anyExtRestriction) allowedExts = extSet
-    }
-
-    const collectLimit = activeFlags.length > 0 ? 150 : 50
+    const LIMIT = 50
 
     for (const skill of data.skills) {
       for (const [filePath, fileContent] of Object.entries(skill.files)) {
         const ext = '.' + getExt(filePath)
         if (!ALL_EXTS.includes(ext)) continue
-
-        const flagOnlyMode = q.length < 2
-
-        const dirParts = filePath.split('/')
-        const topDir = dirParts.length > 1 ? dirParts[0] : null
-        const isRoot = dirParts.length === 1
-
-        if (!flagOnlyMode && allowedDirs !== null) {
-          if (isRoot) continue
-          if (!allowedDirs.has(topDir)) continue
-        }
-        if (!flagOnlyMode && allowedExts !== null && !allowedExts.has(ext)) continue
+        if (!fileContent) continue
 
         const lines = fileContent.split('\n')
-
-        const priorityLineSet = new Set()
-        if (activeFlags.length > 0) {
-          const ZONE_LINES = 50
-          for (const flagName of activeFlags) {
-            const tagName = flagName.replace(/^--/, '')
-            for (let i = 0; i < lines.length; i++) {
-              if (lines[i].includes('@' + tagName)) {
-                const zoneEnd = Math.min(lines.length - 1, i + ZONE_LINES)
-                for (let j = i; j <= zoneEnd; j++) {
-                  if (j > i && lines[j].includes('@') && !lines[j].includes('@' + tagName)) break
-                  priorityLineSet.add(j)
-                }
-              }
-            }
-          }
-        }
-
         for (let i = 0; i < lines.length; i++) {
-          const inPriority = priorityLineSet.has(i)
-          const isMatch = q.length >= 2
-            ? lines[i].toLowerCase().includes(q)
-            : inPriority
-
-          if (isMatch) {
+          if (lines[i].toLowerCase().includes(q)) {
             results.push({
               skill: skill.name,
               file: filePath,
               line: i + 1,
               context: lines.slice(Math.max(0, i - 1), i + 2).join('\n'),
               match: lines[i].trim(),
-              priority: activeFlags.length > 0 && inPriority
             })
-            if (results.length >= collectLimit) break
+            if (results.length >= LIMIT) return results
           }
         }
-        if (results.length >= collectLimit) break
       }
-      if (results.length >= collectLimit) break
     }
 
-    if (activeFlags.length > 0) {
-      results.sort((a, b) => (b.priority ? 1 : 0) - (a.priority ? 1 : 0))
-    }
-
-    return results.slice(0, 50)
+    return results
   }
 
   // ─── File tree builder ─────────────────────────────────────────────────────
@@ -347,7 +194,6 @@ import CSS_TEXT from './style.css'
     if (!treeRes.ok) throw new Error(`GitHub API error: ${treeRes.status} ${treeRes.statusText}`)
     const treeData = await treeRes.json()
 
-    // Filter to blobs (files) only
     const files = treeData.tree.filter(item => item.type === 'blob')
 
     // Group files by top-level directory (each dir with SKILL.md = a skill)
@@ -359,51 +205,41 @@ import CSS_TEXT from './style.css'
       }
     }
 
-    // Check for root-level SKILL.md or home.md
-    const rootFiles = {}
     const rootSkillMd = files.find(f => f.path === 'SKILL.md')
-    const rootHomeMd = files.find(f => f.path === 'home.md')
-    let homePage = null
-
-    // Build skills
     const skills = []
 
-    // If there's a root SKILL.md, treat it as a skill
     if (rootSkillMd) {
       const rootSkill = { name: repo, description: '', files: {} }
-      // Add root-level files to this skill
       for (const f of files) {
         if (f.path.split('/').length === 1) {
-          rootSkill.files[f.path] = null // placeholder, will fetch
+          rootSkill.files[f.path] = null
         }
       }
       skills.push(rootSkill)
     }
 
-    // Build skill objects for each directory with SKILL.md
     for (const dir of skillDirs) {
       const skill = { name: dir, description: '', files: {} }
       for (const f of files) {
         if (f.path.startsWith(dir + '/')) {
           const relPath = f.path.slice(dir.length + 1)
-          skill.files[relPath] = null // placeholder
+          skill.files[relPath] = null
         }
       }
       skills.push(skill)
     }
 
-    // Fetch all file contents in batches (GitHub API rate limit friendly)
+    // Fetch all file contents in batches
     const BATCH_SIZE = 50
     const allFiles = files.filter(f => {
-      // Only fetch files that belong to a skill
-      if (rootSkillMd) {
-        if (f.path.split('/').length === 1) return true
-      }
+      if (rootSkillMd && f.path.split('/').length === 1) return true
       for (const dir of skillDirs) {
         if (f.path.startsWith(dir + '/')) return true
       }
       return false
     })
+
+    let homePage = null
 
     for (let i = 0; i < allFiles.length; i += BATCH_SIZE) {
       const batch = allFiles.slice(i, i + BATCH_SIZE)
@@ -411,7 +247,6 @@ import CSS_TEXT from './style.css'
         try {
           const res = await fetch(f.url, { headers })
           const data = await res.json()
-          // content is base64 encoded
           return { path: f.path, content: atob(data.content.replace(/\n/g, '')) }
         } catch {
           return { path: f.path, content: '' }
@@ -419,10 +254,8 @@ import CSS_TEXT from './style.css'
       })
       const results = await Promise.all(promises)
       for (const r of results) {
-        // Assign to the right skill
         const parts = r.path.split('/')
         if (parts.length === 1) {
-          // Root file
           const skill = skills.find(s => s.name === repo)
           if (skill) skill.files[r.path] = r.content
           if (r.path === 'home.md') homePage = r.content
@@ -447,7 +280,7 @@ import CSS_TEXT from './style.css'
       }
     }
 
-    return { skills, flags: [], homePage }
+    return { skills, homePage }
   }
 
   // ─── FlowDocs class ───────────────────────────────────────────────────────
@@ -459,27 +292,20 @@ import CSS_TEXT from './style.css'
         : options.container
 
       if (!this.container) throw new Error('FlowDocs: container not found')
+      if (!options.github) throw new Error('FlowDocs: `github` option is required')
 
-      this.github = options.github || null
-      this.homePage = options.homePage || null
+      this.github = options.github
+      this.homePage = null
       this.data = null
       this.markedInstance = createMarked()
       this.currentSkill = null
       this.currentFilePath = null
-      this.currentRawContent = ''
       this.searchTimeout = null
 
       this._injectCSS()
       this._buildDOM()
       this._bindEvents()
-
-      if (this.github) {
-        this._loadFromGitHub()
-      } else if (options.dataUrl) {
-        this.loadFromUrl(options.dataUrl)
-      } else if (options.data) {
-        this.loadData(options.data)
-      }
+      this._loadFromGitHub()
     }
 
     // ─── CSS injection ─────────────────────────────────────────────────────
@@ -529,7 +355,7 @@ import CSS_TEXT from './style.css'
       try {
         this._showLoading('Cargando desde GitHub...')
         const data = await loadFromGitHub(this.github)
-        this.loadData(data)
+        this._loadData(data)
         this._hideLoading()
       } catch (e) {
         this._hideLoading()
@@ -552,20 +378,15 @@ import CSS_TEXT from './style.css'
                 ${ICONS.book}
                 <span>Flow-Docs</span>
               </div>
-              <button class="fd-btn-download" title="Descargar todo como .zip">
-                ${ICONS.download}
-              </button>
               <button class="fd-btn-reload" title="Recargar desde GitHub">
                 ${ICONS.refresh}
               </button>
             </div>
             <div class="fd-search-box">
               ${ICONS.search}
-              <input type="text" class="fd-search-input" placeholder="Buscar... (usa --flag para filtrar)" autocomplete="off">
+              <input type="text" class="fd-search-input" placeholder="Buscar..." autocomplete="off">
               <kbd>Ctrl+K</kbd>
-              <div class="fd-flag-suggestions fd-hidden"></div>
             </div>
-            <div class="fd-search-flags fd-hidden"></div>
           </div>
           <nav class="fd-skill-list"></nav>
         </aside>
@@ -612,12 +433,9 @@ import CSS_TEXT from './style.css'
       this.$ = {
         skillList: root.querySelector('.fd-skill-list'),
         searchInput: root.querySelector('.fd-search-input'),
-        flagSuggestions: root.querySelector('.fd-flag-suggestions'),
-        searchFlags: root.querySelector('.fd-search-flags'),
         welcome: root.querySelector('.fd-welcome'),
         skillContent: root.querySelector('.fd-skill-content'),
         searchResults: root.querySelector('.fd-search-results'),
-        btnDownload: root.querySelector('.fd-btn-download'),
         btnReload: root.querySelector('.fd-btn-reload'),
         toc: root.querySelector('.fd-toc'),
         tocList: root.querySelector('.fd-toc-list'),
@@ -638,23 +456,13 @@ import CSS_TEXT from './style.css'
     _bindEvents() {
       this.$.searchInput.addEventListener('input', () => {
         clearTimeout(this.searchTimeout)
-        const raw = this.$.searchInput.value.trim()
-        const { flags, query } = this._parseSearchQuery(raw)
-
-        this._updateFlagChips(flags)
-        this._showFlagSuggestions()
-
-        const hasSearch = query.length >= 2 || flags.length > 0
-        if (!hasSearch) {
+        const q = this.$.searchInput.value.trim()
+        if (q.length < 2) {
           if (this.currentSkill) this._loadSkill(this.currentSkill)
           else this._showPanel('welcome')
           return
         }
-        this.searchTimeout = setTimeout(() => this._doSearch(raw), 250)
-      })
-
-      this.$.searchInput.addEventListener('blur', () => {
-        setTimeout(() => this._hideFlagSuggestions(), 150)
+        this.searchTimeout = setTimeout(() => this._doSearch(q), 250)
       })
 
       this.root.addEventListener('keydown', (e) => {
@@ -680,11 +488,9 @@ import CSS_TEXT from './style.css'
         if (header) {
           e.stopPropagation()
           const children = header.nextElementSibling
-          const chevron = header.querySelector('.fd-tree-chevron')
           const open = header.dataset.open === 'true'
           header.dataset.open = !open
           children.classList.toggle('fd-hidden', open)
-          if (chevron) chevron.style.transform = open ? '' : 'rotate(90deg)'
           return
         }
 
@@ -695,16 +501,9 @@ import CSS_TEXT from './style.css'
         }
       })
 
-      this.$.btnDownload.addEventListener('click', (e) => {
-        e.stopPropagation()
-        this._downloadZip()
-      })
-
       this.$.btnReload.addEventListener('click', (e) => {
         e.stopPropagation()
-        if (this.github) {
-          this._loadFromGitHub()
-        }
+        this._loadFromGitHub()
       })
 
       this.root.querySelector('.fd-logo').addEventListener('click', () => {
@@ -714,6 +513,7 @@ import CSS_TEXT from './style.css'
         this.root.querySelectorAll('.fd-skill-tree').forEach(el => el.remove())
         this.$.toc.classList.remove('visible')
         this._showPanel('welcome')
+        this._renderHomePage()
       })
 
       this.root.addEventListener('click', (e) => {
@@ -729,25 +529,11 @@ import CSS_TEXT from './style.css'
 
     // ─── Data loading ──────────────────────────────────────────────────────
 
-    async loadFromUrl(url) {
-      const res = await fetch(url)
-      const data = await res.json()
-      this.loadData(data)
-    }
-
-    loadData(data) {
+    _loadData(data) {
       this.data = data
-      if (!this.homePage && data.homePage) this.homePage = data.homePage
+      this.homePage = data.homePage || null
       this._renderSkillList()
       this._renderHomePage()
-    }
-
-    reload(data) {
-      if (data) this.data = data
-      this._renderSkillList()
-      if (this.currentSkill) {
-        this._loadSkill(this.currentSkill)
-      }
     }
 
     // ─── Loading / Error states ────────────────────────────────────────────
@@ -770,7 +556,7 @@ import CSS_TEXT from './style.css'
 
     _renderSkillList() {
       if (!this.data || !this.data.skills.length) {
-        this.$.skillList.innerHTML = `<div class="fd-empty-state">No se encontraron skills.</div>`
+        this.$.skillList.innerHTML = `<div class="fd-empty-state">No se encontraron skills.<br><br>Asegúrate de que el repo tiene carpetas con un archivo <code>SKILL.md</code>.</div>`
         return
       }
 
@@ -796,32 +582,41 @@ import CSS_TEXT from './style.css'
       const skill = this.data.skills.find(s => s.name === name)
       if (!skill) return
 
-      const defaultFile = skill.files['home.md'] ? 'home.md' : 'SKILL.md'
-      if (!skill.files[defaultFile]) return
-
       this.currentSkill = name
+      this.currentFilePath = null
 
       this.root.querySelectorAll('.fd-skill-item').forEach(el => {
         el.classList.toggle('active', el.dataset.skill === name)
       })
       this.root.querySelectorAll('.fd-tree-file').forEach(el => el.classList.remove('active'))
 
-      this.$.toc.classList.add('visible')
-
-      this.currentFilePath = null
-      const rawContent = skill.files[defaultFile]
-      this.currentRawContent = rawContent
-
-      let content = resolveFileRefs(rawContent, skill.files)
-      content = addHeadingIds(content)
-      const html = this.markedInstance.parse(content)
-      const sections = extractSections(rawContent)
+      // Render content (home.md > SKILL.md > empty placeholder)
+      const defaultFile = skill.files['home.md']
+        ? 'home.md'
+        : (skill.files['SKILL.md'] ? 'SKILL.md' : null)
 
       this._showPanel('skillContent')
-      this.$.skillContent.innerHTML = html
-      this._highlightCode()
-      this._bindInternalLinks(this.$.skillContent)
-      this._buildTOC(sections, name)
+
+      if (defaultFile) {
+        const rawContent = skill.files[defaultFile]
+        let content = resolveFileRefs(rawContent, skill.files)
+        content = addHeadingIds(content)
+        const html = this.markedInstance.parse(content)
+        const sections = extractSections(rawContent)
+
+        this.$.skillContent.innerHTML = html
+        this._highlightCode()
+        this._bindInternalLinks(this.$.skillContent)
+        this._buildTOC(sections)
+        this.$.toc.classList.add('visible')
+      } else {
+        this.$.skillContent.innerHTML = `<div class="fd-empty-state">Este skill no tiene <code>SKILL.md</code> ni <code>home.md</code>. Selecciona un archivo del árbol.</div>`
+        this.$.tocList.innerHTML = ''
+        this.$.toc.classList.remove('visible')
+      }
+
+      // Always render the file tree (even when there's no SKILL.md)
+      this._buildSkillTree(skill)
 
       if (section) {
         setTimeout(() => {
@@ -831,8 +626,6 @@ import CSS_TEXT from './style.css'
       } else {
         this.$.contentArea.scrollTop = 0
       }
-
-      this._buildSkillTree(skill)
     }
 
     // ─── Load file ─────────────────────────────────────────────────────────
@@ -846,7 +639,6 @@ import CSS_TEXT from './style.css'
 
       this.currentSkill = skillName
       this.currentFilePath = filePath
-      this.currentRawContent = fileContent
 
       this.root.querySelectorAll('.fd-skill-item').forEach(el => {
         el.classList.toggle('active', el.dataset.skill === skillName)
@@ -865,7 +657,7 @@ import CSS_TEXT from './style.css'
         this.$.skillContent.innerHTML = html
         this._highlightCode()
         this._bindInternalLinks(this.$.skillContent)
-        this._buildTOC(sections, skillName)
+        this._buildTOC(sections)
         this.$.toc.classList.add('visible')
       } else {
         const lang = ext || 'plaintext'
@@ -913,15 +705,16 @@ import CSS_TEXT from './style.css'
       return nodes.map(node => {
         if (node.type === 'dir') {
           const hasFiles = (node.children || []).length > 0
+          // Directories start OPEN by default so the structure is visible at a glance
           return `
             <div class="fd-tree-dir">
-              <div class="fd-tree-dir-header" data-open="false">
+              <div class="fd-tree-dir-header" data-open="true">
                 ${ICONS.chevron}
                 ${ICONS.folder}
                 <span>${escHtml(node.name)}</span>
                 ${hasFiles ? `<span class="fd-tree-count">${countFiles(node.children)}</span>` : ''}
               </div>
-              <div class="fd-tree-dir-children fd-hidden">
+              <div class="fd-tree-dir-children">
                 ${this._renderTreeNodes(node.children || [], skillName)}
               </div>
             </div>`
@@ -938,7 +731,7 @@ import CSS_TEXT from './style.css'
 
     // ─── TOC ───────────────────────────────────────────────────────────────
 
-    _buildTOC(sections, skillName) {
+    _buildTOC(sections) {
       this.$.tocList.innerHTML = sections.map(s => `
         <li class="fd-toc-level-${s.level}">
           <a href="javascript:void(0)" data-section="${escAttr(s.id)}">${escHtml(s.title)}</a>
@@ -957,121 +750,35 @@ import CSS_TEXT from './style.css'
 
     // ─── Search ────────────────────────────────────────────────────────────
 
-    _parseSearchQuery(raw) {
-      const tokens = raw.trim().split(/\s+/).filter(Boolean)
-      const flags = tokens.filter(t => t.startsWith('--') && t.length > 2)
-      const query = tokens.filter(t => !t.startsWith('--')).join(' ').trim()
-      return { flags, query }
-    }
+    _doSearch(query) {
+      if (query.length < 2) return
 
-    _updateFlagChips(activeFlags) {
-      const container = this.$.searchFlags
-      if (!activeFlags.length) {
-        container.classList.add('fd-hidden')
-        container.innerHTML = ''
-        return
-      }
-      container.classList.remove('fd-hidden')
-      const allFlags = (this.data && this.data.flags) || []
-      container.innerHTML = activeFlags.map(flag => {
-        const def = allFlags.find(f => f.flag === flag)
-        return `<span class="fd-flag-chip">${escHtml(def ? def.label : flag)}</span>`
-      }).join('')
-    }
-
-    _showFlagSuggestions() {
-      const inputEl = this.$.searchInput
-      const val = inputEl.value
-      const cursorPos = inputEl.selectionStart
-      const textBeforeCursor = val.slice(0, cursorPos)
-      const lastSpaceIdx = textBeforeCursor.lastIndexOf(' ')
-      const currentWord = textBeforeCursor.slice(lastSpaceIdx + 1)
-
-      if (!currentWord.startsWith('--') || currentWord.length < 2 || !this.data) {
-        this._hideFlagSuggestions()
-        return
-      }
-
-      const matches = (this.data.flags || []).filter(f => f.flag.startsWith(currentWord) && f.flag !== currentWord)
-      if (!matches.length) { this._hideFlagSuggestions(); return }
-
-      const dropdown = this.$.flagSuggestions
-      dropdown.innerHTML = matches.map(f => `
-        <div class="fd-flag-suggestion" data-flag="${escAttr(f.flag)}">
-          <code>${escHtml(f.flag)}</code>
-          <span>${escHtml(f.label)}</span>
-        </div>
-      `).join('')
-      dropdown.classList.remove('fd-hidden')
-
-      dropdown.querySelectorAll('.fd-flag-suggestion').forEach(el => {
-        el.addEventListener('mousedown', (ev) => {
-          ev.preventDefault()
-          const flag = el.dataset.flag
-          const before = val.slice(0, lastSpaceIdx + 1)
-          const after = val.slice(cursorPos).trimStart()
-          inputEl.value = (before + flag + ' ' + after).trimStart()
-          inputEl.dispatchEvent(new Event('input'))
-          inputEl.focus()
-          this._hideFlagSuggestions()
-        })
-      })
-    }
-
-    _hideFlagSuggestions() {
-      this.$.flagSuggestions.classList.add('fd-hidden')
-    }
-
-    _doSearch(rawQuery) {
-      const { flags, query } = this._parseSearchQuery(rawQuery)
-      if (query.length < 2 && !flags.length) return
-
-      const results = searchSkills(this.data, query, flags)
-
+      const results = searchSkills(this.data, query)
       this._showPanel('searchResults')
-      this._hideFlagSuggestions()
-
-      const allFlags = (this.data && this.data.flags) || []
-      const flagBadges = flags.map(f => {
-        const def = allFlags.find(af => af.flag === f)
-        return `<span class="fd-flag-chip">${escHtml(def ? def.label : f)}</span>`
-      }).join('')
 
       if (results.length === 0) {
-        this.$.searchResults.innerHTML = `<div class="fd-search-empty">Sin resultados para "<strong>${escHtml(query)}</strong>"${flagBadges ? `<span class="fd-search-filter-badges">${flagBadges}</span>` : ''}</div>`
+        this.$.searchResults.innerHTML = `<div class="fd-search-empty">Sin resultados para "<strong>${escHtml(query)}</strong>"</div>`
         return
       }
 
       const highlighted = (text) => {
-        if (!query) return escHtml(text)
         const re = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi')
         return escHtml(text).replace(re, '<mark>$1</mark>')
       }
 
-      const renderResult = (r) => `
-        <div class="fd-search-result${r.priority ? ' priority' : ''}" data-skill="${escAttr(r.skill)}" data-file="${escAttr(r.file)}">
+      const resultsHtml = results.map(r => `
+        <div class="fd-search-result" data-skill="${escAttr(r.skill)}" data-file="${escAttr(r.file)}">
           <div class="fd-search-result-meta">
             <span class="fd-tag">${escHtml(r.skill)}</span>
             <span class="fd-file-path">${escHtml(r.file)}:${r.line}</span>
-            ${r.priority ? `<span class="fd-priority-badge">★ destacado</span>` : ''}
           </div>
           <div class="fd-search-result-match">${highlighted(r.match)}</div>
           <div class="fd-search-result-context">${highlighted(r.context)}</div>
-        </div>`
-
-      const priorityResults = results.filter(r => r.priority)
-      const normalResults = results.filter(r => !r.priority)
-
-      let resultsHtml = priorityResults.map(renderResult).join('')
-      if (priorityResults.length > 0 && normalResults.length > 0) {
-        resultsHtml += `<div class="fd-search-divider">Otros resultados</div>`
-      }
-      resultsHtml += normalResults.map(renderResult).join('')
+        </div>`).join('')
 
       this.$.searchResults.innerHTML = `
         <div class="fd-search-header">
           ${results.length} resultado${results.length !== 1 ? 's' : ''} para "<strong>${escHtml(query)}</strong>"
-          ${flagBadges ? `<span class="fd-search-filter-badges">${flagBadges}</span>` : ''}
         </div>
         ${resultsHtml}
       `
@@ -1079,38 +786,11 @@ import CSS_TEXT from './style.css'
       this.$.searchResults.querySelectorAll('.fd-search-result').forEach(el => {
         el.addEventListener('click', () => {
           this.$.searchInput.value = ''
-          this._updateFlagChips([])
           this._loadFile(el.dataset.skill, el.dataset.file)
         })
       })
 
       this.$.toc.classList.remove('visible')
-    }
-
-    // ─── Download ──────────────────────────────────────────────────────────
-
-    _downloadZip() {
-      if (!this.data || !this.data.skills || !this.data.skills.length) {
-        this._showToast('Sin datos para descargar')
-        return
-      }
-      const entries = []
-      if (this.homePage) entries.push({ path: 'HOME.md', content: this.homePage })
-      for (const skill of this.data.skills) {
-        for (const [filePath, content] of Object.entries(skill.files)) {
-          entries.push({ path: `${skill.name}/${filePath}`, content: content || '' })
-        }
-      }
-      const blob = buildZip(entries)
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = 'flow-docs.zip'
-      document.body.appendChild(a)
-      a.click()
-      a.remove()
-      setTimeout(() => URL.revokeObjectURL(url), 1000)
-      this._showToast('Descargando .zip')
     }
 
     // ─── Home page ──────────────────────────────────────────────────────────
