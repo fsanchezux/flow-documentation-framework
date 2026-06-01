@@ -2461,8 +2461,27 @@ ${files[normalizedRef]}
         function countFiles(nodes) {
           return nodes.reduce((n, node) => n + (node.type === "file" ? 1 : countFiles(node.children || [])), 0);
         }
+        async function fetchTokenFromUrl(url) {
+          try {
+            const res = await fetch(url, { credentials: "include" });
+            if (!res.ok)
+              return "";
+            const ct = res.headers.get("content-type") || "";
+            if (ct.includes("application/json")) {
+              const data = await res.json();
+              return String(data.token || data.access_token || "").trim();
+            }
+            return (await res.text()).trim();
+          } catch (e) {
+            console.warn("[FlowDocs] tokenUrl fetch failed:", e);
+            return "";
+          }
+        }
         async function loadFromGitHub(config) {
-          const { owner, repo, branch = "main", token } = config;
+          const { owner, repo, branch = "main", tokenUrl } = config;
+          let token = config.token;
+          if (!token && tokenUrl)
+            token = await fetchTokenFromUrl(tokenUrl);
           const headers = { "Accept": "application/vnd.github.v3+json" };
           if (token)
             headers["Authorization"] = `token ${token}`;
@@ -3408,7 +3427,7 @@ ${files[normalizedRef]}
             });
           }
         }
-        const VERSION = "3.1.6";
+        const VERSION = "3.2.0";
         const FlowDocs = {
           VERSION,
           init(options2) {

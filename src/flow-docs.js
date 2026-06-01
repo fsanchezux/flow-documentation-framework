@@ -387,8 +387,32 @@ import CSS_TEXT from './style.css'
 
   // ─── GitHub API loader ─────────────────────────────────────────────────────
 
+  // Fetch a GitHub token from a server endpoint. The endpoint may be gated
+  // by session/cookie auth on the host app's side, so we send credentials.
+  // Accepts either plain-text response or JSON { token | access_token }.
+  async function fetchTokenFromUrl(url) {
+    try {
+      const res = await fetch(url, { credentials: 'include' })
+      if (!res.ok) return ''
+      const ct = res.headers.get('content-type') || ''
+      if (ct.includes('application/json')) {
+        const data = await res.json()
+        return String(data.token || data.access_token || '').trim()
+      }
+      return (await res.text()).trim()
+    } catch (e) {
+      console.warn('[FlowDocs] tokenUrl fetch failed:', e)
+      return ''
+    }
+  }
+
   async function loadFromGitHub(config) {
-    const { owner, repo, branch = 'main', token } = config
+    const { owner, repo, branch = 'main', tokenUrl } = config
+    let token = config.token
+
+    // If no static token but a tokenUrl is provided, ask the server for it
+    if (!token && tokenUrl) token = await fetchTokenFromUrl(tokenUrl)
+
     const headers = { 'Accept': 'application/vnd.github.v3+json' }
     if (token) headers['Authorization'] = `token ${token}`
 
@@ -1479,7 +1503,7 @@ import CSS_TEXT from './style.css'
 
   // ─── Public API ──────────────────────────────────────────────────────────
 
-  const VERSION = '3.1.6'
+  const VERSION = '3.2.0'
 
   const FlowDocs = {
     VERSION,
