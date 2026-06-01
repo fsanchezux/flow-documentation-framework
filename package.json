@@ -24,7 +24,11 @@
   "homepage": "https://github.com/fsanchezux/flow-documentation-framework",
   "scripts": {
     "build": "node build.js",
-    "dev": "node build.js"
+    "dev": "node build.js",
+    "build:data": "node build-data.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1"
   },
   "devDependencies": {
     "esbuild": "^0.20.0",

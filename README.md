@@ -146,6 +146,101 @@ Returns a `FlowDocsInstance` with:
 - `loadData(data)` — load a new data object
 - `loadFromUrl(url)` — load data from a URL
 
+## Repos privados
+
+Para documentacion que vive en un repositorio privado, la API de GitHub requiere autenticacion. El framework incluye un builder que descarga el contenido del repo y genera un archivo JSON estatico que puedes servir sin exponer credenciales.
+
+### Como funciona
+
+```
+.env (token) ──build──> GitHub API ──descarga──> flow-docs-data.json (sin token) ──> frontend lo carga seguro
+```
+
+El token **nunca** queda expuesto. Solo se usa durante el build para descargar los archivos. El JSON generado contiene unicamente el contenido de la documentacion.
+
+### Paso a paso
+
+**1. Instalar dotenv**
+
+```bash
+npm install
+```
+
+**2. Crear el archivo .env**
+
+```bash
+cp .env.example .env
+```
+
+**3. Generar un Personal Access Token en GitHub**
+
+1. Ve a [https://github.com/settings/tokens](https://github.com/settings/tokens)
+2. Click en **"Generate new token (classic)"**
+3. Dale un nombre como `FlowDocs Builder`
+4. Marca el scope **`repo`** (esto da acceso de lectura a repos privados)
+5. Click en **"Generate token"** y copia el token
+
+**4. Pegar el token en .env**
+
+```
+GITHUB_TOKEN=ghp_tu_token_aqui
+```
+
+**5. Ejecutar el builder**
+
+```bash
+npm run build:data
+```
+
+Te pedira de forma interactiva:
+
+- **Owner** — tu usuario o organizacion en GitHub
+- **Repo** — nombre del repositorio privado
+- **Branch** — rama a usar (default: `main`)
+
+La configuracion se guarda automaticamente para la proxima vez. Solo tendras que confirmar o cambiar los valores.
+
+**6. Usar el JSON generado**
+
+El archivo `flow-docs-data.json` se genera en la raiz del proyecto. Sirvelo junto con tu HTML:
+
+```html
+<div id="docs" style="height:100vh"></div>
+<script src="https://cdn.jsdelivr.net/npm/flow-documentation-framework/dist/flow-docs.min.js"></script>
+<script>
+  FlowDocs.init({
+    container: '#docs',
+    dataUrl: './flow-docs-data.json'
+  })
+</script>
+```
+
+### Regenerar la documentacion
+
+Cada vez que actualices la documentacion en el repo privado, vuelve a ejecutar:
+
+```bash
+npm run build:data
+```
+
+Usara la configuracion guardada y solo tendras que confirmar los valores.
+
+### FAQ
+
+**El token queda expuesto en el JSON?**
+No. El token solo se usa para autenticarte con la API de GitHub durante el build. El archivo `flow-docs-data.json` solo contiene el contenido de los archivos markdown y codigo de tu documentacion.
+
+**Puedo commitear el .env?**
+No. El archivo `.env` esta en `.gitignore`. Nunca debes commitear tokens de acceso.
+
+**Que pasa si el token expira?**
+Genera uno nuevo en [GitHub settings](https://github.com/settings/tokens) y actualiza el `.env`. El builder te avisara si el token es invalido.
+
+**Necesito regenerar cada vez que cambio algo?**
+Si. El JSON es una snapshot del estado del repo en el momento del build. Para ver cambios actualizados, vuelve a ejecutar `npm run build:data`.
+
+---
+
 ## Development
 
 ```bash
