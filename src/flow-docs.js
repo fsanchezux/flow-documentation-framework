@@ -65,7 +65,7 @@ import CSS_TEXT from './style.css'
 <div class="fd-code-block">
   <div class="fd-code-header">
     <span class="fd-code-lang">${lang}</span>
-    <button class="fd-btn-copy" title="Copiar código">
+    <button type="button" class="fd-btn-copy" title="Copiar código">
       ${ICONS.copy} Copiar
     </button>
   </div>
@@ -559,7 +559,7 @@ import CSS_TEXT from './style.css'
                 ${ICONS.book}
                 <span>Flow-Docs</span>
               </div>
-              <button class="fd-btn-reload" title="Recargar desde GitHub">
+              <button type="button" class="fd-btn-reload" title="Recargar desde GitHub">
                 ${ICONS.refresh}
               </button>
             </div>
@@ -613,13 +613,13 @@ import CSS_TEXT from './style.css'
 
     _dom_askUI() {
       return `
-        <button class="fd-ask-fab" title="Pregunta a los docs">
+        <button type="button" class="fd-ask-fab" title="Pregunta a los docs">
           ${ICONS.chat}
         </button>
         <div class="fd-ask-panel fd-hidden">
           <div class="fd-ask-header">
             <span class="fd-ask-title">Pregunta a los docs</span>
-            <button class="fd-ask-close" title="Cerrar">${ICONS.close}</button>
+            <button type="button" class="fd-ask-close" title="Cerrar">${ICONS.close}</button>
           </div>
           <div class="fd-ask-results">
             <div class="fd-ask-placeholder">
@@ -636,7 +636,7 @@ import CSS_TEXT from './style.css'
 
     _dom_modalTrigger() {
       return `
-        <button class="fd-modal-fab" title="Abrir documentación">
+        <button type="button" class="fd-modal-fab" title="Abrir documentación">
           ${ICONS.book}
         </button>
       `
@@ -646,7 +646,7 @@ import CSS_TEXT from './style.css'
       return `
         <div class="fd-modal-backdrop fd-hidden"></div>
         <div class="fd-modal fd-hidden">
-          <button class="fd-modal-close" title="Cerrar">${ICONS.close}</button>
+          <button type="button" class="fd-modal-close" title="Cerrar">${ICONS.close}</button>
           ${this._dom_viewerInner()}
         </div>
       `
@@ -991,7 +991,7 @@ import CSS_TEXT from './style.css'
           <div class="fd-code-block">
             <div class="fd-code-header">
               <span class="fd-code-lang">${escHtml(lang)}</span>
-              <button class="fd-btn-copy" title="Copiar código">
+              <button type="button" class="fd-btn-copy" title="Copiar código">
                 ${ICONS.copy} Copiar
               </button>
             </div>

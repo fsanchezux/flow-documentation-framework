@@ -707,15 +707,70 @@
   position: fixed;
 }
 
+/* ── Responsive: tablet ────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .fd-ask-fab {
+    width: 44px;
+    height: 44px;
+    bottom: 16px;
+    right: 16px;
+  }
+  .fd-modal-fab {
+    width: 44px;
+    height: 44px;
+    bottom: 72px;
+    right: 16px;
+  }
+  .fd-ask-panel {
+    width: calc(100vw - 24px);
+    height: calc(100vh - 88px);
+    bottom: 72px;
+    right: 12px;
+    left: 12px;
+    max-height: none;
+    max-width: none;
+  }
+  .fd-modal {
+    top: 2vh;
+    left: 2vw;
+    width: 96vw;
+    height: 96vh;
+    border-radius: 8px;
+  }
+  .fd-modal .fd-sidebar { --fd-sidebar-w: 180px; }
+  .fd-modal .fd-toc { display: none; }
+  .fd-modal .fd-content-area { padding: 8px 16px 24px; }
+}
+
+/* ── Responsive: phone ─────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .fd-modal {
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+  .fd-modal .fd-sidebar {
+    --fd-sidebar-w: 160px;
+  }
+  .fd-modal-close {
+    top: 8px;
+    right: 8px;
+  }
+}
+
 /* ── Modal mode ────────────────────────────────────────────────────────────── */
+/* In modal mode, the two FABs stack vertically at the bottom-right corner:
+   chat (primary) at the corner, modal-open (book) above it. */
 .fd-modal-fab {
   position: fixed;
-  bottom: 24px;
-  right: 84px;  /* sits next to the ask fab */
+  bottom: 84px;
+  right: 24px;
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: var(--fd-bg3, #1c2128);
+  background: #1c2128;
   color: #58a6ff;
   border: 1px solid #30363d;
   display: flex;

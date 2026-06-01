@@ -2739,15 +2739,70 @@ ${content}</tr>
   position: fixed;
 }
 
+/* \u2500\u2500 Responsive: tablet \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+@media (max-width: 640px) {
+  .fd-ask-fab {
+    width: 44px;
+    height: 44px;
+    bottom: 16px;
+    right: 16px;
+  }
+  .fd-modal-fab {
+    width: 44px;
+    height: 44px;
+    bottom: 72px;
+    right: 16px;
+  }
+  .fd-ask-panel {
+    width: calc(100vw - 24px);
+    height: calc(100vh - 88px);
+    bottom: 72px;
+    right: 12px;
+    left: 12px;
+    max-height: none;
+    max-width: none;
+  }
+  .fd-modal {
+    top: 2vh;
+    left: 2vw;
+    width: 96vw;
+    height: 96vh;
+    border-radius: 8px;
+  }
+  .fd-modal .fd-sidebar { --fd-sidebar-w: 180px; }
+  .fd-modal .fd-toc { display: none; }
+  .fd-modal .fd-content-area { padding: 8px 16px 24px; }
+}
+
+/* \u2500\u2500 Responsive: phone \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+@media (max-width: 480px) {
+  .fd-modal {
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+  .fd-modal .fd-sidebar {
+    --fd-sidebar-w: 160px;
+  }
+  .fd-modal-close {
+    top: 8px;
+    right: 8px;
+  }
+}
+
 /* \u2500\u2500 Modal mode \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
+/* In modal mode, the two FABs stack vertically at the bottom-right corner:
+   chat (primary) at the corner, modal-open (book) above it. */
 .fd-modal-fab {
   position: fixed;
-  bottom: 24px;
-  right: 84px;  /* sits next to the ask fab */
+  bottom: 84px;
+  right: 24px;
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: var(--fd-bg3, #1c2128);
+  background: #1c2128;
   color: #58a6ff;
   border: 1px solid #30363d;
   display: flex;
@@ -3016,7 +3071,7 @@ ${content}</tr>
 <div class="fd-code-block">
   <div class="fd-code-header">
     <span class="fd-code-lang">${lang}</span>
-    <button class="fd-btn-copy" title="Copiar c\xF3digo">
+    <button type="button" class="fd-btn-copy" title="Copiar c\xF3digo">
       ${ICONS.copy} Copiar
     </button>
   </div>
@@ -3562,7 +3617,7 @@ ${files[normalizedRef]}
                 ${ICONS.book}
                 <span>Flow-Docs</span>
               </div>
-              <button class="fd-btn-reload" title="Recargar desde GitHub">
+              <button type="button" class="fd-btn-reload" title="Recargar desde GitHub">
                 ${ICONS.refresh}
               </button>
             </div>
@@ -3614,13 +3669,13 @@ ${files[normalizedRef]}
           }
           _dom_askUI() {
             return `
-        <button class="fd-ask-fab" title="Pregunta a los docs">
+        <button type="button" class="fd-ask-fab" title="Pregunta a los docs">
           ${ICONS.chat}
         </button>
         <div class="fd-ask-panel fd-hidden">
           <div class="fd-ask-header">
             <span class="fd-ask-title">Pregunta a los docs</span>
-            <button class="fd-ask-close" title="Cerrar">${ICONS.close}</button>
+            <button type="button" class="fd-ask-close" title="Cerrar">${ICONS.close}</button>
           </div>
           <div class="fd-ask-results">
             <div class="fd-ask-placeholder">
@@ -3636,7 +3691,7 @@ ${files[normalizedRef]}
           }
           _dom_modalTrigger() {
             return `
-        <button class="fd-modal-fab" title="Abrir documentaci\xF3n">
+        <button type="button" class="fd-modal-fab" title="Abrir documentaci\xF3n">
           ${ICONS.book}
         </button>
       `;
@@ -3645,7 +3700,7 @@ ${files[normalizedRef]}
             return `
         <div class="fd-modal-backdrop fd-hidden"></div>
         <div class="fd-modal fd-hidden">
-          <button class="fd-modal-close" title="Cerrar">${ICONS.close}</button>
+          <button type="button" class="fd-modal-close" title="Cerrar">${ICONS.close}</button>
           ${this._dom_viewerInner()}
         </div>
       `;
@@ -3949,7 +4004,7 @@ ${files[normalizedRef]}
           <div class="fd-code-block">
             <div class="fd-code-header">
               <span class="fd-code-lang">${escHtml(lang)}</span>
-              <button class="fd-btn-copy" title="Copiar c\xF3digo">
+              <button type="button" class="fd-btn-copy" title="Copiar c\xF3digo">
                 ${ICONS.copy} Copiar
               </button>
             </div>
