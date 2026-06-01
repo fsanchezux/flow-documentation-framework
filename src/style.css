@@ -632,6 +632,174 @@
   z-index: 200;
 }
 
+/* ── Ask panel (BM25 Q&A) ──────────────────────────────────────────────────── */
+.flow-docs-root .fd-ask-fab {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--fd-accent);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,.4);
+  transition: transform .15s, box-shadow .15s;
+  z-index: 90;
+}
+.flow-docs-root .fd-ask-fab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(88,166,255,.4);
+}
+
+.flow-docs-root .fd-ask-panel {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  width: 420px;
+  max-width: calc(100% - 48px);
+  height: 560px;
+  max-height: calc(100% - 48px);
+  background: var(--fd-bg2);
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 28px rgba(0,0,0,.5);
+  z-index: 95;
+  overflow: hidden;
+}
+
+.flow-docs-root .fd-ask-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--fd-border);
+  background: var(--fd-bg3);
+  flex-shrink: 0;
+}
+.flow-docs-root .fd-ask-title {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--fd-text);
+}
+.flow-docs-root .fd-ask-close {
+  background: none;
+  border: none;
+  color: var(--fd-text3);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  transition: background .1s, color .1s;
+}
+.flow-docs-root .fd-ask-close:hover {
+  background: var(--fd-bg);
+  color: var(--fd-text);
+}
+
+.flow-docs-root .fd-ask-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.flow-docs-root .fd-ask-placeholder,
+.flow-docs-root .fd-ask-empty {
+  color: var(--fd-text2);
+  font-size: 13px;
+  padding: 24px 12px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.flow-docs-root .fd-ask-header-results {
+  font-size: 12px;
+  color: var(--fd-text3);
+  padding: 0 4px 10px;
+}
+
+.flow-docs-root .fd-ask-result {
+  background: var(--fd-bg3);
+  border: 1px solid var(--fd-border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: border-color .15s;
+}
+.flow-docs-root .fd-ask-result:hover { border-color: var(--fd-accent); }
+
+.flow-docs-root .fd-ask-result-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.flow-docs-root .fd-ask-result-meta .fd-file-path {
+  font-size: 11px;
+}
+
+.flow-docs-root .fd-ask-result-snippet {
+  font-size: 12px;
+  color: var(--fd-text2);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 110px;
+  overflow: hidden;
+  position: relative;
+}
+.flow-docs-root .fd-ask-result-snippet mark {
+  background: #4a3500;
+  color: #e3b341;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+.flow-docs-root .fd-ask-input-row {
+  display: flex;
+  gap: 6px;
+  padding: 10px;
+  border-top: 1px solid var(--fd-border);
+  background: var(--fd-bg3);
+  flex-shrink: 0;
+}
+.flow-docs-root .fd-ask-input {
+  flex: 1;
+  background: var(--fd-bg);
+  border: 1px solid var(--fd-border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--fd-text);
+  font-size: 13px;
+  outline: none;
+  transition: border-color .15s;
+}
+.flow-docs-root .fd-ask-input:focus { border-color: var(--fd-accent); }
+.flow-docs-root .fd-ask-input::placeholder { color: var(--fd-text3); }
+
+.flow-docs-root .fd-ask-send {
+  width: 36px;
+  height: auto;
+  background: var(--fd-accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity .15s;
+}
+.flow-docs-root .fd-ask-send:hover { opacity: .85; }
+
 /* ── Scrollbar global ──────────────────────────────────────────────────────── */
 .flow-docs-root ::-webkit-scrollbar { width: 6px; height: 6px; }
 .flow-docs-root ::-webkit-scrollbar-track { background: transparent; }

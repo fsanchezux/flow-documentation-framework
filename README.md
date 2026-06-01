@@ -88,10 +88,15 @@ Cómo conseguirlo:
 - Sidebar con lista de skills + árbol de archivos
 - Tabla de contenidos (TOC) por documento, redimensionable
 - Búsqueda full-text en todos los archivos (Ctrl+K)
+- **"Pregunta a los docs"** — panel flotante con búsqueda BM25 sobre los fragmentos de la documentación (en lenguaje natural, sin LLM, sin coste)
 - Syntax highlighting (highlight.js, tema GitHub Dark)
 - Tema oscuro estilo GitHub
 - Una sola petición al inicio — navegación, búsqueda y TOC funcionan en memoria
 - Botón de recarga para refrescar desde GitHub
+
+### Pregunta a los docs
+
+El botón flotante de la esquina inferior derecha abre un panel donde puedes hacer preguntas en lenguaje natural ("¿cómo configuro la autenticación?", "qué formato tiene el archivo de salida"). El visor indexa todos los archivos por secciones H1/H2 y usa BM25 (búsqueda probabilística por palabras clave, sin ML ni APIs externas) para devolver los fragmentos más relevantes con highlight. Click en un fragmento te lleva al archivo y sección correspondientes.
 
 ## Desarrollo
 

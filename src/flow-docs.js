@@ -31,6 +31,9 @@ import CSS_TEXT from './style.css'
     css: '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83"/></svg>',
     chevron: '<svg class="fd-tree-chevron" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>',
     refresh: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>',
+    chat: '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+    close: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+    send: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>',
   }
 
   const FILE_ICONS = { md: 'fileMd', vb: 'code', js: 'code', html: 'code', cs: 'code', sql: 'db', css: 'css' }
@@ -139,6 +142,149 @@ import CSS_TEXT from './style.css'
     }
 
     return results
+  }
+
+  // ─── BM25 "Ask the docs" engine ────────────────────────────────────────────
+
+  // Multilingual (ES + EN) stopword list — keeps the index small without
+  // dropping query-relevant terms.
+  const STOPWORDS = new Set([
+    'the','a','an','of','to','in','and','or','is','it','for','on','with','as','at',
+    'by','from','that','this','be','are','was','were','have','has','had','will',
+    'can','do','does','did','if','but','not','no','yes','so','then','than','when',
+    'where','what','who','how','why','which','its','their','they','them','our',
+    'el','la','los','las','de','que','y','en','un','una','con','por','para','es',
+    'son','se','del','al','lo','su','sus','si','como','pero','o','u','e','este',
+    'esta','estos','estas','ese','esa','esos','esas','le','les','me','te','nos',
+    'mi','tu','ya','muy','mas','sin','sobre','entre','hasta','desde','hay','han',
+    'fue','ser','sera','soy','eres','somos','tambien','solo','tan'
+  ])
+
+  function bm25Tokenize(text) {
+    return String(text)
+      .toLowerCase()
+      .normalize('NFD').replace(/[̀-ͯ]/g, '') // strip diacritics
+      .replace(/[^\p{L}\p{N}]+/gu, ' ')
+      .split(/\s+/)
+      .filter(t => t.length >= 2 && !STOPWORDS.has(t))
+  }
+
+  // Split a markdown doc into chunks at H1/H2 boundaries. Returns
+  // [{ title, id, body }]. Falls back to a single chunk if no headings.
+  function chunkMarkdown(md) {
+    const lines = md.split('\n')
+    const sections = []
+    let cur = { title: '', id: '', body: '' }
+    for (const line of lines) {
+      const h = line.match(/^(#{1,2})\s+(.+)/)
+      if (h) {
+        if (cur.body.trim()) sections.push(cur)
+        const title = h[2].trim()
+        const id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+        cur = { title, id, body: line + '\n' }
+      } else {
+        cur.body += line + '\n'
+      }
+    }
+    if (cur.body.trim()) sections.push(cur)
+    return sections
+  }
+
+  function buildAskIndex(skills) {
+    const chunks = []
+    for (const skill of skills) {
+      for (const [filePath, content] of Object.entries(skill.files)) {
+        if (!content) continue
+        const ext = getExt(filePath)
+        if (ext === 'md') {
+          for (const sec of chunkMarkdown(content)) {
+            chunks.push({
+              skill: skill.name,
+              file: filePath,
+              section: sec.title || filePath,
+              sectionId: sec.id || null,
+              text: sec.body,
+            })
+          }
+        } else {
+          // Non-markdown: index whole file as one chunk (cap at ~4000 chars)
+          chunks.push({
+            skill: skill.name,
+            file: filePath,
+            section: filePath,
+            sectionId: null,
+            text: content.length > 4000 ? content.slice(0, 4000) : content,
+          })
+        }
+      }
+    }
+
+    const tokens = chunks.map(c => bm25Tokenize(c.text + ' ' + c.section + ' ' + c.file))
+    const N = tokens.length || 1
+    const avgdl = tokens.reduce((s, d) => s + d.length, 0) / N
+
+    const df = Object.create(null)
+    const tfPerDoc = tokens.map(doc => {
+      const tf = Object.create(null)
+      const seen = new Set()
+      for (const t of doc) {
+        tf[t] = (tf[t] || 0) + 1
+        seen.add(t)
+      }
+      for (const t of seen) df[t] = (df[t] || 0) + 1
+      return tf
+    })
+
+    const idf = Object.create(null)
+    for (const t in df) {
+      idf[t] = Math.log(1 + (N - df[t] + 0.5) / (df[t] + 0.5))
+    }
+
+    return { chunks, tfPerDoc, idf, avgdl, N, dl: tokens.map(d => d.length) }
+  }
+
+  function bm25Search(index, query, topK = 5) {
+    if (!index || !index.N) return []
+    const k1 = 1.5, b = 0.75
+    const qTerms = [...new Set(bm25Tokenize(query))]
+    if (!qTerms.length) return []
+
+    const scores = new Array(index.N).fill(0)
+    for (let i = 0; i < index.N; i++) {
+      const dl = index.dl[i]
+      const tfDoc = index.tfPerDoc[i]
+      for (const t of qTerms) {
+        const tf = tfDoc[t]
+        if (!tf) continue
+        const idfT = index.idf[t] || 0
+        const norm = 1 - b + b * (dl / index.avgdl)
+        scores[i] += idfT * (tf * (k1 + 1)) / (tf + k1 * norm)
+      }
+    }
+
+    return scores
+      .map((s, i) => ({ s, i }))
+      .filter(x => x.s > 0)
+      .sort((a, b) => b.s - a.s)
+      .slice(0, topK)
+      .map(x => ({ score: x.s, chunk: index.chunks[x.i], queryTerms: qTerms }))
+  }
+
+  // Extract the most relevant ~400 char window around query terms
+  function extractSnippet(text, qTerms, maxLen = 400) {
+    const clean = text.replace(/^#{1,6}\s+.*$/gm, '').trim()
+    if (clean.length <= maxLen) return clean
+    const lower = clean.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+    let bestPos = 0, bestHits = 0
+    for (let pos = 0; pos < lower.length; pos += 50) {
+      const window = lower.slice(pos, pos + maxLen)
+      let hits = 0
+      for (const t of qTerms) if (window.includes(t)) hits++
+      if (hits > bestHits) { bestHits = hits; bestPos = pos }
+    }
+    const start = Math.max(0, bestPos - 20)
+    const end = Math.min(clean.length, start + maxLen)
+    return (start > 0 ? '…' : '') + clean.slice(start, end) + (end < clean.length ? '…' : '')
   }
 
   // ─── File tree builder ─────────────────────────────────────────────────────
@@ -425,6 +571,26 @@ import CSS_TEXT from './style.css'
         <div class="fd-error fd-hidden">
           <div class="fd-error-text"></div>
         </div>
+
+        <button class="fd-ask-fab" title="Pregunta a los docs">
+          ${ICONS.chat}
+        </button>
+
+        <div class="fd-ask-panel fd-hidden">
+          <div class="fd-ask-header">
+            <span class="fd-ask-title">Pregunta a los docs</span>
+            <button class="fd-ask-close" title="Cerrar">${ICONS.close}</button>
+          </div>
+          <div class="fd-ask-results">
+            <div class="fd-ask-placeholder">
+              Haz una pregunta en lenguaje natural y te muestro los fragmentos más relevantes de la documentación.
+            </div>
+          </div>
+          <form class="fd-ask-input-row">
+            <input type="text" class="fd-ask-input" placeholder="¿Qué quieres saber?" autocomplete="off">
+            <button type="submit" class="fd-ask-send" title="Buscar">${ICONS.send}</button>
+          </form>
+        </div>
       `
 
       this.container.appendChild(root)
@@ -448,6 +614,12 @@ import CSS_TEXT from './style.css'
         loadingText: root.querySelector('.fd-loading-text'),
         error: root.querySelector('.fd-error'),
         errorText: root.querySelector('.fd-error-text'),
+        askFab: root.querySelector('.fd-ask-fab'),
+        askPanel: root.querySelector('.fd-ask-panel'),
+        askClose: root.querySelector('.fd-ask-close'),
+        askResults: root.querySelector('.fd-ask-results'),
+        askForm: root.querySelector('.fd-ask-input-row'),
+        askInput: root.querySelector('.fd-ask-input'),
       }
     }
 
@@ -524,6 +696,29 @@ import CSS_TEXT from './style.css'
         }
       })
 
+      // Ask panel
+      this.$.askFab.addEventListener('click', () => this._toggleAsk())
+      this.$.askClose.addEventListener('click', () => this._closeAsk())
+      this.$.askForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+        this._doAsk(this.$.askInput.value.trim())
+      })
+      this.$.askResults.addEventListener('click', (e) => {
+        const card = e.target.closest('.fd-ask-result')
+        if (!card) return
+        const skill = card.dataset.skill
+        const file = card.dataset.file
+        const section = card.dataset.section
+        this._loadFile(skill, file)
+        if (section) {
+          setTimeout(() => {
+            const el = this.root.querySelector(`[id="${section}"]`)
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          }, 100)
+        }
+        this._closeAsk()
+      })
+
       this._initTocResizer()
     }
 
@@ -532,6 +727,7 @@ import CSS_TEXT from './style.css'
     _loadData(data) {
       this.data = data
       this.homePage = data.homePage || null
+      this.askIndex = null // built lazily on first ask
       this._renderSkillList()
       this._renderHomePage()
     }
@@ -835,6 +1031,72 @@ import CSS_TEXT from './style.css'
           this._loadSkill(skillName)
         }
       }
+    }
+
+    // ─── Ask panel ─────────────────────────────────────────────────────────
+
+    _toggleAsk() {
+      if (this.$.askPanel.classList.contains('fd-hidden')) this._openAsk()
+      else this._closeAsk()
+    }
+
+    _openAsk() {
+      this.$.askPanel.classList.remove('fd-hidden')
+      this.$.askFab.classList.add('fd-hidden')
+      setTimeout(() => this.$.askInput.focus(), 50)
+    }
+
+    _closeAsk() {
+      this.$.askPanel.classList.add('fd-hidden')
+      this.$.askFab.classList.remove('fd-hidden')
+    }
+
+    _doAsk(query) {
+      if (!query || query.length < 2 || !this.data) return
+
+      // Lazy build index on first query
+      if (!this.askIndex) {
+        this.askIndex = buildAskIndex(this.data.skills)
+      }
+
+      const results = bm25Search(this.askIndex, query, 5)
+
+      if (!results.length) {
+        this.$.askResults.innerHTML = `
+          <div class="fd-ask-empty">
+            Sin resultados para "<strong>${escHtml(query)}</strong>".
+            Prueba con otras palabras clave.
+          </div>`
+        return
+      }
+
+      const highlight = (text, terms) => {
+        const safe = escHtml(text)
+        if (!terms.length) return safe
+        const pattern = terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')
+        const re = new RegExp(`\\b(${pattern})`, 'gi')
+        return safe.replace(re, '<mark>$1</mark>')
+      }
+
+      const html = results.map(r => {
+        const c = r.chunk
+        const snippet = extractSnippet(c.text, r.queryTerms, 350)
+        return `
+          <div class="fd-ask-result" data-skill="${escAttr(c.skill)}" data-file="${escAttr(c.file)}" ${c.sectionId ? `data-section="${escAttr(c.sectionId)}"` : ''}>
+            <div class="fd-ask-result-meta">
+              <span class="fd-tag">${escHtml(c.skill)}</span>
+              <span class="fd-file-path">${escHtml(c.file)}${c.section && c.section !== c.file ? ' › ' + escHtml(c.section) : ''}</span>
+            </div>
+            <div class="fd-ask-result-snippet">${highlight(snippet, r.queryTerms)}</div>
+          </div>`
+      }).join('')
+
+      this.$.askResults.innerHTML = `
+        <div class="fd-ask-header-results">
+          Top ${results.length} fragmento${results.length !== 1 ? 's' : ''} para "<strong>${escHtml(query)}</strong>"
+        </div>
+        ${html}
+      `
     }
 
     // ─── UI helpers ────────────────────────────────────────────────────────
