@@ -270,6 +270,40 @@ import CSS_TEXT from './style.css'
       .map(x => ({ score: x.s, chunk: index.chunks[x.i], queryTerms: qTerms }))
   }
 
+  // Parse home.md for quick-access shortcuts: H2/H3 headings and internal
+  // markdown links. Each becomes a clickable chip in the ask panel that
+  // triggers a BM25 search for its label.
+  function extractShortcuts(homeMd) {
+    if (!homeMd) return []
+    const shortcuts = []
+    const seen = new Set()
+    const add = (label) => {
+      const trimmed = label.trim()
+      if (!trimmed) return
+      const key = trimmed.toLowerCase()
+      if (seen.has(key)) return
+      seen.add(key)
+      shortcuts.push({ label: trimmed, query: trimmed })
+    }
+
+    // H2/H3 headings
+    const headingRegex = /^(##|###)\s+(.+)$/gm
+    let m
+    while ((m = headingRegex.exec(homeMd)) !== null) {
+      // Strip any inline markdown link syntax in the heading
+      const raw = m[2].replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/[*_`]/g, '').trim()
+      add(raw)
+    }
+
+    // Internal markdown links: [text](relative)
+    const linkRegex = /\[([^\]]+)\]\((?!https?:\/\/|#|mailto:)([^)]+)\)/g
+    while ((m = linkRegex.exec(homeMd)) !== null) {
+      add(m[1])
+    }
+
+    return shortcuts.slice(0, 12)
+  }
+
   // Extract the most relevant ~400 char window around query terms
   function extractSnippet(text, qTerms, maxLen = 400) {
     const clean = text.replace(/^#{1,6}\s+.*$/gm, '').trim()
@@ -585,20 +619,10 @@ import CSS_TEXT from './style.css'
       return `
         <aside class="fd-sidebar">
           <div class="fd-sidebar-header">
-            <div class="fd-logo-row">
-              <div class="fd-logo">
-                ${ICONS.book}
-                <span>Flow-Docs</span>
-              </div>
-              <button type="button" class="fd-btn-reload" title="Recargar desde GitHub">
-                ${ICONS.refresh}
-              </button>
-            </div>
-            <div class="fd-search-box">
-              ${ICONS.search}
-              <input type="text" class="fd-search-input" placeholder="Buscar..." autocomplete="off">
-              <kbd>Ctrl+K</kbd>
-            </div>
+            <button type="button" class="fd-logo" title="Inicio">${ICONS.book}</button>
+            <button type="button" class="fd-btn-reload" title="Recargar desde GitHub">
+              ${ICONS.refresh}
+            </button>
           </div>
           <nav class="fd-skill-list"></nav>
         </aside>
@@ -608,9 +632,7 @@ import CSS_TEXT from './style.css'
             <div class="fd-welcome">
               <div class="fd-welcome-inner">
                 ${ICONS.book}
-                <h1>Flow-Docs</h1>
                 <p>Selecciona un skill del sidebar para ver su documentación.</p>
-                <p class="fd-hint">Usa <kbd>Ctrl+K</kbd> para buscar en todos los skills.</p>
               </div>
             </div>
             <div class="fd-skill-content fd-hidden"></div>
@@ -744,6 +766,15 @@ import CSS_TEXT from './style.css'
         this._doAsk(this.$.askInput.value.trim())
       })
       this.$.askResults.addEventListener('click', (e) => {
+        // Quick-access shortcut chip → trigger a search
+        const shortcut = e.target.closest('.fd-ask-shortcut')
+        if (shortcut) {
+          const q = shortcut.dataset.query
+          this.$.askInput.value = q
+          this._doAsk(q)
+          return
+        }
+
         const card = e.target.closest('.fd-ask-result')
         if (!card) return
         const skill = card.dataset.skill
@@ -894,12 +925,9 @@ import CSS_TEXT from './style.css'
       if (this.$.skillList) this._renderSkillList()
       if (this.$.welcome) this._renderHomePage()
       // If the ask panel was opened before data finished loading, swap the
-      // "loading…" message for the regular placeholder.
+      // "loading…" message for the placeholder + shortcuts.
       if (this.$.askPanel && !this.$.askPanel.classList.contains('fd-hidden')) {
-        this.$.askResults.innerHTML = `
-          <div class="fd-ask-placeholder">
-            Haz una pregunta en lenguaje natural y te muestro los fragmentos más relevantes de la documentación.
-          </div>`
+        this.$.askResults.innerHTML = this._askPlaceholderHtml()
       }
     }
 
@@ -1217,13 +1245,15 @@ import CSS_TEXT from './style.css'
     _openAsk() {
       this.$.askPanel.classList.remove('fd-hidden')
       this.$.askFab.classList.add('fd-hidden')
-      // If data isn't loaded yet, show a loading message in the panel
       if (!this.data) {
         this.$.askResults.innerHTML = `
           <div class="fd-ask-placeholder">
             <div class="fd-ask-spinner"></div>
             Cargando documentación de GitHub...
           </div>`
+      } else if (!this.$.askInput.value.trim()) {
+        // Refresh placeholder + shortcuts whenever opening with empty input
+        this.$.askResults.innerHTML = this._askPlaceholderHtml()
       }
       setTimeout(() => this.$.askInput.focus(), 50)
     }
@@ -1233,8 +1263,34 @@ import CSS_TEXT from './style.css'
       this.$.askFab.classList.remove('fd-hidden')
     }
 
+    _askPlaceholderHtml() {
+      const shortcuts = extractShortcuts(this.homePage)
+      const shortcutsHtml = shortcuts.length
+        ? `
+          <div class="fd-ask-shortcuts">
+            <div class="fd-ask-shortcuts-title">Atajos rápidos</div>
+            <div class="fd-ask-shortcuts-list">
+              ${shortcuts.map(s => `<button type="button" class="fd-ask-shortcut" data-query="${escAttr(s.query)}">${escHtml(s.label)}</button>`).join('')}
+            </div>
+          </div>`
+        : ''
+      return `
+        <div class="fd-ask-placeholder">
+          Haz una pregunta en lenguaje natural y te muestro los fragmentos más relevantes de la documentación.
+        </div>
+        ${shortcutsHtml}
+      `
+    }
+
     _doAsk(query) {
-      if (!query || query.length < 2 || !this.data) return
+      // Empty submit → reset to placeholder + shortcuts
+      if (!query) {
+        this.$.askInput.value = ''
+        this.$.askResults.innerHTML = this._askPlaceholderHtml()
+        this.$.askInput.focus()
+        return
+      }
+      if (query.length < 2 || !this.data) return
 
       // Lazy build index on first query
       if (!this.askIndex) {
@@ -1244,11 +1300,23 @@ import CSS_TEXT from './style.css'
       const results = bm25Search(this.askIndex, query, 5)
 
       if (!results.length) {
+        const shortcuts = extractShortcuts(this.homePage)
+        const shortcutsHtml = shortcuts.length
+          ? `
+            <div class="fd-ask-shortcuts">
+              <div class="fd-ask-shortcuts-title">Prueba con uno de estos atajos:</div>
+              <div class="fd-ask-shortcuts-list">
+                ${shortcuts.map(s => `<button type="button" class="fd-ask-shortcut" data-query="${escAttr(s.query)}">${escHtml(s.label)}</button>`).join('')}
+              </div>
+            </div>`
+          : ''
         this.$.askResults.innerHTML = `
           <div class="fd-ask-empty">
             Sin resultados para "<strong>${escHtml(query)}</strong>".
             Prueba con otras palabras clave.
-          </div>`
+          </div>
+          ${shortcutsHtml}
+        `
         return
       }
 
@@ -1343,7 +1411,7 @@ import CSS_TEXT from './style.css'
 
   // ─── Public API ──────────────────────────────────────────────────────────
 
-  const VERSION = '3.1.2'
+  const VERSION = '3.1.3'
 
   const FlowDocs = {
     VERSION,

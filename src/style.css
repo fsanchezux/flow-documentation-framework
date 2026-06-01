@@ -50,28 +50,32 @@
 }
 
 .flow-docs-root .fd-sidebar-header {
-  padding: 16px 12px 12px;
+  padding: 10px 12px;
   border-bottom: 1px solid var(--fd-border);
-}
-
-.flow-docs-root .fd-logo-row {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
-  margin-bottom: 12px;
 }
 
 .flow-docs-root .fd-logo {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--fd-text);
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--fd-accent);
   cursor: pointer;
-  flex: 1;
+  transition: background .1s, border-color .1s;
 }
-.flow-docs-root .fd-logo svg { color: var(--fd-accent); }
+.flow-docs-root .fd-logo:hover {
+  background: var(--fd-bg3);
+  border-color: var(--fd-border);
+}
 
 .flow-docs-root .fd-btn-reload {
   display: inline-flex;
@@ -644,23 +648,29 @@
 }
 
 /* ── Ask panel (BM25 Q&A) ──────────────────────────────────────────────────── */
+/* The FAB uses !important on positioning + display to defend against host
+   pages that reset `button { position: static; ... }` globally. */
 .fd-ask-fab {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #58a6ff;
-  color: #fff;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0,0,0,.4);
-  transition: transform .15s, box-shadow .15s;
-  z-index: 9990;
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  top: auto !important;
+  left: auto !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  background: #58a6ff !important;
+  color: #fff !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,.4) !important;
+  transition: transform .15s, box-shadow .15s !important;
+  z-index: 9990 !important;
 }
 .fd-ask-fab:hover {
   transform: translateY(-2px);
@@ -698,6 +708,40 @@
   border-top-color: #58a6ff;
   border-radius: 50%;
   animation: fd-spin 0.8s linear infinite;
+}
+
+/* Quick-access shortcuts extracted from home.md */
+.fd-ask-shortcuts {
+  padding: 0 4px 12px;
+}
+.fd-ask-shortcuts-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: #6e7681;
+  margin-bottom: 8px;
+  padding: 0 4px;
+}
+.fd-ask-shortcuts-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.fd-ask-shortcut {
+  font-family: inherit;
+  font-size: 12px;
+  color: #58a6ff;
+  background: #1c2128;
+  border: 1px solid #30363d;
+  border-radius: 14px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background .1s, border-color .1s;
+}
+.fd-ask-shortcut:hover {
+  background: #1f3d5c;
+  border-color: #58a6ff;
 }
 
 /* In chat-only mode, overlays float over the viewport since root is 0x0 */
@@ -764,22 +808,26 @@
 /* In modal mode, the two FABs stack vertically at the bottom-right corner:
    chat (primary) at the corner, modal-open (book) above it. */
 .fd-modal-fab {
-  position: fixed;
-  bottom: 84px;
-  right: 24px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #1c2128;
-  color: #58a6ff;
-  border: 1px solid #30363d;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0,0,0,.4);
-  transition: transform .15s, box-shadow .15s;
-  z-index: 9990;
+  position: fixed !important;
+  bottom: 84px !important;
+  right: 24px !important;
+  top: auto !important;
+  left: auto !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  background: #1c2128 !important;
+  color: #58a6ff !important;
+  border: 1px solid #30363d !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,.4) !important;
+  transition: transform .15s, box-shadow .15s !important;
+  z-index: 9990 !important;
 }
 .fd-modal-fab:hover {
   transform: translateY(-2px);

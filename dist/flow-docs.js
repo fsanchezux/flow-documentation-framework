@@ -2030,999 +2030,7 @@ ${content}</tr>
   var style_default;
   var init_style = __esm({
     "css-text:C:\\Users\\ferry\\flow-documentation-framework\\src\\style.css"() {
-      style_default = `/* \u2500\u2500 Variables \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root {
-  --fd-bg:        #0f1117;
-  --fd-bg2:       #161b22;
-  --fd-bg3:       #1c2128;
-  --fd-border:    #30363d;
-  --fd-text:      #e6edf3;
-  --fd-text2:     #8b949e;
-  --fd-text3:     #6e7681;
-  --fd-accent:    #58a6ff;
-  --fd-accent-bg: #1f3d5c;
-  --fd-green:     #3fb950;
-  --fd-yellow:    #d29922;
-  --fd-red:       #f85149;
-  --fd-radius:    8px;
-  --fd-sidebar-w: 260px;
-  --fd-toc-w:     220px;
-  --fd-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
-}
-
-/* \u2500\u2500 Reset (scoped) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root *, .flow-docs-root *::before, .flow-docs-root *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-.flow-docs-root {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: var(--fd-bg);
-  color: var(--fd-text);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 14px;
-  line-height: 1.6;
-  position: relative;
-}
-
-/* \u2500\u2500 Sidebar \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root .fd-sidebar {
-  width: var(--fd-sidebar-w);
-  flex-shrink: 0;
-  background: var(--fd-bg2);
-  border-right: 1px solid var(--fd-border);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.flow-docs-root .fd-sidebar-header {
-  padding: 16px 12px 12px;
-  border-bottom: 1px solid var(--fd-border);
-}
-
-.flow-docs-root .fd-logo-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.flow-docs-root .fd-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--fd-text);
-  cursor: pointer;
-  flex: 1;
-}
-.flow-docs-root .fd-logo svg { color: var(--fd-accent); }
-
-.flow-docs-root .fd-btn-reload {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  border: 1px solid var(--fd-border);
-  border-radius: 6px;
-  background: var(--fd-bg3);
-  color: var(--fd-text2);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.flow-docs-root .fd-btn-reload:hover {
-  color: var(--fd-accent);
-  border-color: var(--fd-accent);
-  background: var(--fd-accent-bg);
-}
-
-/* \u2500\u2500 Search box \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root .fd-search-box {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--fd-bg3);
-  border: 1px solid var(--fd-border);
-  border-radius: var(--fd-radius);
-  padding: 6px 10px;
-  transition: border-color .15s;
-}
-.flow-docs-root .fd-search-box:focus-within { border-color: var(--fd-accent); }
-.flow-docs-root .fd-search-box svg { color: var(--fd-text3); flex-shrink: 0; }
-.flow-docs-root .fd-search-box input {
-  flex: 1;
-  background: none;
-  border: none;
-  outline: none;
-  color: var(--fd-text);
-  font-size: 13px;
-  min-width: 0;
-}
-.flow-docs-root .fd-search-box input::placeholder { color: var(--fd-text3); }
-.flow-docs-root .fd-search-box kbd {
-  font-size: 10px;
-  color: var(--fd-text3);
-  background: var(--fd-bg2);
-  border: 1px solid var(--fd-border);
-  border-radius: 4px;
-  padding: 1px 4px;
-  flex-shrink: 0;
-}
-
-.flow-docs-root .fd-skill-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 8px 0;
-}
-.flow-docs-root .fd-skill-list::-webkit-scrollbar { width: 4px; }
-.flow-docs-root .fd-skill-list::-webkit-scrollbar-track { background: transparent; }
-.flow-docs-root .fd-skill-list::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 2px; }
-
-.flow-docs-root .fd-skill-item {
-  padding: 8px 14px;
-  cursor: pointer;
-  border-radius: 6px;
-  margin: 1px 6px;
-  transition: background .1s;
-}
-.flow-docs-root .fd-skill-item:hover { background: var(--fd-bg3); }
-.flow-docs-root .fd-skill-item.active { background: var(--fd-accent-bg); }
-.flow-docs-root .fd-skill-item.active .fd-skill-name { color: var(--fd-accent); }
-
-.flow-docs-root .fd-skill-name {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--fd-text);
-}
-.flow-docs-root .fd-skill-name svg { color: var(--fd-text3); flex-shrink: 0; }
-
-.flow-docs-root .fd-skill-desc {
-  font-size: 11px;
-  color: var(--fd-text3);
-  margin-top: 2px;
-  padding-left: 20px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.flow-docs-root .fd-empty-state {
-  padding: 20px 14px;
-  color: var(--fd-text2);
-  font-size: 13px;
-  line-height: 1.7;
-}
-.flow-docs-root .fd-empty-state code {
-  background: var(--fd-bg3);
-  border: 1px solid var(--fd-border);
-  border-radius: 4px;
-  padding: 1px 6px;
-  font-family: var(--fd-font-mono);
-  font-size: 12px;
-  color: #e2a97e;
-}
-
-/* \u2500\u2500 Main \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root .fd-main {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
-  position: relative;
-}
-
-.flow-docs-root .fd-content-area {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px 48px 40px;
-  min-width: 0;
-}
-.flow-docs-root .fd-content-area::-webkit-scrollbar { width: 6px; }
-.flow-docs-root .fd-content-area::-webkit-scrollbar-track { background: transparent; }
-.flow-docs-root .fd-content-area::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 3px; }
-
-.flow-docs-root .fd-hidden { display: none !important; }
-
-/* \u2500\u2500 Welcome \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root .fd-welcome {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.flow-docs-root .fd-welcome:has(.fd-home-content) {
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-.flow-docs-root .fd-welcome-inner {
-  text-align: center;
-  color: var(--fd-text2);
-}
-.flow-docs-root .fd-welcome-inner svg { color: var(--fd-text3); margin-bottom: 16px; }
-.flow-docs-root .fd-welcome-inner h1 { font-size: 24px; color: var(--fd-text); margin-bottom: 8px; }
-.flow-docs-root .fd-welcome-inner p { font-size: 14px; margin-bottom: 6px; }
-.flow-docs-root .fd-welcome-inner .fd-hint { font-size: 12px; color: var(--fd-text3); }
-.flow-docs-root .fd-welcome-inner kbd {
-  background: var(--fd-bg3);
-  border: 1px solid var(--fd-border);
-  border-radius: 4px;
-  padding: 1px 5px;
-  font-size: 11px;
-}
-
-/* \u2500\u2500 Home page content \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root .fd-home-content {
-  max-width: 720px;
-  padding: 48px 32px;
-}
-.flow-docs-root .fd-home-content h1 { font-size: 26px; font-weight: 700; margin: 0 0 8px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 12px; }
-.flow-docs-root .fd-home-content h2 { font-size: 20px; font-weight: 600; margin: 28px 0 12px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 8px; }
-.flow-docs-root .fd-home-content h3 { font-size: 16px; font-weight: 600; margin: 20px 0 8px; color: var(--fd-text); }
-.flow-docs-root .fd-home-content p { margin: 0 0 14px; color: var(--fd-text); }
-.flow-docs-root .fd-home-content ul, .flow-docs-root .fd-home-content ol { margin: 0 0 14px 20px; color: var(--fd-text); }
-.flow-docs-root .fd-home-content li { margin-bottom: 4px; }
-.flow-docs-root .fd-home-content a { color: var(--fd-accent); text-decoration: none; }
-.flow-docs-root .fd-home-content a:hover { text-decoration: underline; }
-.flow-docs-root .fd-home-content strong { font-weight: 600; color: var(--fd-text); }
-.flow-docs-root .fd-home-content code:not(pre code) {
-  background: var(--fd-bg3);
-  border: 1px solid var(--fd-border);
-  border-radius: 4px;
-  padding: 1px 6px;
-  font-family: var(--fd-font-mono);
-  font-size: 12px;
-  color: #e2a97e;
-}
-
-/* \u2500\u2500 Markdown content \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root .fd-skill-content h1 { font-size: 26px; font-weight: 700; margin: 0 0 8px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 12px; }
-.flow-docs-root .fd-skill-content h2 { font-size: 20px; font-weight: 600; margin: 36px 0 12px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 8px; }
-.flow-docs-root .fd-skill-content h3 { font-size: 16px; font-weight: 600; margin: 24px 0 8px; color: var(--fd-text); }
-.flow-docs-root .fd-skill-content h4 { font-size: 14px; font-weight: 600; margin: 16px 0 6px; color: var(--fd-text2); }
-.flow-docs-root .fd-skill-content p { margin: 0 0 14px; color: var(--fd-text); }
-.flow-docs-root .fd-skill-content ul, .flow-docs-root .fd-skill-content ol { margin: 0 0 14px 20px; color: var(--fd-text); }
-.flow-docs-root .fd-skill-content li { margin-bottom: 4px; }
-.flow-docs-root .fd-skill-content a { color: var(--fd-accent); text-decoration: none; }
-.flow-docs-root .fd-skill-content a:hover { text-decoration: underline; }
-.flow-docs-root .fd-skill-content strong { font-weight: 600; color: var(--fd-text); }
-.flow-docs-root .fd-skill-content em { font-style: italic; color: var(--fd-text2); }
-.flow-docs-root .fd-skill-content hr { border: none; border-top: 1px solid var(--fd-border); margin: 28px 0; }
-
-.flow-docs-root .fd-skill-content blockquote {
-  border-left: 3px solid var(--fd-accent);
-  margin: 0 0 14px;
-  padding: 8px 16px;
-  background: var(--fd-bg2);
-  border-radius: 0 var(--fd-radius) var(--fd-radius) 0;
-  color: var(--fd-text2);
-}
-
-.flow-docs-root .fd-skill-content table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 16px;
-  font-size: 13px;
-}
-.flow-docs-root .fd-skill-content th {
-  background: var(--fd-bg2);
-  padding: 8px 12px;
-  text-align: left;
-  border: 1px solid var(--fd-border);
-  font-weight: 600;
-}
-.flow-docs-root .fd-skill-content td {
-  padding: 7px 12px;
-  border: 1px solid var(--fd-border);
-}
-.flow-docs-root .fd-skill-content tr:nth-child(even) td { background: var(--fd-bg2); }
-
-.flow-docs-root .fd-skill-content code:not(pre code) {
-  background: var(--fd-bg3);
-  border: 1px solid var(--fd-border);
-  border-radius: 4px;
-  padding: 1px 6px;
-  font-family: var(--fd-font-mono);
-  font-size: 12px;
-  color: #e2a97e;
-}
-
-/* \u2500\u2500 Code blocks \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root .fd-code-block {
-  margin: 12px 0 20px;
-  border: 1px solid var(--fd-border);
-  border-radius: var(--fd-radius);
-  overflow: hidden;
-}
-
-.flow-docs-root .fd-code-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 14px;
-  background: var(--fd-bg3);
-  border-bottom: 1px solid var(--fd-border);
-}
-
-.flow-docs-root .fd-code-lang {
-  font-size: 11px;
-  font-family: var(--fd-font-mono);
-  color: var(--fd-text3);
-  text-transform: uppercase;
-  letter-spacing: .5px;
-}
-
-.flow-docs-root .fd-btn-copy {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  color: var(--fd-text2);
-  background: none;
-  border: 1px solid transparent;
-  border-radius: 5px;
-  padding: 3px 8px;
-  cursor: pointer;
-  transition: all .15s;
-}
-.flow-docs-root .fd-btn-copy:hover {
-  color: var(--fd-text);
-  background: var(--fd-bg2);
-  border-color: var(--fd-border);
-}
-
-.flow-docs-root .fd-code-block pre {
-  margin: 0;
-  overflow-x: auto;
-  padding: 16px;
-  background: #0d1117;
-  font-size: 13px;
-  line-height: 1.6;
-}
-.flow-docs-root .fd-code-block pre::-webkit-scrollbar { height: 4px; }
-.flow-docs-root .fd-code-block pre::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 2px; }
-
-/* \u2500\u2500 TOC \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root .fd-toc {
-  width: var(--fd-toc-w);
-  flex-shrink: 0;
-  padding: 40px 16px 40px 10px;
-  overflow-y: auto;
-  display: none;
-  position: relative;
-}
-.flow-docs-root .fd-toc.visible { display: block; }
-
-.flow-docs-root .fd-toc-resizer {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  cursor: col-resize;
-  background: transparent;
-  transition: background .15s;
-  z-index: 5;
-}
-.flow-docs-root .fd-toc-resizer:hover { background: var(--fd-border); }
-.flow-docs-root .fd-toc-resizer.dragging { background: var(--fd-accent); }
-
-.flow-docs-root .fd-toc-title {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .8px;
-  color: var(--fd-text3);
-  margin-bottom: 10px;
-}
-
-.flow-docs-root .fd-toc-list {
-  list-style: none;
-  border-left: 1px solid var(--fd-border);
-  padding-left: 12px;
-}
-.flow-docs-root .fd-toc-list li a {
-  display: block;
-  font-size: 12px;
-  color: var(--fd-text2);
-  text-decoration: none;
-  padding: 3px 0;
-  transition: color .1s;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.flow-docs-root .fd-toc-list li a:hover { color: var(--fd-accent); }
-.flow-docs-root .fd-toc-level-1 { font-weight: 600; }
-.flow-docs-root .fd-toc-level-2 { padding-left: 0; }
-.flow-docs-root .fd-toc-level-3 { padding-left: 12px; }
-
-/* \u2500\u2500 Search results \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root .fd-search-header {
-  font-size: 13px;
-  color: var(--fd-text2);
-  margin-bottom: 20px;
-}
-
-.flow-docs-root .fd-search-result {
-  background: var(--fd-bg2);
-  border: 1px solid var(--fd-border);
-  border-radius: var(--fd-radius);
-  padding: 14px 16px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: border-color .15s;
-}
-.flow-docs-root .fd-search-result:hover { border-color: var(--fd-accent); }
-
-.flow-docs-root .fd-search-result-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
-}
-
-.flow-docs-root .fd-tag {
-  font-size: 11px;
-  background: var(--fd-accent-bg);
-  color: var(--fd-accent);
-  padding: 2px 7px;
-  border-radius: 12px;
-  font-weight: 500;
-}
-
-.flow-docs-root .fd-file-path {
-  font-size: 11px;
-  color: var(--fd-text3);
-  font-family: var(--fd-font-mono);
-}
-
-.flow-docs-root .fd-search-result-match {
-  font-size: 13px;
-  color: var(--fd-text);
-  margin-bottom: 4px;
-  font-family: var(--fd-font-mono);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.flow-docs-root .fd-search-result-context {
-  font-size: 12px;
-  color: var(--fd-text2);
-  font-family: var(--fd-font-mono);
-  white-space: pre-wrap;
-  max-height: 60px;
-  overflow: hidden;
-}
-
-.flow-docs-root .fd-search-result-match mark,
-.flow-docs-root .fd-search-result-context mark {
-  background: #4a3500;
-  color: #e3b341;
-  border-radius: 2px;
-  padding: 0 2px;
-}
-
-.flow-docs-root .fd-search-empty {
-  color: var(--fd-text2);
-  padding: 20px 0;
-  font-size: 14px;
-}
-
-/* \u2500\u2500 Toast \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root .fd-toast {
-  position: absolute;
-  bottom: 24px;
-  right: 24px;
-  background: var(--fd-bg3);
-  border: 1px solid var(--fd-border);
-  border-radius: var(--fd-radius);
-  padding: 8px 14px;
-  font-size: 13px;
-  color: var(--fd-green);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity .2s, transform .2s;
-  pointer-events: none;
-  z-index: 100;
-}
-.flow-docs-root .fd-toast.show { opacity: 1; transform: translateY(0); }
-
-/* \u2500\u2500 File tree \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root .fd-skill-tree {
-  margin: 0 0 6px;
-}
-
-.flow-docs-root .fd-tree-dir-header {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 14px;
-  font-size: 12px;
-  color: var(--fd-text2);
-  cursor: pointer;
-  user-select: none;
-  transition: color .1s;
-}
-.flow-docs-root .fd-tree-dir-header:hover { color: var(--fd-text); }
-.flow-docs-root .fd-tree-dir-header > svg { flex-shrink: 0; }
-.flow-docs-root .fd-tree-dir-header span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-.flow-docs-root .fd-tree-chevron {
-  transition: transform .15s;
-  color: var(--fd-text3);
-  flex-shrink: 0;
-}
-.flow-docs-root .fd-tree-dir-header[data-open="true"] .fd-tree-chevron {
-  transform: rotate(90deg);
-}
-
-.flow-docs-root .fd-tree-count {
-  font-size: 10px;
-  color: var(--fd-text3);
-  background: var(--fd-bg3);
-  border-radius: 8px;
-  padding: 0 5px;
-  flex-shrink: 0;
-}
-
-.flow-docs-root .fd-tree-dir-children {
-  padding-left: 20px;
-}
-
-.flow-docs-root .fd-tree-file {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 14px;
-  font-size: 12px;
-  color: var(--fd-text2);
-  cursor: pointer;
-  border-radius: 4px;
-  margin: 0 6px;
-  transition: background .1s, color .1s;
-}
-.flow-docs-root .fd-tree-file span {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-}
-.flow-docs-root .fd-tree-file:hover { background: var(--fd-bg3); color: var(--fd-text); }
-.flow-docs-root .fd-tree-file.active { background: var(--fd-accent-bg); color: var(--fd-accent); }
-.flow-docs-root .fd-tree-file svg { color: var(--fd-text3); flex-shrink: 0; }
-.flow-docs-root .fd-tree-file.active svg { color: var(--fd-accent); }
-
-/* \u2500\u2500 File breadcrumb \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root .fd-file-header {
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--fd-border);
-}
-.flow-docs-root .fd-file-breadcrumb {
-  font-size: 12px;
-  color: var(--fd-text3);
-  font-family: var(--fd-font-mono);
-}
-
-/* \u2500\u2500 Loading \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root .fd-loading {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: var(--fd-text2);
-  z-index: 200;
-}
-
-.flow-docs-root .fd-loading-spinner {
-  width: 36px;
-  height: 36px;
-  margin: 0 auto 12px;
-  border: 3px solid var(--fd-border);
-  border-top-color: var(--fd-accent);
-  border-radius: 50%;
-  animation: fd-spin 0.8s linear infinite;
-}
-
-@keyframes fd-spin {
-  to { transform: rotate(360deg); }
-}
-
-.flow-docs-root .fd-loading-text {
-  font-size: 13px;
-}
-
-/* \u2500\u2500 Error \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root .fd-error {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #2d1215;
-  border: 1px solid var(--fd-red);
-  border-radius: var(--fd-radius);
-  padding: 16px 20px;
-  color: var(--fd-red);
-  font-size: 13px;
-  max-width: 500px;
-  z-index: 200;
-}
-
-/* \u2500\u2500 Mode-specific root sizing \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-/* Chat & modal modes don't need a sized container \u2014 the floating UI is
-   viewport-anchored. */
-.flow-docs-root.fd-mode-chat,
-.flow-docs-root.fd-mode-modal {
-  width: 0;
-  height: 0;
-  overflow: visible;
-  display: block;
-}
-
-/* \u2500\u2500 Ask panel (BM25 Q&A) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.fd-ask-fab {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #58a6ff;
-  color: #fff;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0,0,0,.4);
-  transition: transform .15s, box-shadow .15s;
-  z-index: 9990;
-}
-.fd-ask-fab:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(88,166,255,.4);
-}
-
-.fd-ask-panel {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 420px;
-  max-width: calc(100vw - 48px);
-  height: 560px;
-  max-height: calc(100vh - 48px);
-  background: #161b22;
-  color: #e6edf3;
-  border: 1px solid #30363d;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 8px 28px rgba(0,0,0,.5);
-  z-index: 9995;
-  overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 14px;
-}
-.fd-ask-panel.fd-hidden { display: none !important; }
-.fd-ask-fab.fd-hidden { display: none !important; }
-
-.fd-ask-spinner {
-  width: 22px;
-  height: 22px;
-  margin: 0 auto 10px;
-  border: 2px solid #30363d;
-  border-top-color: #58a6ff;
-  border-radius: 50%;
-  animation: fd-spin 0.8s linear infinite;
-}
-
-/* In chat-only mode, overlays float over the viewport since root is 0x0 */
-.flow-docs-root.fd-mode-chat .fd-toast,
-.flow-docs-root.fd-mode-chat .fd-error,
-.flow-docs-root.fd-mode-chat .fd-loading {
-  position: fixed;
-}
-
-/* \u2500\u2500 Responsive: tablet \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-@media (max-width: 640px) {
-  .fd-ask-fab {
-    width: 44px;
-    height: 44px;
-    bottom: 16px;
-    right: 16px;
-  }
-  .fd-modal-fab {
-    width: 44px;
-    height: 44px;
-    bottom: 72px;
-    right: 16px;
-  }
-  .fd-ask-panel {
-    width: calc(100vw - 24px);
-    height: calc(100vh - 88px);
-    bottom: 72px;
-    right: 12px;
-    left: 12px;
-    max-height: none;
-    max-width: none;
-  }
-  .fd-modal {
-    top: 2vh;
-    left: 2vw;
-    width: 96vw;
-    height: 96vh;
-    border-radius: 8px;
-  }
-  .fd-modal .fd-sidebar { --fd-sidebar-w: 180px; }
-  .fd-modal .fd-toc { display: none; }
-  .fd-modal .fd-content-area { padding: 8px 16px 24px; }
-}
-
-/* \u2500\u2500 Responsive: phone \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-@media (max-width: 480px) {
-  .fd-modal {
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    border-radius: 0;
-  }
-  .fd-modal .fd-sidebar {
-    --fd-sidebar-w: 160px;
-  }
-  .fd-modal-close {
-    top: 8px;
-    right: 8px;
-  }
-}
-
-/* \u2500\u2500 Modal mode \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-/* In modal mode, the two FABs stack vertically at the bottom-right corner:
-   chat (primary) at the corner, modal-open (book) above it. */
-.fd-modal-fab {
-  position: fixed;
-  bottom: 84px;
-  right: 24px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #1c2128;
-  color: #58a6ff;
-  border: 1px solid #30363d;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0,0,0,.4);
-  transition: transform .15s, box-shadow .15s;
-  z-index: 9990;
-}
-.fd-modal-fab:hover {
-  transform: translateY(-2px);
-  border-color: #58a6ff;
-}
-.fd-modal-fab.fd-hidden { display: none !important; }
-
-.fd-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.6);
-  backdrop-filter: blur(2px);
-  z-index: 9980;
-}
-.fd-modal-backdrop.fd-hidden { display: none !important; }
-
-.fd-modal {
-  position: fixed;
-  top: 5vh;
-  left: 5vw;
-  width: 90vw;
-  height: 90vh;
-  background: #0f1117;
-  border: 1px solid #30363d;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0,0,0,.7);
-  z-index: 9985;
-  overflow: hidden;
-  display: flex;
-}
-.fd-modal.fd-hidden { display: none !important; }
-
-.fd-modal-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: rgba(0,0,0,.5);
-  color: #e6edf3;
-  border: 1px solid #30363d;
-  cursor: pointer;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background .15s, color .15s;
-}
-.fd-modal-close:hover { background: #f85149; color: #fff; border-color: #f85149; }
-
-/* The viewer inside a modal: copy of .flow-docs-root flex layout, scoped */
-.fd-modal {
-  background: var(--fd-bg, #0f1117);
-  color: var(--fd-text, #e6edf3);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 14px;
-  line-height: 1.6;
-  --fd-bg:        #0f1117;
-  --fd-bg2:       #161b22;
-  --fd-bg3:       #1c2128;
-  --fd-border:    #30363d;
-  --fd-text:      #e6edf3;
-  --fd-text2:     #8b949e;
-  --fd-text3:     #6e7681;
-  --fd-accent:    #58a6ff;
-  --fd-accent-bg: #1f3d5c;
-  --fd-radius:    8px;
-  --fd-sidebar-w: 240px;
-  --fd-toc-w:     200px;
-}
-.fd-modal *, .fd-modal *::before, .fd-modal *::after {
-  box-sizing: border-box;
-}
-/* Compact modal sidebar/padding */
-.fd-modal .fd-sidebar { width: var(--fd-sidebar-w); }
-.fd-modal .fd-content-area { padding: 10px 28px 32px; }
-.fd-modal .fd-sidebar-header { padding: 14px 10px 10px; }
-.fd-modal .fd-toc { padding: 32px 12px 32px 10px; }
-
-.flow-docs-root .fd-ask-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--fd-border);
-  background: var(--fd-bg3);
-  flex-shrink: 0;
-}
-.flow-docs-root .fd-ask-title {
-  font-weight: 600;
-  font-size: 13px;
-  color: var(--fd-text);
-}
-.flow-docs-root .fd-ask-close {
-  background: none;
-  border: none;
-  color: var(--fd-text3);
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  display: flex;
-  transition: background .1s, color .1s;
-}
-.flow-docs-root .fd-ask-close:hover {
-  background: var(--fd-bg);
-  color: var(--fd-text);
-}
-
-.flow-docs-root .fd-ask-results {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px;
-}
-
-.flow-docs-root .fd-ask-placeholder,
-.flow-docs-root .fd-ask-empty {
-  color: var(--fd-text2);
-  font-size: 13px;
-  padding: 24px 12px;
-  text-align: center;
-  line-height: 1.6;
-}
-
-.flow-docs-root .fd-ask-header-results {
-  font-size: 12px;
-  color: var(--fd-text3);
-  padding: 0 4px 10px;
-}
-
-.flow-docs-root .fd-ask-result {
-  background: var(--fd-bg3);
-  border: 1px solid var(--fd-border);
-  border-radius: 6px;
-  padding: 10px 12px;
-  margin-bottom: 8px;
-  cursor: pointer;
-  transition: border-color .15s;
-}
-.flow-docs-root .fd-ask-result:hover { border-color: var(--fd-accent); }
-
-.flow-docs-root .fd-ask-result-meta {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 6px;
-  flex-wrap: wrap;
-}
-.flow-docs-root .fd-ask-result-meta .fd-file-path {
-  font-size: 11px;
-}
-
-.flow-docs-root .fd-ask-result-snippet {
-  font-size: 12px;
-  color: var(--fd-text2);
-  line-height: 1.5;
-  white-space: pre-wrap;
-  word-break: break-word;
-  max-height: 110px;
-  overflow: hidden;
-  position: relative;
-}
-.flow-docs-root .fd-ask-result-snippet mark {
-  background: #4a3500;
-  color: #e3b341;
-  border-radius: 2px;
-  padding: 0 2px;
-}
-
-.flow-docs-root .fd-ask-input-row {
-  display: flex;
-  gap: 6px;
-  padding: 10px;
-  border-top: 1px solid var(--fd-border);
-  background: var(--fd-bg3);
-  flex-shrink: 0;
-}
-.flow-docs-root .fd-ask-input {
-  flex: 1;
-  background: var(--fd-bg);
-  border: 1px solid var(--fd-border);
-  border-radius: 6px;
-  padding: 8px 12px;
-  color: var(--fd-text);
-  font-size: 13px;
-  outline: none;
-  transition: border-color .15s;
-}
-.flow-docs-root .fd-ask-input:focus { border-color: var(--fd-accent); }
-.flow-docs-root .fd-ask-input::placeholder { color: var(--fd-text3); }
-
-.flow-docs-root .fd-ask-send {
-  width: 36px;
-  height: auto;
-  background: var(--fd-accent);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity .15s;
-}
-.flow-docs-root .fd-ask-send:hover { opacity: .85; }
-
-/* \u2500\u2500 Scrollbar global \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */
-.flow-docs-root ::-webkit-scrollbar { width: 6px; height: 6px; }
-.flow-docs-root ::-webkit-scrollbar-track { background: transparent; }
-.flow-docs-root ::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 3px; }
-`;
+      style_default = "/* ── Variables ────────────────────────────────────────────────────────────── */\n.flow-docs-root {\n  --fd-bg:        #0f1117;\n  --fd-bg2:       #161b22;\n  --fd-bg3:       #1c2128;\n  --fd-border:    #30363d;\n  --fd-text:      #e6edf3;\n  --fd-text2:     #8b949e;\n  --fd-text3:     #6e7681;\n  --fd-accent:    #58a6ff;\n  --fd-accent-bg: #1f3d5c;\n  --fd-green:     #3fb950;\n  --fd-yellow:    #d29922;\n  --fd-red:       #f85149;\n  --fd-radius:    8px;\n  --fd-sidebar-w: 260px;\n  --fd-toc-w:     220px;\n  --fd-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;\n}\n\n/* ── Reset (scoped) ───────────────────────────────────────────────────────── */\n.flow-docs-root *, .flow-docs-root *::before, .flow-docs-root *::after {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\n.flow-docs-root {\n  display: flex;\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n  background: var(--fd-bg);\n  color: var(--fd-text);\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;\n  font-size: 14px;\n  line-height: 1.6;\n  position: relative;\n}\n\n/* ── Sidebar ───────────────────────────────────────────────────────────────── */\n.flow-docs-root .fd-sidebar {\n  width: var(--fd-sidebar-w);\n  flex-shrink: 0;\n  background: var(--fd-bg2);\n  border-right: 1px solid var(--fd-border);\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n}\n\n.flow-docs-root .fd-sidebar-header {\n  padding: 10px 12px;\n  border-bottom: 1px solid var(--fd-border);\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 8px;\n}\n\n.flow-docs-root .fd-logo {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 32px;\n  height: 32px;\n  padding: 0;\n  background: none;\n  border: 1px solid transparent;\n  border-radius: 6px;\n  color: var(--fd-accent);\n  cursor: pointer;\n  transition: background .1s, border-color .1s;\n}\n.flow-docs-root .fd-logo:hover {\n  background: var(--fd-bg3);\n  border-color: var(--fd-border);\n}\n\n.flow-docs-root .fd-btn-reload {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 28px;\n  height: 28px;\n  padding: 0;\n  border: 1px solid var(--fd-border);\n  border-radius: 6px;\n  background: var(--fd-bg3);\n  color: var(--fd-text2);\n  cursor: pointer;\n  transition: all 0.15s;\n}\n.flow-docs-root .fd-btn-reload:hover {\n  color: var(--fd-accent);\n  border-color: var(--fd-accent);\n  background: var(--fd-accent-bg);\n}\n\n/* ── Search box ───────────────────────────────────────────────────────────── */\n.flow-docs-root .fd-search-box {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: var(--fd-radius);\n  padding: 6px 10px;\n  transition: border-color .15s;\n}\n.flow-docs-root .fd-search-box:focus-within { border-color: var(--fd-accent); }\n.flow-docs-root .fd-search-box svg { color: var(--fd-text3); flex-shrink: 0; }\n.flow-docs-root .fd-search-box input {\n  flex: 1;\n  background: none;\n  border: none;\n  outline: none;\n  color: var(--fd-text);\n  font-size: 13px;\n  min-width: 0;\n}\n.flow-docs-root .fd-search-box input::placeholder { color: var(--fd-text3); }\n.flow-docs-root .fd-search-box kbd {\n  font-size: 10px;\n  color: var(--fd-text3);\n  background: var(--fd-bg2);\n  border: 1px solid var(--fd-border);\n  border-radius: 4px;\n  padding: 1px 4px;\n  flex-shrink: 0;\n}\n\n.flow-docs-root .fd-skill-list {\n  flex: 1;\n  overflow-y: auto;\n  padding: 8px 0;\n}\n.flow-docs-root .fd-skill-list::-webkit-scrollbar { width: 4px; }\n.flow-docs-root .fd-skill-list::-webkit-scrollbar-track { background: transparent; }\n.flow-docs-root .fd-skill-list::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 2px; }\n\n.flow-docs-root .fd-skill-item {\n  padding: 8px 14px;\n  cursor: pointer;\n  border-radius: 6px;\n  margin: 1px 6px;\n  transition: background .1s;\n}\n.flow-docs-root .fd-skill-item:hover { background: var(--fd-bg3); }\n.flow-docs-root .fd-skill-item.active { background: var(--fd-accent-bg); }\n.flow-docs-root .fd-skill-item.active .fd-skill-name { color: var(--fd-accent); }\n\n.flow-docs-root .fd-skill-name {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 13px;\n  font-weight: 500;\n  color: var(--fd-text);\n}\n.flow-docs-root .fd-skill-name svg { color: var(--fd-text3); flex-shrink: 0; }\n\n.flow-docs-root .fd-skill-desc {\n  font-size: 11px;\n  color: var(--fd-text3);\n  margin-top: 2px;\n  padding-left: 20px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.flow-docs-root .fd-empty-state {\n  padding: 20px 14px;\n  color: var(--fd-text2);\n  font-size: 13px;\n  line-height: 1.7;\n}\n.flow-docs-root .fd-empty-state code {\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: 4px;\n  padding: 1px 6px;\n  font-family: var(--fd-font-mono);\n  font-size: 12px;\n  color: #e2a97e;\n}\n\n/* ── Main ──────────────────────────────────────────────────────────────────── */\n.flow-docs-root .fd-main {\n  flex: 1;\n  display: flex;\n  overflow: hidden;\n  position: relative;\n}\n\n.flow-docs-root .fd-content-area {\n  flex: 1;\n  overflow-y: auto;\n  padding: 10px 48px 40px;\n  min-width: 0;\n}\n.flow-docs-root .fd-content-area::-webkit-scrollbar { width: 6px; }\n.flow-docs-root .fd-content-area::-webkit-scrollbar-track { background: transparent; }\n.flow-docs-root .fd-content-area::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 3px; }\n\n.flow-docs-root .fd-hidden { display: none !important; }\n\n/* ── Welcome ───────────────────────────────────────────────────────────────── */\n.flow-docs-root .fd-welcome {\n  height: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.flow-docs-root .fd-welcome:has(.fd-home-content) {\n  align-items: flex-start;\n  justify-content: flex-start;\n}\n.flow-docs-root .fd-welcome-inner {\n  text-align: center;\n  color: var(--fd-text2);\n}\n.flow-docs-root .fd-welcome-inner svg { color: var(--fd-text3); margin-bottom: 16px; }\n.flow-docs-root .fd-welcome-inner h1 { font-size: 24px; color: var(--fd-text); margin-bottom: 8px; }\n.flow-docs-root .fd-welcome-inner p { font-size: 14px; margin-bottom: 6px; }\n.flow-docs-root .fd-welcome-inner .fd-hint { font-size: 12px; color: var(--fd-text3); }\n.flow-docs-root .fd-welcome-inner kbd {\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: 4px;\n  padding: 1px 5px;\n  font-size: 11px;\n}\n\n/* ── Home page content ────────────────────────────────────────────────────── */\n.flow-docs-root .fd-home-content {\n  max-width: 720px;\n  padding: 48px 32px;\n}\n.flow-docs-root .fd-home-content h1 { font-size: 26px; font-weight: 700; margin: 0 0 8px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 12px; }\n.flow-docs-root .fd-home-content h2 { font-size: 20px; font-weight: 600; margin: 28px 0 12px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 8px; }\n.flow-docs-root .fd-home-content h3 { font-size: 16px; font-weight: 600; margin: 20px 0 8px; color: var(--fd-text); }\n.flow-docs-root .fd-home-content p { margin: 0 0 14px; color: var(--fd-text); }\n.flow-docs-root .fd-home-content ul, .flow-docs-root .fd-home-content ol { margin: 0 0 14px 20px; color: var(--fd-text); }\n.flow-docs-root .fd-home-content li { margin-bottom: 4px; }\n.flow-docs-root .fd-home-content a { color: var(--fd-accent); text-decoration: none; }\n.flow-docs-root .fd-home-content a:hover { text-decoration: underline; }\n.flow-docs-root .fd-home-content strong { font-weight: 600; color: var(--fd-text); }\n.flow-docs-root .fd-home-content code:not(pre code) {\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: 4px;\n  padding: 1px 6px;\n  font-family: var(--fd-font-mono);\n  font-size: 12px;\n  color: #e2a97e;\n}\n\n/* ── Markdown content ──────────────────────────────────────────────────────── */\n.flow-docs-root .fd-skill-content h1 { font-size: 26px; font-weight: 700; margin: 0 0 8px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 12px; }\n.flow-docs-root .fd-skill-content h2 { font-size: 20px; font-weight: 600; margin: 36px 0 12px; color: var(--fd-text); border-bottom: 1px solid var(--fd-border); padding-bottom: 8px; }\n.flow-docs-root .fd-skill-content h3 { font-size: 16px; font-weight: 600; margin: 24px 0 8px; color: var(--fd-text); }\n.flow-docs-root .fd-skill-content h4 { font-size: 14px; font-weight: 600; margin: 16px 0 6px; color: var(--fd-text2); }\n.flow-docs-root .fd-skill-content p { margin: 0 0 14px; color: var(--fd-text); }\n.flow-docs-root .fd-skill-content ul, .flow-docs-root .fd-skill-content ol { margin: 0 0 14px 20px; color: var(--fd-text); }\n.flow-docs-root .fd-skill-content li { margin-bottom: 4px; }\n.flow-docs-root .fd-skill-content a { color: var(--fd-accent); text-decoration: none; }\n.flow-docs-root .fd-skill-content a:hover { text-decoration: underline; }\n.flow-docs-root .fd-skill-content strong { font-weight: 600; color: var(--fd-text); }\n.flow-docs-root .fd-skill-content em { font-style: italic; color: var(--fd-text2); }\n.flow-docs-root .fd-skill-content hr { border: none; border-top: 1px solid var(--fd-border); margin: 28px 0; }\n\n.flow-docs-root .fd-skill-content blockquote {\n  border-left: 3px solid var(--fd-accent);\n  margin: 0 0 14px;\n  padding: 8px 16px;\n  background: var(--fd-bg2);\n  border-radius: 0 var(--fd-radius) var(--fd-radius) 0;\n  color: var(--fd-text2);\n}\n\n.flow-docs-root .fd-skill-content table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-bottom: 16px;\n  font-size: 13px;\n}\n.flow-docs-root .fd-skill-content th {\n  background: var(--fd-bg2);\n  padding: 8px 12px;\n  text-align: left;\n  border: 1px solid var(--fd-border);\n  font-weight: 600;\n}\n.flow-docs-root .fd-skill-content td {\n  padding: 7px 12px;\n  border: 1px solid var(--fd-border);\n}\n.flow-docs-root .fd-skill-content tr:nth-child(even) td { background: var(--fd-bg2); }\n\n.flow-docs-root .fd-skill-content code:not(pre code) {\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: 4px;\n  padding: 1px 6px;\n  font-family: var(--fd-font-mono);\n  font-size: 12px;\n  color: #e2a97e;\n}\n\n/* ── Code blocks ───────────────────────────────────────────────────────────── */\n.flow-docs-root .fd-code-block {\n  margin: 12px 0 20px;\n  border: 1px solid var(--fd-border);\n  border-radius: var(--fd-radius);\n  overflow: hidden;\n}\n\n.flow-docs-root .fd-code-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 6px 14px;\n  background: var(--fd-bg3);\n  border-bottom: 1px solid var(--fd-border);\n}\n\n.flow-docs-root .fd-code-lang {\n  font-size: 11px;\n  font-family: var(--fd-font-mono);\n  color: var(--fd-text3);\n  text-transform: uppercase;\n  letter-spacing: .5px;\n}\n\n.flow-docs-root .fd-btn-copy {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 12px;\n  color: var(--fd-text2);\n  background: none;\n  border: 1px solid transparent;\n  border-radius: 5px;\n  padding: 3px 8px;\n  cursor: pointer;\n  transition: all .15s;\n}\n.flow-docs-root .fd-btn-copy:hover {\n  color: var(--fd-text);\n  background: var(--fd-bg2);\n  border-color: var(--fd-border);\n}\n\n.flow-docs-root .fd-code-block pre {\n  margin: 0;\n  overflow-x: auto;\n  padding: 16px;\n  background: #0d1117;\n  font-size: 13px;\n  line-height: 1.6;\n}\n.flow-docs-root .fd-code-block pre::-webkit-scrollbar { height: 4px; }\n.flow-docs-root .fd-code-block pre::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 2px; }\n\n/* ── TOC ───────────────────────────────────────────────────────────────────── */\n.flow-docs-root .fd-toc {\n  width: var(--fd-toc-w);\n  flex-shrink: 0;\n  padding: 40px 16px 40px 10px;\n  overflow-y: auto;\n  display: none;\n  position: relative;\n}\n.flow-docs-root .fd-toc.visible { display: block; }\n\n.flow-docs-root .fd-toc-resizer {\n  position: absolute;\n  left: 0;\n  top: 0;\n  bottom: 0;\n  width: 4px;\n  cursor: col-resize;\n  background: transparent;\n  transition: background .15s;\n  z-index: 5;\n}\n.flow-docs-root .fd-toc-resizer:hover { background: var(--fd-border); }\n.flow-docs-root .fd-toc-resizer.dragging { background: var(--fd-accent); }\n\n.flow-docs-root .fd-toc-title {\n  font-size: 11px;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: .8px;\n  color: var(--fd-text3);\n  margin-bottom: 10px;\n}\n\n.flow-docs-root .fd-toc-list {\n  list-style: none;\n  border-left: 1px solid var(--fd-border);\n  padding-left: 12px;\n}\n.flow-docs-root .fd-toc-list li a {\n  display: block;\n  font-size: 12px;\n  color: var(--fd-text2);\n  text-decoration: none;\n  padding: 3px 0;\n  transition: color .1s;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.flow-docs-root .fd-toc-list li a:hover { color: var(--fd-accent); }\n.flow-docs-root .fd-toc-level-1 { font-weight: 600; }\n.flow-docs-root .fd-toc-level-2 { padding-left: 0; }\n.flow-docs-root .fd-toc-level-3 { padding-left: 12px; }\n\n/* ── Search results ────────────────────────────────────────────────────────── */\n.flow-docs-root .fd-search-header {\n  font-size: 13px;\n  color: var(--fd-text2);\n  margin-bottom: 20px;\n}\n\n.flow-docs-root .fd-search-result {\n  background: var(--fd-bg2);\n  border: 1px solid var(--fd-border);\n  border-radius: var(--fd-radius);\n  padding: 14px 16px;\n  margin-bottom: 10px;\n  cursor: pointer;\n  transition: border-color .15s;\n}\n.flow-docs-root .fd-search-result:hover { border-color: var(--fd-accent); }\n\n.flow-docs-root .fd-search-result-meta {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 6px;\n}\n\n.flow-docs-root .fd-tag {\n  font-size: 11px;\n  background: var(--fd-accent-bg);\n  color: var(--fd-accent);\n  padding: 2px 7px;\n  border-radius: 12px;\n  font-weight: 500;\n}\n\n.flow-docs-root .fd-file-path {\n  font-size: 11px;\n  color: var(--fd-text3);\n  font-family: var(--fd-font-mono);\n}\n\n.flow-docs-root .fd-search-result-match {\n  font-size: 13px;\n  color: var(--fd-text);\n  margin-bottom: 4px;\n  font-family: var(--fd-font-mono);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.flow-docs-root .fd-search-result-context {\n  font-size: 12px;\n  color: var(--fd-text2);\n  font-family: var(--fd-font-mono);\n  white-space: pre-wrap;\n  max-height: 60px;\n  overflow: hidden;\n}\n\n.flow-docs-root .fd-search-result-match mark,\n.flow-docs-root .fd-search-result-context mark {\n  background: #4a3500;\n  color: #e3b341;\n  border-radius: 2px;\n  padding: 0 2px;\n}\n\n.flow-docs-root .fd-search-empty {\n  color: var(--fd-text2);\n  padding: 20px 0;\n  font-size: 14px;\n}\n\n/* ── Toast ─────────────────────────────────────────────────────────────────── */\n.flow-docs-root .fd-toast {\n  position: absolute;\n  bottom: 24px;\n  right: 24px;\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: var(--fd-radius);\n  padding: 8px 14px;\n  font-size: 13px;\n  color: var(--fd-green);\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  opacity: 0;\n  transform: translateY(8px);\n  transition: opacity .2s, transform .2s;\n  pointer-events: none;\n  z-index: 100;\n}\n.flow-docs-root .fd-toast.show { opacity: 1; transform: translateY(0); }\n\n/* ── File tree ─────────────────────────────────────────────────────────────── */\n.flow-docs-root .fd-skill-tree {\n  margin: 0 0 6px;\n}\n\n.flow-docs-root .fd-tree-dir-header {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  padding: 4px 14px;\n  font-size: 12px;\n  color: var(--fd-text2);\n  cursor: pointer;\n  user-select: none;\n  transition: color .1s;\n}\n.flow-docs-root .fd-tree-dir-header:hover { color: var(--fd-text); }\n.flow-docs-root .fd-tree-dir-header > svg { flex-shrink: 0; }\n.flow-docs-root .fd-tree-dir-header span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }\n\n.flow-docs-root .fd-tree-chevron {\n  transition: transform .15s;\n  color: var(--fd-text3);\n  flex-shrink: 0;\n}\n.flow-docs-root .fd-tree-dir-header[data-open=\"true\"] .fd-tree-chevron {\n  transform: rotate(90deg);\n}\n\n.flow-docs-root .fd-tree-count {\n  font-size: 10px;\n  color: var(--fd-text3);\n  background: var(--fd-bg3);\n  border-radius: 8px;\n  padding: 0 5px;\n  flex-shrink: 0;\n}\n\n.flow-docs-root .fd-tree-dir-children {\n  padding-left: 20px;\n}\n\n.flow-docs-root .fd-tree-file {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  padding: 3px 14px;\n  font-size: 12px;\n  color: var(--fd-text2);\n  cursor: pointer;\n  border-radius: 4px;\n  margin: 0 6px;\n  transition: background .1s, color .1s;\n}\n.flow-docs-root .fd-tree-file span {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-width: 0;\n}\n.flow-docs-root .fd-tree-file:hover { background: var(--fd-bg3); color: var(--fd-text); }\n.flow-docs-root .fd-tree-file.active { background: var(--fd-accent-bg); color: var(--fd-accent); }\n.flow-docs-root .fd-tree-file svg { color: var(--fd-text3); flex-shrink: 0; }\n.flow-docs-root .fd-tree-file.active svg { color: var(--fd-accent); }\n\n/* ── File breadcrumb ───────────────────────────────────────────────────────── */\n.flow-docs-root .fd-file-header {\n  margin-bottom: 20px;\n  padding-bottom: 12px;\n  border-bottom: 1px solid var(--fd-border);\n}\n.flow-docs-root .fd-file-breadcrumb {\n  font-size: 12px;\n  color: var(--fd-text3);\n  font-family: var(--fd-font-mono);\n}\n\n/* ── Loading ───────────────────────────────────────────────────────────────── */\n.flow-docs-root .fd-loading {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  text-align: center;\n  color: var(--fd-text2);\n  z-index: 200;\n}\n\n.flow-docs-root .fd-loading-spinner {\n  width: 36px;\n  height: 36px;\n  margin: 0 auto 12px;\n  border: 3px solid var(--fd-border);\n  border-top-color: var(--fd-accent);\n  border-radius: 50%;\n  animation: fd-spin 0.8s linear infinite;\n}\n\n@keyframes fd-spin {\n  to { transform: rotate(360deg); }\n}\n\n.flow-docs-root .fd-loading-text {\n  font-size: 13px;\n}\n\n/* ── Error ─────────────────────────────────────────────────────────────────── */\n.flow-docs-root .fd-error {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: #2d1215;\n  border: 1px solid var(--fd-red);\n  border-radius: var(--fd-radius);\n  padding: 16px 20px;\n  color: var(--fd-red);\n  font-size: 13px;\n  max-width: 500px;\n  z-index: 200;\n}\n\n/* ── Mode-specific root sizing ─────────────────────────────────────────────── */\n/* Chat & modal modes don't need a sized container — the floating UI is\n   viewport-anchored. */\n.flow-docs-root.fd-mode-chat,\n.flow-docs-root.fd-mode-modal {\n  width: 0;\n  height: 0;\n  overflow: visible;\n  display: block;\n}\n\n/* ── Ask panel (BM25 Q&A) ──────────────────────────────────────────────────── */\n/* The FAB uses !important on positioning + display to defend against host\n   pages that reset `button { position: static; ... }` globally. */\n.fd-ask-fab {\n  position: fixed !important;\n  bottom: 24px !important;\n  right: 24px !important;\n  top: auto !important;\n  left: auto !important;\n  width: 48px !important;\n  height: 48px !important;\n  border-radius: 50% !important;\n  background: #58a6ff !important;\n  color: #fff !important;\n  border: none !important;\n  margin: 0 !important;\n  padding: 0 !important;\n  display: flex !important;\n  align-items: center !important;\n  justify-content: center !important;\n  cursor: pointer !important;\n  box-shadow: 0 4px 14px rgba(0,0,0,.4) !important;\n  transition: transform .15s, box-shadow .15s !important;\n  z-index: 9990 !important;\n}\n.fd-ask-fab:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 6px 18px rgba(88,166,255,.4);\n}\n\n.fd-ask-panel {\n  position: fixed;\n  bottom: 24px;\n  right: 24px;\n  width: 420px;\n  max-width: calc(100vw - 48px);\n  height: 560px;\n  max-height: calc(100vh - 48px);\n  background: #161b22;\n  color: #e6edf3;\n  border: 1px solid #30363d;\n  border-radius: 8px;\n  display: flex;\n  flex-direction: column;\n  box-shadow: 0 8px 28px rgba(0,0,0,.5);\n  z-index: 9995;\n  overflow: hidden;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;\n  font-size: 14px;\n}\n.fd-ask-panel.fd-hidden { display: none !important; }\n.fd-ask-fab.fd-hidden { display: none !important; }\n\n.fd-ask-spinner {\n  width: 22px;\n  height: 22px;\n  margin: 0 auto 10px;\n  border: 2px solid #30363d;\n  border-top-color: #58a6ff;\n  border-radius: 50%;\n  animation: fd-spin 0.8s linear infinite;\n}\n\n/* Quick-access shortcuts extracted from home.md */\n.fd-ask-shortcuts {\n  padding: 0 4px 12px;\n}\n.fd-ask-shortcuts-title {\n  font-size: 11px;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: .6px;\n  color: #6e7681;\n  margin-bottom: 8px;\n  padding: 0 4px;\n}\n.fd-ask-shortcuts-list {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 6px;\n}\n.fd-ask-shortcut {\n  font-family: inherit;\n  font-size: 12px;\n  color: #58a6ff;\n  background: #1c2128;\n  border: 1px solid #30363d;\n  border-radius: 14px;\n  padding: 4px 10px;\n  cursor: pointer;\n  transition: background .1s, border-color .1s;\n}\n.fd-ask-shortcut:hover {\n  background: #1f3d5c;\n  border-color: #58a6ff;\n}\n\n/* In chat-only mode, overlays float over the viewport since root is 0x0 */\n.flow-docs-root.fd-mode-chat .fd-toast,\n.flow-docs-root.fd-mode-chat .fd-error,\n.flow-docs-root.fd-mode-chat .fd-loading {\n  position: fixed;\n}\n\n/* ── Responsive: tablet ────────────────────────────────────────────────────── */\n@media (max-width: 640px) {\n  .fd-ask-fab {\n    width: 44px;\n    height: 44px;\n    bottom: 16px;\n    right: 16px;\n  }\n  .fd-modal-fab {\n    width: 44px;\n    height: 44px;\n    bottom: 72px;\n    right: 16px;\n  }\n  .fd-ask-panel {\n    width: calc(100vw - 24px);\n    height: calc(100vh - 88px);\n    bottom: 72px;\n    right: 12px;\n    left: 12px;\n    max-height: none;\n    max-width: none;\n  }\n  .fd-modal {\n    top: 2vh;\n    left: 2vw;\n    width: 96vw;\n    height: 96vh;\n    border-radius: 8px;\n  }\n  .fd-modal .fd-sidebar { --fd-sidebar-w: 180px; }\n  .fd-modal .fd-toc { display: none; }\n  .fd-modal .fd-content-area { padding: 8px 16px 24px; }\n}\n\n/* ── Responsive: phone ─────────────────────────────────────────────────────── */\n@media (max-width: 480px) {\n  .fd-modal {\n    top: 0;\n    left: 0;\n    width: 100vw;\n    height: 100vh;\n    border-radius: 0;\n  }\n  .fd-modal .fd-sidebar {\n    --fd-sidebar-w: 160px;\n  }\n  .fd-modal-close {\n    top: 8px;\n    right: 8px;\n  }\n}\n\n/* ── Modal mode ────────────────────────────────────────────────────────────── */\n/* In modal mode, the two FABs stack vertically at the bottom-right corner:\n   chat (primary) at the corner, modal-open (book) above it. */\n.fd-modal-fab {\n  position: fixed !important;\n  bottom: 84px !important;\n  right: 24px !important;\n  top: auto !important;\n  left: auto !important;\n  width: 48px !important;\n  height: 48px !important;\n  border-radius: 50% !important;\n  background: #1c2128 !important;\n  color: #58a6ff !important;\n  border: 1px solid #30363d !important;\n  margin: 0 !important;\n  padding: 0 !important;\n  display: flex !important;\n  align-items: center !important;\n  justify-content: center !important;\n  cursor: pointer !important;\n  box-shadow: 0 4px 14px rgba(0,0,0,.4) !important;\n  transition: transform .15s, box-shadow .15s !important;\n  z-index: 9990 !important;\n}\n.fd-modal-fab:hover {\n  transform: translateY(-2px);\n  border-color: #58a6ff;\n}\n.fd-modal-fab.fd-hidden { display: none !important; }\n\n.fd-modal-backdrop {\n  position: fixed;\n  inset: 0;\n  background: rgba(0,0,0,.6);\n  backdrop-filter: blur(2px);\n  z-index: 9980;\n}\n.fd-modal-backdrop.fd-hidden { display: none !important; }\n\n.fd-modal {\n  position: fixed;\n  top: 5vh;\n  left: 5vw;\n  width: 90vw;\n  height: 90vh;\n  background: #0f1117;\n  border: 1px solid #30363d;\n  border-radius: 12px;\n  box-shadow: 0 20px 60px rgba(0,0,0,.7);\n  z-index: 9985;\n  overflow: hidden;\n  display: flex;\n}\n.fd-modal.fd-hidden { display: none !important; }\n\n.fd-modal-close {\n  position: absolute;\n  top: 12px;\n  right: 12px;\n  width: 30px;\n  height: 30px;\n  border-radius: 50%;\n  background: rgba(0,0,0,.5);\n  color: #e6edf3;\n  border: 1px solid #30363d;\n  cursor: pointer;\n  z-index: 10;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background .15s, color .15s;\n}\n.fd-modal-close:hover { background: #f85149; color: #fff; border-color: #f85149; }\n\n/* The viewer inside a modal: copy of .flow-docs-root flex layout, scoped */\n.fd-modal {\n  background: var(--fd-bg, #0f1117);\n  color: var(--fd-text, #e6edf3);\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;\n  font-size: 14px;\n  line-height: 1.6;\n  --fd-bg:        #0f1117;\n  --fd-bg2:       #161b22;\n  --fd-bg3:       #1c2128;\n  --fd-border:    #30363d;\n  --fd-text:      #e6edf3;\n  --fd-text2:     #8b949e;\n  --fd-text3:     #6e7681;\n  --fd-accent:    #58a6ff;\n  --fd-accent-bg: #1f3d5c;\n  --fd-radius:    8px;\n  --fd-sidebar-w: 240px;\n  --fd-toc-w:     200px;\n}\n.fd-modal *, .fd-modal *::before, .fd-modal *::after {\n  box-sizing: border-box;\n}\n/* Compact modal sidebar/padding */\n.fd-modal .fd-sidebar { width: var(--fd-sidebar-w); }\n.fd-modal .fd-content-area { padding: 10px 28px 32px; }\n.fd-modal .fd-sidebar-header { padding: 14px 10px 10px; }\n.fd-modal .fd-toc { padding: 32px 12px 32px 10px; }\n\n.flow-docs-root .fd-ask-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 12px 16px;\n  border-bottom: 1px solid var(--fd-border);\n  background: var(--fd-bg3);\n  flex-shrink: 0;\n}\n.flow-docs-root .fd-ask-title {\n  font-weight: 600;\n  font-size: 13px;\n  color: var(--fd-text);\n}\n.flow-docs-root .fd-ask-close {\n  background: none;\n  border: none;\n  color: var(--fd-text3);\n  cursor: pointer;\n  padding: 4px;\n  border-radius: 4px;\n  display: flex;\n  transition: background .1s, color .1s;\n}\n.flow-docs-root .fd-ask-close:hover {\n  background: var(--fd-bg);\n  color: var(--fd-text);\n}\n\n.flow-docs-root .fd-ask-results {\n  flex: 1;\n  overflow-y: auto;\n  padding: 12px;\n}\n\n.flow-docs-root .fd-ask-placeholder,\n.flow-docs-root .fd-ask-empty {\n  color: var(--fd-text2);\n  font-size: 13px;\n  padding: 24px 12px;\n  text-align: center;\n  line-height: 1.6;\n}\n\n.flow-docs-root .fd-ask-header-results {\n  font-size: 12px;\n  color: var(--fd-text3);\n  padding: 0 4px 10px;\n}\n\n.flow-docs-root .fd-ask-result {\n  background: var(--fd-bg3);\n  border: 1px solid var(--fd-border);\n  border-radius: 6px;\n  padding: 10px 12px;\n  margin-bottom: 8px;\n  cursor: pointer;\n  transition: border-color .15s;\n}\n.flow-docs-root .fd-ask-result:hover { border-color: var(--fd-accent); }\n\n.flow-docs-root .fd-ask-result-meta {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  margin-bottom: 6px;\n  flex-wrap: wrap;\n}\n.flow-docs-root .fd-ask-result-meta .fd-file-path {\n  font-size: 11px;\n}\n\n.flow-docs-root .fd-ask-result-snippet {\n  font-size: 12px;\n  color: var(--fd-text2);\n  line-height: 1.5;\n  white-space: pre-wrap;\n  word-break: break-word;\n  max-height: 110px;\n  overflow: hidden;\n  position: relative;\n}\n.flow-docs-root .fd-ask-result-snippet mark {\n  background: #4a3500;\n  color: #e3b341;\n  border-radius: 2px;\n  padding: 0 2px;\n}\n\n.flow-docs-root .fd-ask-input-row {\n  display: flex;\n  gap: 6px;\n  padding: 10px;\n  border-top: 1px solid var(--fd-border);\n  background: var(--fd-bg3);\n  flex-shrink: 0;\n}\n.flow-docs-root .fd-ask-input {\n  flex: 1;\n  background: var(--fd-bg);\n  border: 1px solid var(--fd-border);\n  border-radius: 6px;\n  padding: 8px 12px;\n  color: var(--fd-text);\n  font-size: 13px;\n  outline: none;\n  transition: border-color .15s;\n}\n.flow-docs-root .fd-ask-input:focus { border-color: var(--fd-accent); }\n.flow-docs-root .fd-ask-input::placeholder { color: var(--fd-text3); }\n\n.flow-docs-root .fd-ask-send {\n  width: 36px;\n  height: auto;\n  background: var(--fd-accent);\n  color: #fff;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: opacity .15s;\n}\n.flow-docs-root .fd-ask-send:hover { opacity: .85; }\n\n/* ── Scrollbar global ──────────────────────────────────────────────────────── */\n.flow-docs-root ::-webkit-scrollbar { width: 6px; height: 6px; }\n.flow-docs-root ::-webkit-scrollbar-track { background: transparent; }\n.flow-docs-root ::-webkit-scrollbar-thumb { background: var(--fd-border); border-radius: 3px; }\n";
     }
   });
 
@@ -3071,7 +2079,7 @@ ${content}</tr>
 <div class="fd-code-block">
   <div class="fd-code-header">
     <span class="fd-code-lang">${lang}</span>
-    <button type="button" class="fd-btn-copy" title="Copiar c\xF3digo">
+    <button type="button" class="fd-btn-copy" title="Copiar código">
       ${ICONS.copy} Copiar
     </button>
   </div>
@@ -3355,6 +2363,33 @@ ${files[normalizedRef]}
           }
           return scores.map((s, i) => ({ s, i })).filter((x) => x.s > 0).sort((a, b2) => b2.s - a.s).slice(0, topK).map((x) => ({ score: x.s, chunk: index.chunks[x.i], queryTerms: qTerms }));
         }
+        function extractShortcuts(homeMd) {
+          if (!homeMd)
+            return [];
+          const shortcuts = [];
+          const seen = /* @__PURE__ */ new Set();
+          const add = (label) => {
+            const trimmed = label.trim();
+            if (!trimmed)
+              return;
+            const key = trimmed.toLowerCase();
+            if (seen.has(key))
+              return;
+            seen.add(key);
+            shortcuts.push({ label: trimmed, query: trimmed });
+          };
+          const headingRegex = /^(##|###)\s+(.+)$/gm;
+          let m;
+          while ((m = headingRegex.exec(homeMd)) !== null) {
+            const raw = m[2].replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/[*_`]/g, "").trim();
+            add(raw);
+          }
+          const linkRegex = /\[([^\]]+)\]\((?!https?:\/\/|#|mailto:)([^)]+)\)/g;
+          while ((m = linkRegex.exec(homeMd)) !== null) {
+            add(m[1]);
+          }
+          return shortcuts.slice(0, 12);
+        }
         function extractSnippet(text, qTerms, maxLen = 400) {
           const clean = text.replace(/^#{1,6}\s+.*$/gm, "").trim();
           if (clean.length <= maxLen)
@@ -3374,7 +2409,7 @@ ${files[normalizedRef]}
           }
           const start = Math.max(0, bestPos - 20);
           const end = Math.min(clean.length, start + maxLen);
-          return (start > 0 ? "\u2026" : "") + clean.slice(start, end) + (end < clean.length ? "\u2026" : "");
+          return (start > 0 ? "…" : "") + clean.slice(start, end) + (end < clean.length ? "…" : "");
         }
         function buildFileTree(files) {
           const tree = [];
@@ -3624,20 +2659,10 @@ ${files[normalizedRef]}
             return `
         <aside class="fd-sidebar">
           <div class="fd-sidebar-header">
-            <div class="fd-logo-row">
-              <div class="fd-logo">
-                ${ICONS.book}
-                <span>Flow-Docs</span>
-              </div>
-              <button type="button" class="fd-btn-reload" title="Recargar desde GitHub">
-                ${ICONS.refresh}
-              </button>
-            </div>
-            <div class="fd-search-box">
-              ${ICONS.search}
-              <input type="text" class="fd-search-input" placeholder="Buscar..." autocomplete="off">
-              <kbd>Ctrl+K</kbd>
-            </div>
+            <button type="button" class="fd-logo" title="Inicio">${ICONS.book}</button>
+            <button type="button" class="fd-btn-reload" title="Recargar desde GitHub">
+              ${ICONS.refresh}
+            </button>
           </div>
           <nav class="fd-skill-list"></nav>
         </aside>
@@ -3647,9 +2672,7 @@ ${files[normalizedRef]}
             <div class="fd-welcome">
               <div class="fd-welcome-inner">
                 ${ICONS.book}
-                <h1>Flow-Docs</h1>
-                <p>Selecciona un skill del sidebar para ver su documentaci\xF3n.</p>
-                <p class="fd-hint">Usa <kbd>Ctrl+K</kbd> para buscar en todos los skills.</p>
+                <p>Selecciona un skill del sidebar para ver su documentación.</p>
               </div>
             </div>
             <div class="fd-skill-content fd-hidden"></div>
@@ -3658,7 +2681,7 @@ ${files[normalizedRef]}
 
           <div class="fd-toc">
             <div class="fd-toc-resizer"></div>
-            <div class="fd-toc-title">En esta p\xE1gina</div>
+            <div class="fd-toc-title">En esta página</div>
             <ul class="fd-toc-list"></ul>
           </div>
         </main>
@@ -3691,11 +2714,11 @@ ${files[normalizedRef]}
           </div>
           <div class="fd-ask-results">
             <div class="fd-ask-placeholder">
-              Haz una pregunta en lenguaje natural y te muestro los fragmentos m\xE1s relevantes de la documentaci\xF3n.
+              Haz una pregunta en lenguaje natural y te muestro los fragmentos más relevantes de la documentación.
             </div>
           </div>
           <form class="fd-ask-input-row">
-            <input type="text" class="fd-ask-input" placeholder="\xBFQu\xE9 quieres saber?" autocomplete="off">
+            <input type="text" class="fd-ask-input" placeholder="¿Qué quieres saber?" autocomplete="off">
             <button type="submit" class="fd-ask-send" title="Buscar">${ICONS.send}</button>
           </form>
         </div>
@@ -3703,7 +2726,7 @@ ${files[normalizedRef]}
           }
           _dom_modalTrigger() {
             return `
-        <button type="button" class="fd-modal-fab" title="Abrir documentaci\xF3n">
+        <button type="button" class="fd-modal-fab" title="Abrir documentación">
           ${ICONS.book}
         </button>
       `;
@@ -3775,6 +2798,13 @@ ${files[normalizedRef]}
               this._doAsk(this.$.askInput.value.trim());
             });
             this.$.askResults.addEventListener("click", (e) => {
+              const shortcut = e.target.closest(".fd-ask-shortcut");
+              if (shortcut) {
+                const q = shortcut.dataset.query;
+                this.$.askInput.value = q;
+                this._doAsk(q);
+                return;
+              }
               const card = e.target.closest(".fd-ask-result");
               if (!card)
                 return;
@@ -3909,10 +2939,7 @@ ${files[normalizedRef]}
             if (this.$.welcome)
               this._renderHomePage();
             if (this.$.askPanel && !this.$.askPanel.classList.contains("fd-hidden")) {
-              this.$.askResults.innerHTML = `
-          <div class="fd-ask-placeholder">
-            Haz una pregunta en lenguaje natural y te muestro los fragmentos m\xE1s relevantes de la documentaci\xF3n.
-          </div>`;
+              this.$.askResults.innerHTML = this._askPlaceholderHtml();
             }
           }
           // ─── Loading / Error states ────────────────────────────────────────────
@@ -3936,7 +2963,7 @@ ${files[normalizedRef]}
           // ─── Skill list ────────────────────────────────────────────────────────
           _renderSkillList() {
             if (!this.data || !this.data.skills.length) {
-              this.$.skillList.innerHTML = `<div class="fd-empty-state">No se encontraron skills.<br><br>Aseg\xFArate de que el repo tiene carpetas con un archivo <code>SKILL.md</code>.</div>`;
+              this.$.skillList.innerHTML = `<div class="fd-empty-state">No se encontraron skills.<br><br>Asegúrate de que el repo tiene carpetas con un archivo <code>SKILL.md</code>.</div>`;
               return;
             }
             this.$.skillList.innerHTML = this.data.skills.map((s) => `
@@ -3978,7 +3005,7 @@ ${files[normalizedRef]}
               this._buildTOC(sections);
               this.$.toc.classList.add("visible");
             } else {
-              this.$.skillContent.innerHTML = `<div class="fd-empty-state">Este skill no tiene <code>SKILL.md</code> ni <code>home.md</code>. Selecciona un archivo del \xE1rbol.</div>`;
+              this.$.skillContent.innerHTML = `<div class="fd-empty-state">Este skill no tiene <code>SKILL.md</code> ni <code>home.md</code>. Selecciona un archivo del árbol.</div>`;
               this.$.tocList.innerHTML = "";
               this.$.toc.classList.remove("visible");
             }
@@ -4030,7 +3057,7 @@ ${files[normalizedRef]}
           <div class="fd-code-block">
             <div class="fd-code-header">
               <span class="fd-code-lang">${escHtml(lang)}</span>
-              <button type="button" class="fd-btn-copy" title="Copiar c\xF3digo">
+              <button type="button" class="fd-btn-copy" title="Copiar código">
                 ${ICONS.copy} Copiar
               </button>
             </div>
@@ -4192,8 +3219,10 @@ ${files[normalizedRef]}
               this.$.askResults.innerHTML = `
           <div class="fd-ask-placeholder">
             <div class="fd-ask-spinner"></div>
-            Cargando documentaci\xF3n de GitHub...
+            Cargando documentación de GitHub...
           </div>`;
+            } else if (!this.$.askInput.value.trim()) {
+              this.$.askResults.innerHTML = this._askPlaceholderHtml();
             }
             setTimeout(() => this.$.askInput.focus(), 50);
           }
@@ -4201,19 +3230,51 @@ ${files[normalizedRef]}
             this.$.askPanel.classList.add("fd-hidden");
             this.$.askFab.classList.remove("fd-hidden");
           }
+          _askPlaceholderHtml() {
+            const shortcuts = extractShortcuts(this.homePage);
+            const shortcutsHtml = shortcuts.length ? `
+          <div class="fd-ask-shortcuts">
+            <div class="fd-ask-shortcuts-title">Atajos rápidos</div>
+            <div class="fd-ask-shortcuts-list">
+              ${shortcuts.map((s) => `<button type="button" class="fd-ask-shortcut" data-query="${escAttr(s.query)}">${escHtml(s.label)}</button>`).join("")}
+            </div>
+          </div>` : "";
+            return `
+        <div class="fd-ask-placeholder">
+          Haz una pregunta en lenguaje natural y te muestro los fragmentos más relevantes de la documentación.
+        </div>
+        ${shortcutsHtml}
+      `;
+          }
           _doAsk(query) {
-            if (!query || query.length < 2 || !this.data)
+            if (!query) {
+              this.$.askInput.value = "";
+              this.$.askResults.innerHTML = this._askPlaceholderHtml();
+              this.$.askInput.focus();
+              return;
+            }
+            if (query.length < 2 || !this.data)
               return;
             if (!this.askIndex) {
               this.askIndex = buildAskIndex(this.data.skills);
             }
             const results = bm25Search(this.askIndex, query, 5);
             if (!results.length) {
+              const shortcuts = extractShortcuts(this.homePage);
+              const shortcutsHtml = shortcuts.length ? `
+            <div class="fd-ask-shortcuts">
+              <div class="fd-ask-shortcuts-title">Prueba con uno de estos atajos:</div>
+              <div class="fd-ask-shortcuts-list">
+                ${shortcuts.map((s) => `<button type="button" class="fd-ask-shortcut" data-query="${escAttr(s.query)}">${escHtml(s.label)}</button>`).join("")}
+              </div>
+            </div>` : "";
               this.$.askResults.innerHTML = `
           <div class="fd-ask-empty">
             Sin resultados para "<strong>${escHtml(query)}</strong>".
             Prueba con otras palabras clave.
-          </div>`;
+          </div>
+          ${shortcutsHtml}
+        `;
               return;
             }
             const highlight = (text, terms) => {
@@ -4231,7 +3292,7 @@ ${files[normalizedRef]}
           <div class="fd-ask-result" data-skill="${escAttr(c.skill)}" data-file="${escAttr(c.file)}" ${c.sectionId ? `data-section="${escAttr(c.sectionId)}"` : ""}>
             <div class="fd-ask-result-meta">
               <span class="fd-tag">${escHtml(c.skill)}</span>
-              <span class="fd-file-path">${escHtml(c.file)}${c.section && c.section !== c.file ? " \u203A " + escHtml(c.section) : ""}</span>
+              <span class="fd-file-path">${escHtml(c.file)}${c.section && c.section !== c.file ? " › " + escHtml(c.section) : ""}</span>
             </div>
             <div class="fd-ask-result-snippet">${highlight(snippet, r.queryTerms)}</div>
           </div>`;
@@ -4294,7 +3355,7 @@ ${files[normalizedRef]}
             });
           }
         }
-        const VERSION = "3.1.2";
+        const VERSION = "3.1.3";
         const FlowDocs = {
           VERSION,
           init(options2) {

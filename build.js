@@ -25,6 +25,7 @@ esbuild.build({
   format: 'iife',
   globalName: 'FlowDocsModule',
   target: ['es2018'],
+  charset: 'utf8',
   plugins: [cssPlugin],
 }).then(() => {
   const size = fs.statSync('dist/flow-docs.min.js').size
@@ -40,6 +41,7 @@ esbuild.build({
   format: 'iife',
   globalName: 'FlowDocsModule',
   target: ['es2018'],
+  charset: 'utf8',
   plugins: [cssPlugin],
 }).then(() => {
   const size = fs.statSync('dist/flow-docs.js').size
