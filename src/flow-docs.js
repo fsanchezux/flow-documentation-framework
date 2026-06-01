@@ -354,10 +354,19 @@ import CSS_TEXT from './style.css'
     const rootSkillMd = files.find(f => f.path === 'SKILL.md')
     const skills = []
 
+    // Helper: does this file belong to a sub-skill directory?
+    const belongsToSubSkill = (path) => {
+      for (const dir of skillDirs) {
+        if (path.startsWith(dir + '/')) return true
+      }
+      return false
+    }
+
     if (rootSkillMd) {
       const rootSkill = { name: repo, description: '', files: {} }
+      // Include ALL files (any depth) that aren't inside a sub-skill dir
       for (const f of files) {
-        if (f.path.split('/').length === 1) {
+        if (!belongsToSubSkill(f.path)) {
           rootSkill.files[f.path] = null
         }
       }
@@ -378,10 +387,10 @@ import CSS_TEXT from './style.css'
     // Fetch all file contents in batches
     const BATCH_SIZE = 50
     const allFiles = files.filter(f => {
-      if (rootSkillMd && f.path.split('/').length === 1) return true
-      for (const dir of skillDirs) {
-        if (f.path.startsWith(dir + '/')) return true
-      }
+      // Root skill: all files at any depth that aren't in a sub-skill
+      if (rootSkillMd && !belongsToSubSkill(f.path)) return true
+      // Sub-skill files
+      if (belongsToSubSkill(f.path)) return true
       return false
     })
 
@@ -400,18 +409,22 @@ import CSS_TEXT from './style.css'
       })
       const results = await Promise.all(promises)
       for (const r of results) {
-        const parts = r.path.split('/')
-        if (parts.length === 1) {
-          const skill = skills.find(s => s.name === repo)
-          if (skill) skill.files[r.path] = r.content
-          if (r.path === 'home.md') homePage = r.content
-        } else {
+        // Root home.md is always the global home page
+        if (r.path === 'home.md') homePage = r.content
+
+        if (belongsToSubSkill(r.path)) {
+          // Sub-skill file: assign to the sub-skill it belongs to
+          const parts = r.path.split('/')
           const dir = parts[0]
           const skill = skills.find(s => s.name === dir)
           if (skill) {
             const relPath = parts.slice(1).join('/')
             skill.files[relPath] = r.content
           }
+        } else if (rootSkillMd) {
+          // Anything else (any depth) belongs to the root skill
+          const skill = skills.find(s => s.name === repo)
+          if (skill) skill.files[r.path] = r.content
         }
       }
     }
@@ -532,20 +545,38 @@ import CSS_TEXT from './style.css'
     // ─── DOM structure ─────────────────────────────────────────────────────
 
     _buildDOM() {
+      // Two roots:
+      // - `root` lives inside the host container (only used by 'full' mode
+      //   for the viewer; empty in chat/modal modes).
+      // - `floatRoot` lives directly under <body> so that floating UI
+      //   (FABs, panels, modal) escapes any ancestor with `transform`,
+      //   `filter`, `perspective` or `will-change`, which would otherwise
+      //   break `position: fixed` and re-anchor the FABs to the wrong
+      //   element (often top-left of the host page).
       this.container.innerHTML = ''
       const root = document.createElement('div')
       root.className = `flow-docs-root fd-mode-${this.mode}`
 
-      if (this.mode === 'chat') {
-        root.innerHTML = this._dom_overlays() + this._dom_askUI()
-      } else if (this.mode === 'modal') {
-        root.innerHTML = this._dom_modalTrigger() + this._dom_modalShell() + this._dom_overlays() + this._dom_askUI()
-      } else {
-        root.innerHTML = this._dom_viewerInner() + this._dom_overlays() + this._dom_askUI()
+      if (this.mode === 'full') {
+        root.innerHTML = this._dom_viewerInner() + this._dom_overlays()
       }
-
       this.container.appendChild(root)
       this.root = root
+
+      const floatRoot = document.createElement('div')
+      floatRoot.className = `flow-docs-root flow-docs-floating fd-mode-${this.mode}`
+
+      if (this.mode === 'chat') {
+        floatRoot.innerHTML = this._dom_overlays() + this._dom_askUI()
+      } else if (this.mode === 'modal') {
+        floatRoot.innerHTML = this._dom_modalTrigger() + this._dom_modalShell() + this._dom_overlays() + this._dom_askUI()
+      } else {
+        // full mode: only the ask UI floats; overlays stay in container
+        floatRoot.innerHTML = this._dom_askUI()
+      }
+      document.body.appendChild(floatRoot)
+      this.floatRoot = floatRoot
+
       this._cacheElements()
     }
 
@@ -652,40 +683,51 @@ import CSS_TEXT from './style.css'
       `
     }
 
+    // Query helpers that look in BOTH roots (container + body-attached float).
+    // Needed because in modal mode the viewer lives inside the modal which is
+    // in floatRoot, not in the container root.
+    _$(sel)  { return this.root.querySelector(sel) || this.floatRoot.querySelector(sel) }
+    _$$(sel) {
+      return [
+        ...this.root.querySelectorAll(sel),
+        ...this.floatRoot.querySelectorAll(sel),
+      ]
+    }
+
     _cacheElements() {
-      const r = this.root
+      const find = (sel) => this._$(sel)
       this.$ = {
-        // viewer (may be null in chat mode)
-        skillList: r.querySelector('.fd-skill-list'),
-        searchInput: r.querySelector('.fd-search-input'),
-        welcome: r.querySelector('.fd-welcome'),
-        skillContent: r.querySelector('.fd-skill-content'),
-        searchResults: r.querySelector('.fd-search-results'),
-        btnReload: r.querySelector('.fd-btn-reload'),
-        toc: r.querySelector('.fd-toc'),
-        tocList: r.querySelector('.fd-toc-list'),
-        tocResizer: r.querySelector('.fd-toc-resizer'),
-        contentArea: r.querySelector('.fd-content-area'),
-        main: r.querySelector('.fd-main'),
+        // viewer
+        skillList: find('.fd-skill-list'),
+        searchInput: find('.fd-search-input'),
+        welcome: find('.fd-welcome'),
+        skillContent: find('.fd-skill-content'),
+        searchResults: find('.fd-search-results'),
+        btnReload: find('.fd-btn-reload'),
+        toc: find('.fd-toc'),
+        tocList: find('.fd-toc-list'),
+        tocResizer: find('.fd-toc-resizer'),
+        contentArea: find('.fd-content-area'),
+        main: find('.fd-main'),
         // overlays
-        toast: r.querySelector('.fd-toast'),
-        toastMsg: r.querySelector('.fd-toast-msg'),
-        loading: r.querySelector('.fd-loading'),
-        loadingText: r.querySelector('.fd-loading-text'),
-        error: r.querySelector('.fd-error'),
-        errorText: r.querySelector('.fd-error-text'),
-        // ask
-        askFab: r.querySelector('.fd-ask-fab'),
-        askPanel: r.querySelector('.fd-ask-panel'),
-        askClose: r.querySelector('.fd-ask-close'),
-        askResults: r.querySelector('.fd-ask-results'),
-        askForm: r.querySelector('.fd-ask-input-row'),
-        askInput: r.querySelector('.fd-ask-input'),
-        // modal (only in modal mode)
-        modalFab: r.querySelector('.fd-modal-fab'),
-        modal: r.querySelector('.fd-modal'),
-        modalBackdrop: r.querySelector('.fd-modal-backdrop'),
-        modalClose: r.querySelector('.fd-modal-close'),
+        toast: find('.fd-toast'),
+        toastMsg: find('.fd-toast-msg'),
+        loading: find('.fd-loading'),
+        loadingText: find('.fd-loading-text'),
+        error: find('.fd-error'),
+        errorText: find('.fd-error-text'),
+        // ask (in floatRoot)
+        askFab: find('.fd-ask-fab'),
+        askPanel: find('.fd-ask-panel'),
+        askClose: find('.fd-ask-close'),
+        askResults: find('.fd-ask-results'),
+        askForm: find('.fd-ask-input-row'),
+        askInput: find('.fd-ask-input'),
+        // modal (in floatRoot, only in modal mode)
+        modalFab: find('.fd-modal-fab'),
+        modal: find('.fd-modal'),
+        modalBackdrop: find('.fd-modal-backdrop'),
+        modalClose: find('.fd-modal-close'),
       }
     }
 
@@ -719,7 +761,7 @@ import CSS_TEXT from './style.css'
         this._loadFile(skill, file)
         if (section) {
           setTimeout(() => {
-            const el = this.root.querySelector(`[id="${section}"]`)
+            const el = this._$(`[id="${section}"]`)
             if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
           }, 100)
         }
@@ -733,8 +775,9 @@ import CSS_TEXT from './style.css'
         this.$.modalBackdrop.addEventListener('click', () => this._closeModal())
       }
 
-      // Keyboard: Esc closes whatever is open
-      this.root.addEventListener('keydown', (e) => {
+      // Keyboard: Esc closes whatever is open. Bound to document so shortcuts
+      // work regardless of which DOM tree (root vs floatRoot) has focus.
+      document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           if (this.$.searchInput && document.activeElement === this.$.searchInput) {
             this.$.searchInput.value = ''
@@ -799,26 +842,31 @@ import CSS_TEXT from './style.css'
         })
       }
 
-      const logo = this.root.querySelector('.fd-logo')
+      const logo = this._$('.fd-logo')
       if (logo) {
         logo.addEventListener('click', () => {
           this.currentSkill = null
           this.currentFilePath = null
-          this.root.querySelectorAll('.fd-skill-item').forEach(el => el.classList.remove('active'))
-          this.root.querySelectorAll('.fd-skill-tree').forEach(el => el.remove())
+          this._$$('.fd-skill-item').forEach(el => el.classList.remove('active'))
+          this._$$('.fd-skill-tree').forEach(el => el.remove())
           this.$.toc.classList.remove('visible')
           this._showPanel('welcome')
           this._renderHomePage()
         })
       }
 
-      this.root.addEventListener('click', (e) => {
+      // Copy-button delegation. Listen on BOTH roots since rendered markdown
+      // content may live inside root (full mode) or inside the modal in
+      // floatRoot (modal mode).
+      const onCopyClick = (e) => {
         const btn = e.target.closest('.fd-btn-copy')
         if (btn) {
           const code = btn.closest('.fd-code-block').querySelector('code')
           navigator.clipboard.writeText(code.innerText).then(() => this._showToast())
         }
-      })
+      }
+      this.root.addEventListener('click', onCopyClick)
+      this.floatRoot.addEventListener('click', onCopyClick)
 
       if (this.$.tocResizer) this._initTocResizer()
     }
@@ -907,10 +955,10 @@ import CSS_TEXT from './style.css'
       this.currentSkill = name
       this.currentFilePath = null
 
-      this.root.querySelectorAll('.fd-skill-item').forEach(el => {
+      this._$$('.fd-skill-item').forEach(el => {
         el.classList.toggle('active', el.dataset.skill === name)
       })
-      this.root.querySelectorAll('.fd-tree-file').forEach(el => el.classList.remove('active'))
+      this._$$('.fd-tree-file').forEach(el => el.classList.remove('active'))
 
       // Render content (home.md > SKILL.md > empty placeholder)
       const defaultFile = skill.files['home.md']
@@ -942,7 +990,7 @@ import CSS_TEXT from './style.css'
 
       if (section) {
         setTimeout(() => {
-          const el = this.root.querySelector(`#${section}`) || this.root.querySelector(`[id="${section}"]`)
+          const el = this._$(`#${section}`) || this._$(`[id="${section}"]`)
           if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
         }, 100)
       } else {
@@ -962,10 +1010,10 @@ import CSS_TEXT from './style.css'
       this.currentSkill = skillName
       this.currentFilePath = filePath
 
-      this.root.querySelectorAll('.fd-skill-item').forEach(el => {
+      this._$$('.fd-skill-item').forEach(el => {
         el.classList.toggle('active', el.dataset.skill === skillName)
       })
-      this.root.querySelectorAll('.fd-tree-file').forEach(el => {
+      this._$$('.fd-tree-file').forEach(el => {
         el.classList.toggle('active', el.dataset.skill === skillName && el.dataset.path === filePath)
       })
 
@@ -1008,12 +1056,12 @@ import CSS_TEXT from './style.css'
     // ─── File tree ─────────────────────────────────────────────────────────
 
     _buildSkillTree(skill) {
-      this.root.querySelectorAll('.fd-skill-tree').forEach(el => el.remove())
+      this._$$('.fd-skill-tree').forEach(el => el.remove())
 
       const tree = buildFileTree(skill.files)
       if (!tree.length) return
 
-      const skillItem = this.root.querySelector(`.fd-skill-item[data-skill="${escAttr(skill.name)}"]`)
+      const skillItem = this._$(`.fd-skill-item[data-skill="${escAttr(skill.name)}"]`)
       if (!skillItem) return
 
       const treeEl = document.createElement('div')
@@ -1064,7 +1112,7 @@ import CSS_TEXT from './style.css'
         a.addEventListener('click', (e) => {
           e.preventDefault()
           const id = a.dataset.section
-          const el = this.root.querySelector(`#${id}`) || this.root.querySelector(`[id="${id}"]`)
+          const el = this._$(`#${id}`) || this._$(`[id="${id}"]`)
           if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
         })
       })
@@ -1250,7 +1298,7 @@ import CSS_TEXT from './style.css'
 
     _highlightCode() {
       if (!window.hljs) return
-      this.root.querySelectorAll('pre code').forEach(el => {
+      this._$$('pre code').forEach(el => {
         window.hljs.highlightElement(el)
       })
     }
@@ -1295,8 +1343,12 @@ import CSS_TEXT from './style.css'
 
   // ─── Public API ──────────────────────────────────────────────────────────
 
+  const VERSION = '3.1.2'
+
   const FlowDocs = {
+    VERSION,
     init(options) {
+      console.log('[FlowDocs] v' + VERSION + ' (mode=' + (options.mode || 'full') + ')')
       return new FlowDocsInstance(options)
     }
   }
