@@ -1,6 +1,6 @@
 {
   "name": "flow-documentation-framework",
-  "version": "3.1.5",
+  "version": "3.1.6",
   "description": "Embeddable documentation viewer that reads docs directly from a GitHub repo",
   "author": "fsanchezux",
   "license": "MIT",

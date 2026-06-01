@@ -52,6 +52,19 @@ import CSS_TEXT from './style.css'
     return m ? m[1].toLowerCase() : ''
   }
 
+  // Decode a base64 string as UTF-8. `atob()` alone returns a binary string
+  // (Latin-1), which mangles any non-ASCII char in the source — e.g. an
+  // 'ó' (UTF-8 bytes c3 b3) ends up as "Ã³". We need to take the raw bytes
+  // and run them through TextDecoder.
+  function b64ToUtf8(b64) {
+    if (!b64) return ''
+    const cleaned = String(b64).replace(/\s/g, '')
+    const binary = atob(cleaned)
+    const bytes = new Uint8Array(binary.length)
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)
+    return new TextDecoder('utf-8').decode(bytes)
+  }
+
   // ─── Markdown engine ───────────────────────────────────────────────────────
 
   function createMarked() {
@@ -448,7 +461,7 @@ import CSS_TEXT from './style.css'
         try {
           const res = await fetch(f.url, { headers })
           const data = await res.json()
-          return { path: f.path, content: atob(data.content.replace(/\n/g, '')) }
+          return { path: f.path, content: b64ToUtf8(data.content) }
         } catch {
           return { path: f.path, content: '' }
         }
@@ -1466,7 +1479,7 @@ import CSS_TEXT from './style.css'
 
   // ─── Public API ──────────────────────────────────────────────────────────
 
-  const VERSION = '3.1.5'
+  const VERSION = '3.1.6'
 
   const FlowDocs = {
     VERSION,

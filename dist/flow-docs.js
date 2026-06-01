@@ -2068,6 +2068,16 @@ ${content}</tr>
           const m = filePath.match(/\.([^.]+)$/);
           return m ? m[1].toLowerCase() : "";
         }
+        function b64ToUtf8(b64) {
+          if (!b64)
+            return "";
+          const cleaned = String(b64).replace(/\s/g, "");
+          const binary = atob(cleaned);
+          const bytes = new Uint8Array(binary.length);
+          for (let i = 0; i < binary.length; i++)
+            bytes[i] = binary.charCodeAt(i);
+          return new TextDecoder("utf-8").decode(bytes);
+        }
         function createMarked() {
           const m = marked;
           m.use({
@@ -2512,7 +2522,7 @@ ${files[normalizedRef]}
               try {
                 const res = await fetch(f.url, { headers });
                 const data = await res.json();
-                return { path: f.path, content: atob(data.content.replace(/\n/g, "")) };
+                return { path: f.path, content: b64ToUtf8(data.content) };
               } catch (e) {
                 return { path: f.path, content: "" };
               }
@@ -3398,7 +3408,7 @@ ${files[normalizedRef]}
             });
           }
         }
-        const VERSION = "3.1.5";
+        const VERSION = "3.1.6";
         const FlowDocs = {
           VERSION,
           init(options2) {
