@@ -270,38 +270,34 @@ import CSS_TEXT from './style.css'
       .map(x => ({ score: x.s, chunk: index.chunks[x.i], queryTerms: qTerms }))
   }
 
-  // Parse home.md for quick-access shortcuts: H2/H3 headings and internal
-  // markdown links. Each becomes a clickable chip in the ask panel that
-  // triggers a BM25 search for its label.
-  function extractShortcuts(homeMd) {
+  // Parse home.md for internal markdown links. Each becomes a navigation
+  // chip in the ask panel that takes the user directly to the target.
+  // Returns [{ label, href }].
+  function extractHomeLinks(homeMd) {
     if (!homeMd) return []
-    const shortcuts = []
+    const links = []
     const seen = new Set()
-    const add = (label) => {
-      const trimmed = label.trim()
-      if (!trimmed) return
-      const key = trimmed.toLowerCase()
-      if (seen.has(key)) return
-      seen.add(key)
-      shortcuts.push({ label: trimmed, query: trimmed })
-    }
-
-    // H2/H3 headings
-    const headingRegex = /^(##|###)\s+(.+)$/gm
+    const linkRegex = /\[([^\]]+)\]\((?!https?:\/\/|mailto:)([^)]+)\)/g
     let m
-    while ((m = headingRegex.exec(homeMd)) !== null) {
-      // Strip any inline markdown link syntax in the heading
-      const raw = m[2].replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/[*_`]/g, '').trim()
-      add(raw)
-    }
-
-    // Internal markdown links: [text](relative)
-    const linkRegex = /\[([^\]]+)\]\((?!https?:\/\/|#|mailto:)([^)]+)\)/g
     while ((m = linkRegex.exec(homeMd)) !== null) {
-      add(m[1])
+      const label = m[1].trim().replace(/[*_`]/g, '')
+      const href = m[2].trim()
+      if (!label || !href) continue
+      const key = label.toLowerCase() + '|' + href.toLowerCase()
+      if (seen.has(key)) continue
+      seen.add(key)
+      links.push({ label, href })
     }
+    return links
+  }
 
-    return shortcuts.slice(0, 12)
+  // Filter the home links by a query: case-insensitive substring match against
+  // either the label or the href. Uses diacritic-stripped matching for ES.
+  function filterHomeLinks(links, query) {
+    if (!links.length || !query) return []
+    const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+    const q = norm(query)
+    return links.filter(l => norm(l.label).includes(q) || norm(l.href).includes(q))
   }
 
   // Extract the most relevant ~400 char window around query terms
@@ -766,12 +762,10 @@ import CSS_TEXT from './style.css'
         this._doAsk(this.$.askInput.value.trim())
       })
       this.$.askResults.addEventListener('click', (e) => {
-        // Quick-access shortcut chip → trigger a search
+        // Home.md shortcut chip → navigate to its href
         const shortcut = e.target.closest('.fd-ask-shortcut')
         if (shortcut) {
-          const q = shortcut.dataset.query
-          this.$.askInput.value = q
-          this._doAsk(q)
+          this._navigateToHref(shortcut.dataset.href)
           return
         }
 
@@ -1217,22 +1211,65 @@ import CSS_TEXT from './style.css'
       const clean = href.replace(/^\/+/, '')
       if (!clean || !this.data) return
 
-      const parts = clean.split('/')
+      // Split off optional #section fragment
+      let section = null
+      let path = clean
+      const hashIdx = clean.indexOf('#')
+      if (hashIdx >= 0) {
+        section = clean.slice(hashIdx + 1)
+        path = clean.slice(0, hashIdx)
+      }
+
+      if (!path) return
+      const parts = path.split('/')
       const skillName = parts[0]
       const skill = this.data.skills.find(s => s.name === skillName)
 
       if (!skill) return
 
       if (parts.length === 1) {
-        this._loadSkill(skillName)
+        this._loadSkill(skillName, section)
       } else {
         const filePath = parts.slice(1).join('/')
         if (skill.files[filePath] !== undefined) {
           this._loadFile(skillName, filePath)
+          if (section) {
+            setTimeout(() => {
+              const el = this._$(`[id="${section}"]`)
+              if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }, 100)
+          }
         } else {
-          this._loadSkill(skillName)
+          this._loadSkill(skillName, section)
         }
       }
+    }
+
+    // Navigate to a home.md href. Behaviour depends on mode:
+    //  - chat: open the corresponding file on github.com in a new tab
+    //  - modal: open the modal and navigate inside
+    //  - full: navigate inside the existing viewer
+    _navigateToHref(href) {
+      if (!href) return
+
+      // External links: open as-is
+      if (/^https?:\/\//i.test(href)) {
+        window.open(href, '_blank', 'noopener')
+        return
+      }
+
+      if (this.mode === 'chat') {
+        const path = href.replace(/^\/+/, '').replace(/#.*$/, '')
+        const fragment = href.includes('#') ? '#' + href.split('#').slice(1).join('#') : ''
+        const url = `https://github.com/${this.github.owner}/${this.github.repo}/blob/${this.github.branch || 'main'}/${path}${fragment}`
+        window.open(url, '_blank', 'noopener')
+        return
+      }
+
+      // modal/full: navigate inside the viewer
+      if (this.mode === 'modal') this._openModal()
+      this._navigateInternal(href)
+      this._closeAsk()
     }
 
     // ─── Ask panel ─────────────────────────────────────────────────────────
@@ -1263,22 +1300,24 @@ import CSS_TEXT from './style.css'
       this.$.askFab.classList.remove('fd-hidden')
     }
 
+    _renderShortcutsList(links, title) {
+      if (!links.length) return ''
+      return `
+        <div class="fd-ask-shortcuts">
+          <div class="fd-ask-shortcuts-title">${escHtml(title)}</div>
+          <div class="fd-ask-shortcuts-list">
+            ${links.map(l => `<button type="button" class="fd-ask-shortcut" data-href="${escAttr(l.href)}">${escHtml(l.label)}</button>`).join('')}
+          </div>
+        </div>`
+    }
+
     _askPlaceholderHtml() {
-      const shortcuts = extractShortcuts(this.homePage)
-      const shortcutsHtml = shortcuts.length
-        ? `
-          <div class="fd-ask-shortcuts">
-            <div class="fd-ask-shortcuts-title">Atajos rápidos</div>
-            <div class="fd-ask-shortcuts-list">
-              ${shortcuts.map(s => `<button type="button" class="fd-ask-shortcut" data-query="${escAttr(s.query)}">${escHtml(s.label)}</button>`).join('')}
-            </div>
-          </div>`
-        : ''
+      const links = extractHomeLinks(this.homePage)
       return `
         <div class="fd-ask-placeholder">
           Haz una pregunta en lenguaje natural y te muestro los fragmentos más relevantes de la documentación.
         </div>
-        ${shortcutsHtml}
+        ${this._renderShortcutsList(links, 'Accesos rápidos')}
       `
     }
 
@@ -1297,25 +1336,17 @@ import CSS_TEXT from './style.css'
         this.askIndex = buildAskIndex(this.data.skills)
       }
 
+      const homeLinks = extractHomeLinks(this.homePage)
+      const matchingLinks = filterHomeLinks(homeLinks, query)
       const results = bm25Search(this.askIndex, query, 5)
 
-      if (!results.length) {
-        const shortcuts = extractShortcuts(this.homePage)
-        const shortcutsHtml = shortcuts.length
-          ? `
-            <div class="fd-ask-shortcuts">
-              <div class="fd-ask-shortcuts-title">Prueba con uno de estos atajos:</div>
-              <div class="fd-ask-shortcuts-list">
-                ${shortcuts.map(s => `<button type="button" class="fd-ask-shortcut" data-query="${escAttr(s.query)}">${escHtml(s.label)}</button>`).join('')}
-              </div>
-            </div>`
-          : ''
+      if (!matchingLinks.length && !results.length) {
         this.$.askResults.innerHTML = `
           <div class="fd-ask-empty">
             Sin resultados para "<strong>${escHtml(query)}</strong>".
             Prueba con otras palabras clave.
           </div>
-          ${shortcutsHtml}
+          ${this._renderShortcutsList(homeLinks, 'Accesos rápidos')}
         `
         return
       }
@@ -1341,12 +1372,20 @@ import CSS_TEXT from './style.css'
           </div>`
       }).join('')
 
-      this.$.askResults.innerHTML = `
-        <div class="fd-ask-header-results">
-          Top ${results.length} fragmento${results.length !== 1 ? 's' : ''} para "<strong>${escHtml(query)}</strong>"
-        </div>
-        ${html}
-      `
+      // Home-md link matches go FIRST, then BM25 content fragments.
+      const linksBlock = matchingLinks.length
+        ? this._renderShortcutsList(matchingLinks, 'Accesos directos')
+        : ''
+
+      const fragmentsBlock = results.length
+        ? `
+          <div class="fd-ask-header-results">
+            Top ${results.length} fragmento${results.length !== 1 ? 's' : ''} para "<strong>${escHtml(query)}</strong>"
+          </div>
+          ${html}`
+        : ''
+
+      this.$.askResults.innerHTML = linksBlock + fragmentsBlock
     }
 
     // ─── UI helpers ────────────────────────────────────────────────────────
@@ -1411,7 +1450,7 @@ import CSS_TEXT from './style.css'
 
   // ─── Public API ──────────────────────────────────────────────────────────
 
-  const VERSION = '3.1.3'
+  const VERSION = '3.1.4'
 
   const FlowDocs = {
     VERSION,
