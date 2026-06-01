@@ -2368,19 +2368,26 @@ ${files[normalizedRef]}
             return [];
           const links = [];
           const seen = /* @__PURE__ */ new Set();
-          const linkRegex = /\[([^\]]+)\]\((?!https?:\/\/|mailto:)([^)]+)\)/g;
-          let m;
-          while ((m = linkRegex.exec(homeMd)) !== null) {
-            const label = m[1].trim().replace(/[*_`]/g, "");
-            const href = m[2].trim();
+          const add = (rawLabel, rawHref) => {
+            const label = String(rawLabel).replace(/<[^>]+>/g, "").replace(/[*_`]/g, "").replace(/\s+/g, " ").trim();
+            const href = String(rawHref).trim();
             if (!label || !href)
-              continue;
+              return;
+            if (href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("javascript:"))
+              return;
             const key = label.toLowerCase() + "|" + href.toLowerCase();
             if (seen.has(key))
-              continue;
+              return;
             seen.add(key);
             links.push({ label, href });
-          }
+          };
+          const mdRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+          let m;
+          while ((m = mdRegex.exec(homeMd)) !== null)
+            add(m[1], m[2]);
+          const htmlRegex = /<a\b[^>]*?\bhref\s*=\s*["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
+          while ((m = htmlRegex.exec(homeMd)) !== null)
+            add(m[2], m[1]);
           return links;
         }
         function filterHomeLinks(links, query) {
@@ -3391,7 +3398,7 @@ ${files[normalizedRef]}
             });
           }
         }
-        const VERSION = "3.1.4";
+        const VERSION = "3.1.5";
         const FlowDocs = {
           VERSION,
           init(options2) {

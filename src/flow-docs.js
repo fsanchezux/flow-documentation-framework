@@ -270,24 +270,40 @@ import CSS_TEXT from './style.css'
       .map(x => ({ score: x.s, chunk: index.chunks[x.i], queryTerms: qTerms }))
   }
 
-  // Parse home.md for internal markdown links. Each becomes a navigation
-  // chip in the ask panel that takes the user directly to the target.
-  // Returns [{ label, href }].
+  // Parse home.md for navigable links. Captures both markdown syntax
+  // `[text](href)` and raw HTML `<a href="...">text</a>` (useful when the
+  // home page is hand-written HTML for layout reasons). Each becomes a
+  // navigation chip in the ask panel. Returns [{ label, href }].
   function extractHomeLinks(homeMd) {
     if (!homeMd) return []
     const links = []
     const seen = new Set()
-    const linkRegex = /\[([^\]]+)\]\((?!https?:\/\/|mailto:)([^)]+)\)/g
-    let m
-    while ((m = linkRegex.exec(homeMd)) !== null) {
-      const label = m[1].trim().replace(/[*_`]/g, '')
-      const href = m[2].trim()
-      if (!label || !href) continue
+    const add = (rawLabel, rawHref) => {
+      // Strip any inner HTML tags from the label, then markdown emphasis
+      const label = String(rawLabel)
+        .replace(/<[^>]+>/g, '')
+        .replace(/[*_`]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+      const href = String(rawHref).trim()
+      if (!label || !href) return
+      // Skip anchors, mailto and javascript: hrefs — they're not navigable
+      if (href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('javascript:')) return
       const key = label.toLowerCase() + '|' + href.toLowerCase()
-      if (seen.has(key)) continue
+      if (seen.has(key)) return
       seen.add(key)
       links.push({ label, href })
     }
+
+    // Markdown links: [label](href)
+    const mdRegex = /\[([^\]]+)\]\(([^)]+)\)/g
+    let m
+    while ((m = mdRegex.exec(homeMd)) !== null) add(m[1], m[2])
+
+    // HTML anchors: <a ... href="..."> label </a>  (single or double quoted)
+    const htmlRegex = /<a\b[^>]*?\bhref\s*=\s*["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi
+    while ((m = htmlRegex.exec(homeMd)) !== null) add(m[2], m[1])
+
     return links
   }
 
@@ -1450,7 +1466,7 @@ import CSS_TEXT from './style.css'
 
   // ─── Public API ──────────────────────────────────────────────────────────
 
-  const VERSION = '3.1.4'
+  const VERSION = '3.1.5'
 
   const FlowDocs = {
     VERSION,
